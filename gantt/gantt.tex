@@ -13,14 +13,17 @@
             x unit=0.12cm, y unit chart=0.6cm, hgrid,
             % Title
             title/.append style={fill=black!10}, title label font=\tiny,
-            title/.append style={draw=none, fill=RoyalBlue!50!black},
+            title/.append style={draw=none, fill=RoyalBlue!60!black},
             title label font=\sffamily\bfseries\color{white},
             % Group
             group right shift=0, group label font=\color{black}, group top shift=.6, group height=.3, group peaks height=.2,
+            group/.append style={fill=Plum!70!black},
             % Bar
             bar/.append style={draw=none, fill=OliveGreen!75},
             bar height=.6,bar label font=\normalsize\color{black!50},
             bar incomplete/.append style={fill=Maroon},
+            % Vrule
+            vrule/.append style={color=black!60},
         ]{2021-03-01}{2021-09-26}
 
         % Gantt Title
@@ -35,10 +38,10 @@
         group top shift=.6,group height=.3,group peaks height=.2,bar incomplete/.append style={fill=Maroon}
         \ganttset{link/.style={Black}}
 
-        \ganttgroup{Rendus du projet de fin d'études}{2021-03-01}{2021-07-31} \\
+        \ganttgroup{Rendus PFE}{2021-03-01}{2021-07-31} \\
         \ganttbar[progress=5]{Rédaction du rapport}{2021-03-01}{2021-07-15} \\
         \ganttlinkedbar[progress=0]{Relecture du rapport}{2021-07-15}{2021-07-31} \\
-        \ganttbar[progress=0]{Présentation}{2021-07-01}{2021-07-15} \\
+        \ganttbar[progress=0]{Présentation}{2021-06-15}{2021-07-15} \\
         \ganttlinkedbar[progress=0]{Préparation soutenance}{2021-07-15}{2021-07-31} \\
 
         \ganttgroup{Simulation environnement}{2021-03-01}{2021-04-31} \\
@@ -69,5 +72,9 @@
             \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
             \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31} \\
 
+        
+        \ganttvrule[vrule label node/.append style={anchor=north west}]{Vacances}{2021-08-01}
+        \ganttvrule[]{}{2021-08-15}
+        
     \end{ganttchart}
 \end{document}
