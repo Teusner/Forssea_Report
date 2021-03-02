@@ -30,57 +30,51 @@
 \makeindex
 
 \begin{document}
-% D�but du pr�ambule
-\frontmatter
-% inclure la liste des acronymes
-\input{acronymes}
-% creer le titre ici
-\maketitle
+	% Début du préambule
+	\frontmatter
+	% inclure la liste des acronymes
+	\input{acronymes}
+	% creer le titre ici
+	\maketitle
 
-% chargement du fichier abstract.tex
-\input{abstract}
+	% chargement du fichier abstract.tex
+	\input{abstract}
 
-\clearpage
+	\clearpage
 
-% table des matieres
-\tableofcontents
+	% table des matieres
+	\tableofcontents
 
-\clearpage
+	\clearpage
 
-% Partie principale
-\mainmatter
-% chargement du fichier corps.tex
-\input{corps}
+	% Partie principale
+	\mainmatter
+	% chargement du fichier corps.tex
+	\input{corps}
 
-\appendix
+	\appendix
 
-\clearpage
+	\clearpage
 
-\phantomsection
-\addcontentsline{toc}{section}{Liste des tableaux}
-\listoftables
+	\phantomsection
+	\addcontentsline{toc}{section}{Liste des tableaux}
+	\listoftables
 
-\clearpage
-\phantomsection
-\label{sec:index}
-\addcontentsline{toc}{section}{Index}
-\printindex
-
-
-\printglossaries
+	\clearpage
+	\phantomsection
+	\label{sec:index}
+	\addcontentsline{toc}{section}{Index}
+	\printindex
 
 
-\clearpage
-\phantomsection
-\addcontentsline{toc}{section}{Bibliographie}
+	\printglossaries
 
-\bibliography{bib/guide}
-\bibliographystyle{alpha}
 
+	\clearpage
+	\phantomsection
+	\addcontentsline{toc}{section}{Bibliographie}
+
+	\bibliography{bib/guide}
+	\bibliographystyle{alpha}
 
 \end{document}
-
-%%% Local Variables: 
-%%% mode: latex
-%%% TeX-master: t
-%%% End: 
