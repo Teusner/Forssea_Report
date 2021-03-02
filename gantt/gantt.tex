@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage[usenames, dvipsnames]{xcolor}
+\usepackage{pgfgantt}
+\usepackage{rotating}
+
+
+\begin{document}
+
+    \begin{figure}[!htb]
+        \begin{center}
+
+            \resizebox{\textwidth}{!}{
+            \begin{ganttchart}[
+                title/.append style={fill=black!10},
+                title label font=\tiny,
+                x unit=0.12cm, y unit chart=0.6cm, hgrid,
+                time slot format=isodate,
+                title/.append style={draw=none, fill=RoyalBlue!50!black},
+                title label font=\sffamily\bfseries\color{white},
+                bar/.append style={draw=none, fill=OliveGreen!75},
+                bar height=.6,bar label font=\normalsize\color{black!50},group right shift=0,
+                group top shift=.6,group height=.3,group peaks height=.2,bar incomplete/.append style={fill=Maroon}
+                ]{2021-03-01}{2021-09-26}
+
+                \ganttset{%
+                    calendar week text={%
+                        W\currentweek
+                    }%
+                }
+            
+                \gantttitlecalendar{year, month=name, week=1} \\
+                bar height=.6,bar label font=\normalsize\color{black!50},group right shift=0,
+                %     group top shift=.6,group height=.3,group peaks height=.2,bar incomplete/.append style={fill=Maroon}
+                \ganttset{link/.style={OliveGreen}}
+
+                \ganttgroup{Simulation de la tether}{2021-03-01}{2021-03-31} \\
+                \ganttbar[progress=100, name=TBiblio]{Bibliographie}{2021-03-01}{2021-03-07} \\
+                \ganttlinkedbar[progress=70, name=TPython]{Validation de principe}{2021-03-07}{2021-03-14} \\
+                \ganttlinkedbar[progress=0, name=TPlugin]{Intégration plugin}{2021-03-14}{2021-03-31} \\
+                
+
+                \ganttgroup{Simulation du courant}{2021-04-01}{2021-04-31} \\
+                \ganttbar[progress=0, name=TBiblio]{Bibliographie}{2021-04-01}{2021-04-07} \\
+                \ganttlinkedbar[progress=0, name=TPython]{Validation de principe}{2021-04-07}{2021-04-14} \\
+                \ganttlinkedbar[progress=0, name=TPlugin]{Intégration plugin}{2021-04-14}{2021-04-31} \\
+
+
+                \ganttgroup{Simulation Argos}{2021-05-01}{2021-05-31} \\
+                \ganttbar[progress=0, name=TBiblio]{Bibliographie}{2021-05-01}{2021-05-07} \\
+                \ganttlinkedbar[progress=0, name=TPython]{Implémentation SDF des sous-parties}{2021-05-07}{2021-05-14} \\
+                \ganttlinkedbar[progress=0, name=TPlugin]{Intégration plugin}{2021-05-14}{2021-05-31} \\
+
+            
+            \end{ganttchart}}
+        \end{center}
+        \caption{Diagramme de Gantt du stage}
+    \end{figure}
+
+\end{document}
