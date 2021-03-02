@@ -63,24 +63,25 @@
 
         \ganttgroup{Simulation robots}{2021-04-01}{2021-05-31} \\
             \ganttgroup{Simulation Composants}{2021-04-01}{2021-04-30} \\
-            \ganttbar[progress=60]{Description SDF des sous parties}{2021-04-01}{2021-04-30} \\
-            \ganttbar[progress=30, name=RPlugins]{Intégration plugin}{2021-04-01}{2021-04-30} \\
+                \ganttbar[progress=60, name=CDescription]{Description SDF des sous parties}{2021-04-01}{2021-04-30} \\
+                \ganttbar[progress=30, name=RPlugins]{Intégration plugin}{2021-04-01}{2021-04-30} \\
+                \ganttlink[link type=f-f]{CDescription}{RPlugins}
             
             \ganttgroup{Simulation Argos}{2021-05-01}{2021-05-30} \\
-            \ganttbar[progress=80, name=SDFArgos]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
-            \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
-            \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31} \\
+                \ganttbar[progress=80, name=SDFArgos]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
+                \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
+                \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31} \\
 
             \ganttgroup{Simulation Atoll}{2021-05-01}{2021-05-31} \\
-            \ganttbar[progress=80, name=SDFAtoll]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
-            \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
-            \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31}
+                \ganttbar[progress=80, name=SDFAtoll]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
+                \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
+                \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31}
 
-            \ganttlink[link type=f-s]{RPlugins}{SDFArgos}
-            \ganttlink[link type=f-s]{RPlugins}{SDFAtoll}
+                \ganttlink[link type=f-s]{RPlugins}{SDFArgos}
+                \ganttlink[link type=f-s]{RPlugins}{SDFAtoll}
 
-        \ganttvrule[vrule label node/.append style={anchor=north west}]{Vacances}{2021-08-01}
-        \ganttvrule[]{}{2021-08-15}
+        \ganttvrule[vrule label node/.append style={anchor=north west}]{Vacances}{2021-07-31}
+        \ganttvrule[]{}{2021-08-14}
         
     \end{ganttchart}
 \end{document}
