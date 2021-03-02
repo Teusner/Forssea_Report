@@ -1,0 +1,86 @@
+% chercher des documents LaTeX dans styles, corps et bib
+\makeatletter\def\input@path{{styles/}{corps/}}\makeatother
+
+% Utiliser le style rapport.cls
+\documentclass{rapport}
+
+
+\title{Environnement de simulation sous-marin}
+\author{Quentin \textsc{Brateau} \\ \texttt{quentin.brateau@ensta-bretagne.orrg}}
+\date{\today}
+\doctype{Rapp0rot de PFE}
+\promo{Version 0.1}
+\etablissement{\textsc{Ensta} Bretagne\\2, rue Fran\c cois Verny\\
+  29806 \textsc{Brest} cedex\\\textsc{France}\\Tel +33 (0)2 98 34 88 00\\ \url{www.ensta-bretagne.fr}}
+\logoEcole{\includegraphics[height=4.2cm]{logo_ENSTA_Bretagne_Vertical_CMJN}}
+
+\hypersetup{
+  pdftitle={Rapport de PFE},
+  pdfauthor={Quentin Brateau},
+  pdfkeywords={guide, rapport de projet},
+  bookmarksnumbered,
+  pdfstartview={FitH},
+  citecolor=blue,
+  breaklinks=true
+}
+
+% creer le glossaire
+\makeglossaries
+% creer l'index
+\makeindex
+
+\begin{document}
+% D�but du pr�ambule
+\frontmatter
+% inclure la liste des acronymes
+\input{acronymes}
+% creer le titre ici
+\maketitle
+
+% chargement du fichier abstract.tex
+\input{abstract}
+
+\clearpage
+
+% table des matieres
+\tableofcontents
+
+\clearpage
+
+% Partie principale
+\mainmatter
+% chargement du fichier corps.tex
+\input{corps}
+
+\appendix
+
+\clearpage
+
+\phantomsection
+\addcontentsline{toc}{section}{Liste des tableaux}
+\listoftables
+
+\clearpage
+\phantomsection
+\label{sec:index}
+\addcontentsline{toc}{section}{Index}
+\printindex
+
+
+\printglossaries
+
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Bibliographie}
+
+\bibliography{bib/guide}
+\bibliographystyle{alpha}
+
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
