@@ -24,6 +24,8 @@
             bar incomplete/.append style={fill=Maroon},
             % Vrule
             vrule/.append style={color=black!60},
+            % Link labels
+            link label node/.append style={anchor=east},
         ]{2021-03-01}{2021-09-26}
 
         % Gantt Title
@@ -39,10 +41,12 @@
         \ganttset{link/.style={Black}}
 
         \ganttgroup{Rendus PFE}{2021-03-01}{2021-07-31} \\
-        \ganttbar[progress=5]{Rédaction du rapport}{2021-03-01}{2021-07-15} \\
-        \ganttlinkedbar[progress=0]{Relecture du rapport}{2021-07-15}{2021-07-31} \\
-        \ganttbar[progress=0]{Présentation}{2021-06-15}{2021-07-15} \\
-        \ganttlinkedbar[progress=0]{Préparation soutenance}{2021-07-15}{2021-07-31} \\
+            \ganttbar[progress=5, name=Rapport]{Rédaction du rapport}{2021-03-01}{2021-07-14} \\
+            \ganttbar[progress=0, name=Relecture]{Relecture du rapport}{2021-07-15}{2021-07-31} \\
+            \ganttlink[link type=f-s]{Rapport}{Relecture}
+            \ganttbar[progress=0, name=Presentation]{Présentation}{2021-06-15}{2021-07-14} \\
+            \ganttbar[progress=0, name=Soutenance]{Préparation soutenance}{2021-07-15}{2021-07-31} \\
+            \ganttlink[link type=f-s]{Presentation}{Soutenance}
 
         \ganttgroup{Simulation environnement}{2021-03-01}{2021-04-31} \\
             \ganttgroup{Simulation tether}{2021-03-01}{2021-03-31} \\
@@ -60,19 +64,21 @@
         \ganttgroup{Simulation robots}{2021-04-01}{2021-05-31} \\
             \ganttgroup{Simulation Composants}{2021-04-01}{2021-04-30} \\
             \ganttbar[progress=60]{Description SDF des sous parties}{2021-04-01}{2021-04-30} \\
-            \ganttbar[progress=30]{Intégration plugin}{2021-04-01}{2021-04-30} \\
+            \ganttbar[progress=30, name=RPlugins]{Intégration plugin}{2021-04-01}{2021-04-30} \\
             
             \ganttgroup{Simulation Argos}{2021-05-01}{2021-05-30} \\
-            \ganttbar[progress=80]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
+            \ganttbar[progress=80, name=SDFArgos]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
             \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
             \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31} \\
 
             \ganttgroup{Simulation Atoll}{2021-05-01}{2021-05-31} \\
-            \ganttbar[progress=80]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
+            \ganttbar[progress=80, name=SDFAtoll]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
             \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
-            \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31} \\
+            \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31}
 
-        
+            \ganttlink[link type=f-s]{RPlugins}{SDFArgos}
+            \ganttlink[link type=f-s]{RPlugins}{SDFAtoll}
+
         \ganttvrule[vrule label node/.append style={anchor=north west}]{Vacances}{2021-08-01}
         \ganttvrule[]{}{2021-08-15}
         
