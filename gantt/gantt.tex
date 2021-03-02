@@ -1,59 +1,73 @@
-\documentclass{article}
-\usepackage[usenames, dvipsnames]{xcolor}
-\usepackage{pgfgantt}
-\usepackage{rotating}
+\documentclass{standalone}
 
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[usenames, dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfgantt}
 
 \begin{document}
+    \begin{ganttchart}[
+            time slot format=isodate,
+            x unit=0.12cm, y unit chart=0.6cm, hgrid,
+            % Title
+            title/.append style={fill=black!10}, title label font=\tiny,
+            title/.append style={draw=none, fill=RoyalBlue!50!black},
+            title label font=\sffamily\bfseries\color{white},
+            % Group
+            group right shift=0, group label font=\color{black}, group top shift=.6, group height=.3, group peaks height=.2,
+            % Bar
+            bar/.append style={draw=none, fill=OliveGreen!75},
+            bar height=.6,bar label font=\normalsize\color{black!50},
+            bar incomplete/.append style={fill=Maroon},
+        ]{2021-03-01}{2021-09-26}
 
-    \begin{figure}[!htb]
-        \begin{center}
+        % Gantt Title
+        \ganttset{%
+            calendar week text={%
+                W\currentweek
+            }%
+        }
+        
+        \gantttitlecalendar{year, month=name, week=1} \\
+        bar height=.6,bar label font=\normalsize\color{black!50},group right shift=0,
+        group top shift=.6,group height=.3,group peaks height=.2,bar incomplete/.append style={fill=Maroon}
+        \ganttset{link/.style={Black}}
 
-            \resizebox{\textwidth}{!}{
-            \begin{ganttchart}[
-                title/.append style={fill=black!10},
-                title label font=\tiny,
-                x unit=0.12cm, y unit chart=0.6cm, hgrid,
-                time slot format=isodate,
-                title/.append style={draw=none, fill=RoyalBlue!50!black},
-                title label font=\sffamily\bfseries\color{white},
-                bar/.append style={draw=none, fill=OliveGreen!75},
-                bar height=.6,bar label font=\normalsize\color{black!50},group right shift=0,
-                group top shift=.6,group height=.3,group peaks height=.2,bar incomplete/.append style={fill=Maroon}
-                ]{2021-03-01}{2021-09-26}
-
-                \ganttset{%
-                    calendar week text={%
-                        W\currentweek
-                    }%
-                }
-            
-                \gantttitlecalendar{year, month=name, week=1} \\
-                bar height=.6,bar label font=\normalsize\color{black!50},group right shift=0,
-                %     group top shift=.6,group height=.3,group peaks height=.2,bar incomplete/.append style={fill=Maroon}
-                \ganttset{link/.style={OliveGreen}}
-
-                \ganttgroup{Simulation de la tether}{2021-03-01}{2021-03-31} \\
-                \ganttbar[progress=100, name=TBiblio]{Bibliographie}{2021-03-01}{2021-03-07} \\
-                \ganttlinkedbar[progress=70, name=TPython]{Validation de principe}{2021-03-07}{2021-03-14} \\
-                \ganttlinkedbar[progress=0, name=TPlugin]{Intégration plugin}{2021-03-14}{2021-03-31} \\
-                
-
-                \ganttgroup{Simulation du courant}{2021-04-01}{2021-04-31} \\
-                \ganttbar[progress=0, name=TBiblio]{Bibliographie}{2021-04-01}{2021-04-07} \\
-                \ganttlinkedbar[progress=0, name=TPython]{Validation de principe}{2021-04-07}{2021-04-14} \\
-                \ganttlinkedbar[progress=0, name=TPlugin]{Intégration plugin}{2021-04-14}{2021-04-31} \\
+        \ganttgroup{Rendus du projet de fin d'études}{2021-03-01}{2021-07-31} \\
+        \ganttbar[progress=5]{Rédaction du rapport}{2021-03-01}{2021-07-15} \\
+        \ganttlinkedbar[progress=0]{Relecture du rapport}{2021-07-15}{2021-07-31} \\
+        \ganttbar[progress=0]{Présentation}{2021-07-01}{2021-07-15} \\
+        \ganttlinkedbar[progress=0]{Travail soutenance}{2021-07-15}{2021-07-31} \\
 
 
-                \ganttgroup{Simulation Argos}{2021-05-01}{2021-05-31} \\
-                \ganttbar[progress=0, name=TBiblio]{Bibliographie}{2021-05-01}{2021-05-07} \\
-                \ganttlinkedbar[progress=0, name=TPython]{Implémentation SDF des sous-parties}{2021-05-07}{2021-05-14} \\
-                \ganttlinkedbar[progress=0, name=TPlugin]{Intégration plugin}{2021-05-14}{2021-05-31} \\
+        \ganttgroup{Simulation de la tether}{2021-03-01}{2021-03-31} \\
+        \ganttbar[progress=100]{Etude bibliographique}{2021-03-01}{2021-03-07} \\
+        \ganttlinkedbar[progress=70, name=TPython]{Simulation Python}{2021-03-07}{2021-03-14} \\
+        \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-03-14}{2021-03-31} \\
+        
 
-            
-            \end{ganttchart}}
-        \end{center}
-        \caption{Diagramme de Gantt du stage}
-    \end{figure}
+        \ganttgroup{Simulation du courant}{2021-04-01}{2021-04-31} \\
+        \ganttbar[progress=0, name=TBiblio]{Etude bibliographique}{2021-04-01}{2021-04-07} \\
+        \ganttlinkedbar[progress=0, name=TPython]{Implémentation n\oe ud ROS}{2021-04-07}{2021-04-14} \\
+        \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-04-14}{2021-04-31} \\
 
+        \ganttgroup{Simulation Composants, name=Composants}{2021-03-01}{2021-04-30} \\
+        \ganttbar[progress=60]{Description SDF des sous parties}{2021-03-01}{2021-04-30} \\
+        \ganttbar[progress=30]{Intégration plugin}{2021-03-01}{2021-04-30} \\
+        
+        \ganttgroup{Simulation Argos, name=Argos}{2021-05-01}{2021-05-30} \\
+        \ganttbar[progress=80]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
+        \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
+        \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31} \\
+
+        \ganttgroup{Simulation Atoll, name=Atoll}{2021-05-01}{2021-05-31} \\
+        \ganttbar[progress=80]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
+        \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
+        \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31} \\
+
+        
+    
+    \end{ganttchart}
 \end{document}
