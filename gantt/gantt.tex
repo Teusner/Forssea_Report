@@ -45,23 +45,25 @@
         \ganttgroup{\textbf{Projet de fin d'études}}{2021-03-01}{2021-09-05} \\
             \ganttbar[progress=5, name=Rapport]{Rédaction rapport}{2021-03-01}{2021-07-14} \\
             \ganttbar[progress=0, name=Relecture]{Relecture rapport}{2021-07-15}{2021-07-31} \\
-            \ganttlink[link type=f-s]{Rapport}{Relecture}
+            \ganttlink{Rapport}{Relecture}
             \ganttbar[progress=0, name=Presentation]{Présentation}{2021-06-15}{2021-07-14} \\
             \ganttbar[progress=0, name=Soutenance]{Préparation soutenance}{2021-07-15}{2021-07-31} \\
-            \ganttlink[link type=f-s]{Presentation}{Soutenance}
-            \ganttmilestone{Soutenance}{2021-09-03} \\
+            \ganttlink{Presentation}{Soutenance}
+            \ganttmilestone[name=PFE]{Soutenance}{2021-09-03} \\
+            \ganttlink{Soutenance}{PFE}
+            \ganttlink{Relecture}{PFE}
 
-        \ganttgroup{\textbf{Simulation environnement}}{2021-03-01}{2021-04-31} \\
-            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation tether}{2021-03-01}{2021-03-31} \\
+        \ganttgroup{\textbf{Simulation environnement}}{2021-03-01}{2021-04-14} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation tether}{2021-03-01}{2021-04-14} \\
                 \ganttbar[progress=100]{Etude bibliographique}{2021-03-01}{2021-03-07} \\
-                \ganttbar[progress=70, name=TPython]{Simulation Python}{2021-03-01}{2021-03-21} \\
-                \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-03-21}{2021-03-31} \\
+                \ganttbar[progress=80, name=TPython]{Simulation Python}{2021-03-01}{2021-03-21} \\
+                \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-03-21}{2021-04-14} \\
                 
 
-            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation courant}{2021-04-01}{2021-04-31} \\
-                \ganttbar[progress=0, name=TBiblio]{Etude bibliographique}{2021-04-01}{2021-04-07} \\
-                \ganttlinkedbar[progress=0, name=TPython]{Implémentation n\oe ud ROS}{2021-04-07}{2021-04-14} \\
-                \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-04-14}{2021-04-31} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation courant}{2021-03-01}{2021-04-14} \\
+                \ganttbar[progress=20, name=TBiblio]{Etude bibliographique}{2021-03-01}{2021-03-07} \\
+                \ganttlinkedbar[progress=0, name=TPython]{Implémentation n\oe ud ROS}{2021-03-08}{2021-03-21} \\
+                \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-03-22}{2021-04-14} \\
 
 
         \ganttgroup{\textbf{Simulation robots}}{2021-04-01}{2021-05-31} \\
