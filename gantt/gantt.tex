@@ -22,6 +22,8 @@
             bar/.append style={draw=none, fill=OliveGreen!75},
             bar height=.6,bar label font=\normalsize\color{black!50},
             bar incomplete/.append style={fill=Maroon},
+            % Milestone
+            milestone height=0.6, milestone top shift=0.2, milestone left shift=-1, milestone right shift=1,
             % Vrule
             vrule/.append style={color=black!60},
             % Link labels
@@ -40,13 +42,14 @@
         group top shift=.6,group height=.3,group peaks height=.2,bar incomplete/.append style={fill=Maroon}
         \ganttset{link/.style={Black}}
 
-        \ganttgroup{Rendus PFE}{2021-03-01}{2021-07-31} \\
-            \ganttbar[progress=5, name=Rapport]{Rédaction du rapport}{2021-03-01}{2021-07-14} \\
-            \ganttbar[progress=0, name=Relecture]{Relecture du rapport}{2021-07-15}{2021-07-31} \\
+        \ganttgroup{Projet de fin d'études}{2021-03-01}{2021-09-05} \\
+            \ganttbar[progress=5, name=Rapport]{Rédaction rapport}{2021-03-01}{2021-07-14} \\
+            \ganttbar[progress=0, name=Relecture]{Relecture rapport}{2021-07-15}{2021-07-31} \\
             \ganttlink[link type=f-s]{Rapport}{Relecture}
             \ganttbar[progress=0, name=Presentation]{Présentation}{2021-06-15}{2021-07-14} \\
             \ganttbar[progress=0, name=Soutenance]{Préparation soutenance}{2021-07-15}{2021-07-31} \\
             \ganttlink[link type=f-s]{Presentation}{Soutenance}
+            \ganttmilestone{Soutenance}{2021-09-03} \\
 
         \ganttgroup{Simulation environnement}{2021-03-01}{2021-04-31} \\
             \ganttgroup{Simulation tether}{2021-03-01}{2021-03-31} \\
