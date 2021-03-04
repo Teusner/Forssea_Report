@@ -16,7 +16,7 @@
             title/.append style={draw=none, fill=RoyalBlue!60!black},
             title label font=\sffamily\bfseries\color{white},
             % Group
-            group label font=\color{black}, group/.append style={fill=Dandelion!80!Orange},
+            group label font=\color{black}, group/.append style={fill=RoyalBlue!60!black},
             group peaks width=1, group peaks tip position=0.5, group peaks height=0.1, group top shift = .5,
             % Bar
             bar/.append style={draw=none, fill=OliveGreen!75},
@@ -42,7 +42,7 @@
         group top shift=.6,group height=.3,group peaks height=.2,bar incomplete/.append style={fill=Maroon}
         \ganttset{link/.style={Black}}
 
-        \ganttgroup{Projet de fin d'études}{2021-03-01}{2021-09-05} \\
+        \ganttgroup{\textbf{Projet de fin d'études}}{2021-03-01}{2021-09-05} \\
             \ganttbar[progress=5, name=Rapport]{Rédaction rapport}{2021-03-01}{2021-07-14} \\
             \ganttbar[progress=0, name=Relecture]{Relecture rapport}{2021-07-15}{2021-07-31} \\
             \ganttlink[link type=f-s]{Rapport}{Relecture}
@@ -51,31 +51,31 @@
             \ganttlink[link type=f-s]{Presentation}{Soutenance}
             \ganttmilestone{Soutenance}{2021-09-03} \\
 
-        \ganttgroup{Simulation environnement}{2021-03-01}{2021-04-31} \\
-            \ganttgroup{Simulation tether}{2021-03-01}{2021-03-31} \\
+        \ganttgroup{\textbf{Simulation environnement}}{2021-03-01}{2021-04-31} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation tether}{2021-03-01}{2021-03-31} \\
                 \ganttbar[progress=100]{Etude bibliographique}{2021-03-01}{2021-03-07} \\
                 \ganttbar[progress=70, name=TPython]{Simulation Python}{2021-03-01}{2021-03-21} \\
                 \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-03-21}{2021-03-31} \\
                 
 
-            \ganttgroup{Simulation courant}{2021-04-01}{2021-04-31} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation courant}{2021-04-01}{2021-04-31} \\
                 \ganttbar[progress=0, name=TBiblio]{Etude bibliographique}{2021-04-01}{2021-04-07} \\
                 \ganttlinkedbar[progress=0, name=TPython]{Implémentation n\oe ud ROS}{2021-04-07}{2021-04-14} \\
                 \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-04-14}{2021-04-31} \\
 
 
-        \ganttgroup{Simulation robots}{2021-04-01}{2021-05-31} \\
-            \ganttgroup{Simulation Composants}{2021-04-01}{2021-04-30} \\
+        \ganttgroup{\textbf{Simulation robots}}{2021-04-01}{2021-05-31} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Composants}{2021-04-01}{2021-04-30} \\
                 \ganttbar[progress=60, name=CDescription]{Description SDF des sous parties}{2021-04-01}{2021-04-30} \\
                 \ganttbar[progress=30, name=RPlugins]{Intégration plugin}{2021-04-01}{2021-04-30} \\
                 \ganttlink[link type=f-f]{CDescription}{RPlugins}
             
-            \ganttgroup{Simulation Argos}{2021-05-01}{2021-05-30} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Argos}{2021-05-01}{2021-05-30} \\
                 \ganttbar[progress=80, name=SDFArgos]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
                 \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
                 \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31} \\
 
-            \ganttgroup{Simulation Atoll}{2021-05-01}{2021-05-31} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Atoll}{2021-05-01}{2021-05-31} \\
                 \ganttbar[progress=80, name=SDFAtoll]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
                 \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
                 \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31}
