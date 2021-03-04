@@ -20,7 +20,7 @@
             group peaks width=1, group peaks tip position=0.5, group peaks height=0.1, group top shift = .5,
             % Bar
             bar/.append style={draw=none, fill=OliveGreen!75},
-            bar height=.6,bar label font=\normalsize\color{black!50},
+            bar height=.6, bar top shift = 0.2, bar label font=\normalsize\color{black!50},
             bar incomplete/.append style={fill=Maroon},
             % Milestone
             milestone height=0.6, milestone top shift=0.2, milestone left shift=-1, milestone right shift=1,
@@ -52,6 +52,7 @@
             \ganttbar[progress=0, name=Presentation]{Présentation}{2021-06-15}{2021-07-31} \\
             \ganttbar[progress=0, name=Soutenance]{Préparation soutenance}{2021-08-15}{2021-08-28} \\
             \ganttlink{Presentation}{Soutenance}
+            \ganttbar{}{2021-08-26}{2021-09-10}
             \ganttmilestone[name=PFE]{Soutenance}{2021-09-03} \\
             \ganttlink[link mid=.98]{Relecture}{PFE}
             \ganttlink[link mid=.8]{Soutenance}{PFE}
@@ -63,9 +64,8 @@
                 \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-03-21}{2021-04-14} \\
 
             \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation courant}{2021-03-01}{2021-04-14} \\
-                \ganttbar[progress=20, name=TBiblio]{Etude bibliographique}{2021-03-01}{2021-03-07} \\
-                \ganttlinkedbar[progress=0, name=TPython]{Implémentation n\oe ud ROS}{2021-03-08}{2021-03-21} \\
-                \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-03-22}{2021-04-14} \\
+                \ganttbar[progress=40, name=TBiblio]{Etude bibliographique}{2021-03-01}{2021-03-07} \\
+                \ganttlinkedbar[progress=0, name=TPlugin]{Implémentation plugin Gazebo}{2021-03-07}{2021-04-14} \\
 
         \ganttgroup{\textbf{Simulation robots}}{2021-04-01}{2021-05-31} \\
             \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Composants}{2021-04-01}{2021-04-30} \\
