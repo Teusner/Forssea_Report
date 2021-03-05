@@ -4,7 +4,29 @@
 \LoadClass[pdftex,11pt,a4paper,twoside]{report}
 \RequirePackage{etex}
 \RequirePackage[a4paper,vdivide={*,22cm,4cm}]{geometry}
+
 \usepackage[Bjornstrup]{fncychap}
+
+\makeatletter
+  \renewcommand{\DOCH}{%
+    \settowidth{\py}{\CNoV\thechapter}%
+    \addtolength{\py}{-10pt}%     % Amount of space by which the
+%                                  % number is shifted right
+    \fboxsep=0pt%
+    \colorbox[gray]{.85}{\rule{0pt}{40pt}\parbox[b]{\textwidth}{\hfill}}%
+\kern-\myhi
+    \kern-\py\raise20pt%
+    \hbox{\color[gray]{.5}\CNoV\thechapter}%
+%\kern-\myhi
+\\%
+  }
+\makeatother
+\oddsidemargin 5mm
+\evensidemargin 5mm
+\topmargin 0mm
+\headheight 0mm
+\textheight 225mm
+
 
 \RequirePackage{xcolor}
 
@@ -61,9 +83,9 @@
 
 
 % aeguill correspond a ea plus les guillemets francais
-\RequirePackage{lmodern}
+% \RequirePackage{lmodern}
 \RequirePackage[T1]{fontenc}
-\RequirePackage[latin1]{inputenc} % pour taper les accents directement
+\RequirePackage[utf8]{inputenc}
 
 \RequirePackage[hyphens]{url}
 \urlstyle{same}
