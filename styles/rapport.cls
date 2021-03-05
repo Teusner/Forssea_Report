@@ -67,8 +67,14 @@
 
 \RequirePackage[hyphens]{url}
 \urlstyle{same}
-\RequirePackage[pdftex,colorlinks,breaklinks,backref=page]{hyperref}
-
+\RequirePackage[pdftex,backref=page]{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  filecolor=black,
+  citecolor = black,      
+  urlcolor=cyan,
+}
 
 \RequirePackage[acronymlists={glo},toc]{glossaries} % glossaires
 \newglossary{glo}{acr1}{acn1}{Glossaire}
