@@ -102,7 +102,8 @@
 \newglossary{glo}{acr1}{acn1}{Glossaire}
 %\newglossary{gloen}{acr2}{acn2}{English glossary}
 
-
+% Landscape figures
+\usepackage{rotating}
 
 \RequirePackage{longtable,booktabs}
 
