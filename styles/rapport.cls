@@ -104,6 +104,7 @@
 
 % Landscape figures
 \usepackage{rotating}
+\usepackage{float}
 
 \RequirePackage{longtable,booktabs}
 
