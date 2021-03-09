@@ -42,7 +42,7 @@
         group top shift=.6,group height=.3,group peaks height=.2,bar incomplete/.append style={fill=Maroon}
         \ganttset{link/.style={Black}}
 
-        \ganttgroup{\textbf{Projet de fin d'études}}{2021-03-01}{2021-09-05} \\
+        \ganttgroup{\textbf{Projet de fin d'études}}{2021-03-01}{2021-09-10} \\
             \ganttbar[progress=5, name=Rapport]{Rédaction rapport}{2021-03-01}{2021-07-14} \\
             \ganttbar[progress=0, name=Relecture]{Relecture rapport}{2021-07-15}{2021-07-31} \\
             \ganttmilestone[name=Envoi]{Envoi rapport}{2021-07-31} \\
@@ -86,6 +86,7 @@
                 \ganttlink[link type=f-s]{RPlugins}{SDFArgos}
                 \ganttlink[link type=f-s]{RPlugins}{SDFAtoll}
 
+        \ganttvrule[]{Stagiaire Méca}{2021-03-31}
         \ganttvrule[vrule label node/.append style={anchor=north west}]{Vacances}{2021-07-31}
         \ganttvrule[]{}{2021-08-14}
         
