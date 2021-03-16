@@ -107,6 +107,10 @@
 \usepackage{float}
 \usepackage{subcaption}
 
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
 \RequirePackage{longtable,booktabs}
 
 \unitlength 1cm
