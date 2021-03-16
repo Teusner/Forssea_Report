@@ -4,6 +4,10 @@
 
 		La simulation de l'environnement est une partie importante du simulateur car c'est ce qui va définir le comportement des \gls{ROV}s dans leur milieu. Elle doit être très proche des conditions réelles afin d'avoir des résultats exploitables. Il faut donc établir les différents élements de l'environnements qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Il y a principalement le milieu marin qui va ajouter une flottabilité au robots, mais aussi la présence de courants et enfin l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations.
 
+		La simulation de milieux marins est quelque chose de connu dans le domaine de la robotique. Il existe de nombreux simulateurs d'environnements marins et sous-marins~\cite{Manhaes_2016, bingham19toward, MARS, Rock}. Ces simulateurs proposent tous un modèle de flottabilité pour les objets à simuler, ce qui permet de pouvoir définir des bateaux ou bien des robots sous-marins. Cela permet donc de pouvoir simuler le comportement des \gls{ROV}s dans l'eau. Ils proposent ensuite différentes spécificités qui permettent d'avoir des éléments supplémentaires dans notre simulation. \textsc{Mars}~\cite{MARS} est un simulateur spécifique à des robot baptisés \textsc{Mars}. \textsc{Rock-Gazebo}~\cite{Rock} est un projet d'intégration de simulateur basé sur le moteur physique \gls{Gazebo} et sur le framework\footnote{Infrastructure logicielle facilitant le développement logiciel} \textsc{Robot Construction Kit}. Le simulateur \textsc{VRX}~\cite{bingham19toward} est un projet open-source de robotique marine dont un simulateur a été implémenté sur la base de \gls{Gazebo}. Il propose un ensemble d'environnement, de modèles et de plugin permettant la simulation de missions de vaisseaux de surface, avec notamment la possibilité de prendre en compte la présence de vagues et de vent à la surface.
+
+		La \textsc{Table}~\ref{table:elements} présente les différents élements qui peuvent être simulés dans un environnement marin.
+
 		\begin{table}[ht]
 			\centering
 			\begin{tabular}{|c|c|}
@@ -16,13 +20,16 @@
 				\hline
 				Courant sous-Marin & \cmark \\
 				\hline
+				Ombilical & \cmark \\
+				\hline
 			\end{tabular}
-			\captionof{table}{Elements pris en compte dans l'environnement de simulation}
+			\caption{Elements pris en compte dans l'environnement de simulation}
+			\label{table:elements}
 		\end{table}
 
 	\section{Simulation d'environnements marins}
 
-		La simulation de milieux marins est quelque chose de connu dans le domaine de la robotique. Il existe de nombreux simulateurs d'environnements marins et sous-marins~\cite{Manhaes_2016, bingham19toward, MARS, Rock}. Ces simulateurs proposent tous un modèle de flottabilité pour les objets à simuler, ce qui permet de pouvoir définir des bateaux ou bien des robots sous-marins. Cela permet donc de pouvoir simuler le comportement des \gls{ROV}s dans l'eau. \textsc{Mars}~\cite{MARS} est un simulateur spécifique à des robot baptisés \textsc{Mars}. \textsc{Rock-Gazebo}~\cite{Rock} est un projet d'intégration de simulateur basé sur le moteur physique \gls{Gazebo} et sur le framework\footnote{Infrastructure logicielle facilitant le développement logiciel} \textsc{Robot Construction Kit}. Le \textsc{Simulateur VRX}~\cite{bingham19toward} est un projet open-source de robotique marine dont un simulateur a été implémenté sur la base de \gls{Gazebo}. Il propose un ensemble d'environnement, de modèles et de plugin permettant la simulation de missions de vaisseaux de surface, avec notamment la possibilité de prendre en compte la présence de vagues et de vent à la surface.
+		
 
 	\section{Simulation des courants marins}
 
