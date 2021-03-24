@@ -107,6 +107,9 @@
 \usepackage{float}
 \usepackage{subcaption}
 
+\RequirePackage[ruled,vlined, french]{algorithm2e}
+\RequirePackage{algorithmic}
+
 \usepackage{pifont}% http://ctan.org/pkg/pifont
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%

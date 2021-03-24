@@ -6,4 +6,34 @@
 
 \subsection{Implémentation}
 
+\subsection{Suivi d'angles normalisés}
+    Un problème avec la représentation numérique de l'orientation des solides est qu'elle est souvent normalisée, et les valeurs sont ainsi ramenées dans l'intervalle $[-\pi; \pi]$. On ne peut donc pas avoir l'orientation absolue, c'est à dire l'orientation d'un solide en prenant en compte les eventuels tours qu'il aurait pu faire sur lui-même.
+
+    Pour résoudre ce problème, l'\textsc{Algorithme}~\ref{algo:suivi_angle} de suivi d'angles normalisés a été implémenté. Il prends en paramètres l'angle normalisé ainsi que l'angle précédemment calculé, et il retourne la valeur de l'angle absolu. L'idée de fournir l'angle précédent est de pouvoir retourner le nouvel angle qui se trouve dans le même quadrant et aussi de pouvoir suivre les sauts d'angles. Ainsi on peut suivre l'orientation absolue de solides en rotation dans l'espace, en ne fournissant que des orientations relatives ramenées dans l'intervalle $[-\pi; \pi]$, et en gardant en mémoire la précédente orientation calculée.
+    
+    \begin{algorithm}[!htb]
+        \SetKwInOut{Input}{Entrées}
+        \SetKwInOut{Output}{Sorties}
+        \Entree{$angle\_normalise$, $angle\_absolu$}
+        \Sortie{$angle\_absolu$}
+        \Deb{
+            $offset \leftarrow (angle\_absolu - angle\_normalise + \pi ) \pmod{2\pi}$ \\
+            $angle\_absolu \leftarrow angle\_normalise + 2\pi \cdot offset$ \\
+        }
+        \Retour{$angle\_absolu$}
+
+        \caption{Suivi d'angle} 
+        \label{algo:suivi_angle}
+    \end{algorithm}
+
+    La \textsc{Figure}~\ref{fig:suivi_angle} présente les résultats de l'\textsc{Algorithme}~\ref{algo:suivi_angle} avec une angle variant dans l'intervalle $[-3\pi; 3\pi]$. On a dans la première sous-figure l'angle réel et l'angle ramené dans l'intervalle $[-\pi; \pi]$. On est capable de suivre l'évolution de l'angle et de supprimer les sauts afin de retrouver l'angle absolu présenté dans la deuxième sous-figure.
+
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[width=0.5\textwidth]{suivi_angle.png}
+        \caption{Suivi d'angle}
+        \label{fig:suivi_angle}
+    \end{figure}
+
+
 \subsection{Resultats}
