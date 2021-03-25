@@ -79,7 +79,7 @@
 \RequirePackage{tipa}
 
 \RequirePackage{pgf,tikz}
-\usetikzlibrary{automata,shapes,plotmarks,chains,positioning,shadows,arrows,trees,calc}
+\usetikzlibrary{automata,shapes,plotmarks,chains,positioning,shadows,arrows,trees,calc,matrix}
 
 
 % aeguill correspond a ea plus les guillemets francais
@@ -109,6 +109,8 @@
 
 \RequirePackage[ruled,vlined, french]{algorithm2e}
 \RequirePackage{algorithmic}
+
+\RequirePackage[simplified]{pgf-umlcd}
 
 \usepackage{pifont}% http://ctan.org/pkg/pifont
 \newcommand{\cmark}{\ding{51}}%
