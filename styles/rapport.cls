@@ -110,6 +110,7 @@
 \RequirePackage[ruled,vlined, french]{algorithm2e}
 \RequirePackage{algorithmic}
 
+\RequirePackage{pgfplots}
 \RequirePackage[simplified]{pgf-umlcd}
 
 \usepackage{pifont}% http://ctan.org/pkg/pifont

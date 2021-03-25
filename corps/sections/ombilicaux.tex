@@ -3,6 +3,38 @@
 \subsection{Formalisme}
 
 \subsection{Initialisation}
+    L'initialisation des différents n\oe uds de l'ombilical est une étape importante car les coefficients du modèle comportemental sont reglés pour avoir un comportement cohérent lorsque la position du câble a convergée. Si l'initialisation est aléatoire, le temps du régime transitoire peut être long et la simulation peut ne pas être consistante.
+
+    Pour initialiser l'ombilical, nous allons nous appuyer sur l'équation de la chaînette. Cette équation issue du calcul variationnel représente la forme que prend une corde attachée à ses deux extrémités afin de limiter son énergie. La \textsc{Figure}~\ref{fig:chainette} représente un tracé de cette équation.
+
+    \begin{figure}[!htb]
+        \centering
+        \begin{tikzpicture}
+            \begin{axis}[
+                    xmin=-2,   xmax=2,
+                    ymin=-0.1,   ymax=3.9,
+                    grid=both,
+                    axis lines=middle,
+                    minor tick num=5,
+                    enlargelimits={abs=0.5},
+                    axis line style={latex-latex},
+                    ticklabel style={font=\tiny,fill=white},
+                    xlabel style={at={(ticklabel* cs:1)},anchor=north west},
+                    ylabel style={at={(ticklabel* cs:1)},anchor=south west}
+                ]
+                \addplot [
+                    domain=-1.8:1.8, 
+                    samples=100, 
+                    color=blue,
+                    ]
+                    {cosh(\x)};
+                \addlegendentry{$cosh(x)$}
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Représentation graphique de l'équation de la chaînette}
+        \label{fig:chainette}
+    \end{figure}
+    
 
 \subsection{Implémentation}
     L'implémentation d'un \gls{Plugin} \gls{Gazebo} permet de simuler le comportement de l'ombilical dans l'environnement de simulation. Ce \gls{Plugin} est basé sur l'instanciation d'objets de type \textit{Tether} et \textit{TetherElement}. L'objet \textit{Tether} possède les paramètres de simulation de l'ombilical, tandis que l'objet \textit{TetherElement} représente un tronçon de cet ombilical. Un diagramme de classe est présenté en \textsc{Figure}~\ref{fig:uml_class} et montre les différents attributs et méthodes associées à chaque classe.
@@ -28,8 +60,8 @@
                     \draw[<->] (TE\i) -- (TE\next);
                 }
 
-                \node (head) at (0,-1) {\textit{head}};
-                \node (tail) at (16,-1) {\textit{tail}};
+                \node (head) at (0,1) {\textit{head}};
+                \node (tail) at (16,1) {\textit{tail}};
             \end{tikzpicture}
         }
         \caption{Liste doublement chainée}
