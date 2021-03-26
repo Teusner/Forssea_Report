@@ -71,42 +71,7 @@
 \subsection{Initialisation}
     L'initialisation des différents n\oe uds de l'ombilical est une étape importante car les coefficients du modèle comportemental sont reglés pour avoir un comportement cohérent lorsque la position du câble a convergée. Si l'initialisation est aléatoire, le temps du régime transitoire peut être long et la simulation peut ne pas être consistante.
 
-    Pour initialiser l'ombilical, nous allons nous appuyer sur l'équation de la chaînette. Cette équation issue du calcul variationnel représente la forme que prend une corde attachée à ses deux extrémités afin de limiter son énergie. Elle est présentée en \textsc{Equation}~\ref{eq:chainette}, et une représentation graphique pour $a=1$ est présentée sur la \textsc{Figure}~\ref{fig:chainette}.
-
-    \begin{equation}
-        y = c_1\cdot cosh\left(\frac{x}{c_1}\right)
-        \label{eq:chainette}
-    \end{equation}
-
-    \begin{figure}[!htb]
-        \centering
-        \begin{tikzpicture}
-            \begin{axis}[
-                    xmin=-2,   xmax=2,
-                    ymin=-0.1,   ymax=3.9,
-                    grid=both,
-                    axis lines=middle,
-                    minor tick num=5,
-                    enlargelimits={abs=0.5},
-                    axis line style={latex-latex},
-                    ticklabel style={font=\tiny,fill=white},
-                    xlabel style={at={(ticklabel* cs:1)},anchor=north west},
-                    ylabel style={at={(ticklabel* cs:1)},anchor=south west}
-                ]
-                \addplot [
-                    domain=-1.8:1.8, 
-                    samples=100, 
-                    color=blue,
-                    ]
-                    {cosh(\x)};
-                \addlegendentry{$cosh(x)$}
-            \end{axis}
-        \end{tikzpicture}
-        \caption{Représentation graphique de l'équation de la chaînette}
-        \label{fig:chainette}
-    \end{figure}
-    
-    Comme notre ombilical va pouvoir être attaché à deux extrémités aux positions $p_1 = (x_1, y_1, z_1)$ et $p_n = (x_n, y_n, z_n)$ quelconque, nous allons devoir ajouter deux coefficients $c_2$ et $c_3$ permettants de translater cette représentation graphique dans le plan. Ainsi l'équation que nous allons utiliser devient l'\textsc{Equation}~\ref{eq:tether}.
+    Pour initialiser l'ombilical, nous allons nous appuyer sur l'équation de la chaînette. Cette équation représente la forme que prend une corde attachée à ses deux extrémités, sachant qu'elle va chercher à minimiser son énergie potentielle [? ref ?]. Comme notre ombilical va pouvoir être attaché à deux extrémités aux positions $p_1 = (x_1, y_1, z_1)$ et $p_n = (x_n, y_n, z_n)$ qui peuvent être quelconque, nous allons devoir ajouter deux coefficients $c_2$ et $c_3$ permettants de translater cette représentation graphique dans le plan. Ainsi la forme que va prendre notre obilical lors de l'initialisation va être régie par l'\textsc{Equation}~\ref{eq:tether}.
 
     \begin{equation}
         y = c_1\cdot cosh\left(\frac{x + c_2}{c_1}\right) + c_3
@@ -128,7 +93,7 @@
     \begin{figure}
         \centering
         \begin{subfigure}[b]{0.45\textwidth}
-            \begin{tikzpicture}[scale=1]
+            \begin{tikzpicture}[scale=1.2]
                 \begin{axis}[view={125}{20},
                     axis lines=center,axis on top,
                     xlabel=$x$,ylabel=$y$,zlabel=$z$,
