@@ -81,6 +81,7 @@
 \RequirePackage{pgf,tikz}
 \usetikzlibrary{automata,shapes,plotmarks,chains,positioning,shadows,arrows,trees,calc,matrix}
 
+\RequirePackage{tikz-3dplot}
 
 % aeguill correspond a ea plus les guillemets francais
 % \RequirePackage{lmodern}
@@ -111,6 +112,7 @@
 \RequirePackage{algorithmic}
 
 \RequirePackage{pgfplots}
+\pgfplotsset{compat=1.15}
 \RequirePackage[simplified]{pgf-umlcd}
 
 \usepackage{pifont}% http://ctan.org/pkg/pifont
