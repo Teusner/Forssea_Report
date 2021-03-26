@@ -1,6 +1,72 @@
 \subsection{Etat de l'art}
 
 \subsection{Formalisme}
+    Supposons que nous voulons simuler un ombilical de longueur $L$. On va alors le diviser en un nombre fini de n\oe uds $n$ connectés par des liens. Ces liens doivent donc avoir une longueur $l=\frac{L}{n-1}$.
+
+    Ensuite, il faut faire un bilan des forces qui s'appliquent à chaque élément afin de simuler leur comportement. Pour cette simulation, nous allons prendre en compte le poids noté $\mathbf{w}$, la flottabilité notée $\mathbf{b}$, la force exercée par l'élément précédant sur l'élément considéré notée $\mathbf{f_p}$, tout comme celle exercée par l'élément suivant notée $\mathbf{f_n}$, et enfin la force de frottements fluides notée $\mathbf{d}$.
+
+    \begin{description}
+        \item [Bilan des Forces] \
+    \begin{itemize}
+        \item[\textbf{Poids $\mathbf{w}$} :] En considérant que chaque élément a une masse $m$, et en notant $g$ l'accélération de pesanteur, on a : $$\mathbf{w} = \begin{bmatrix}0\\ 0\\ -m.g\end{bmatrix}$$
+
+        \item[\textbf{Poussée d'Archimède $\mathbf{b}$} :] Si on note le volume d'un élément $V$ et $\rho$ la masse volumique du fluide dans lequel est immergé l'ombilical, on a : $$\mathbf{b} = \begin{bmatrix}0\\ 0\\ \rho.V.g\end{bmatrix}$$
+
+        \item[\textbf{Trainée hydrodynamique $\mathbf{d}$} :] En notant $A$ la surface de référence, $C_D$ le coefficient de trainée, $\rho$ la masse volumique du fluide, et $\mathbf{v}$ la vitesse du n\oe ud, on a : $$\mathbf{d} = - \frac{1}{2} \cdot \rho \cdot A \cdot C_D \cdot ||\mathbf{v}|| \cdot \mathbf{v}$$
+        
+        \item[\textbf{Force inter-éléments $\mathbf{f_p}$ et $\mathbf{f_n}$} :] Il est difficile de trouver une forme analytique pour décrire cette force. Nous avons toutefois trouver un moyen de l'exprimer. C'est pourquoi nous allons utiliser ici un modèle comportemental de ces forces. Nous savons que chaque n\oe ud doit se trouver à une distance $l$ de ses voisins. En notant $p_{p}$ la position du n\oe ud précédent et $p_{c}$ la position du n\oe ud considéré, en introduisant les trois coefficients $K_p$, $K_d$ et $K_i$ qui vont nous permettre de régler la dynamique du système, on est en mesure de proposer le modèle de force comportemental suivant :
+        
+        $$\mathbf{f} = - \left(K_p \cdot e(t) + K_d \cdot \dot e(t) + K_i \cdot \int_{0}^te(\tau) \cdot d\tau \right) \cdot \mathbf{u}$$
+        
+        Dans cette expression, $\mathbf{u}$ est le vecteur unitaire orienté du n\oe ud courant vers le n\oe ud voisin, $e$ est l'erreur de positionnement du n\oe ud, $\dot e$ est la dérivée de cette erreur et $\int_{0}^te(\tau) \cdot d\tau$ est l'intégrale de cette erreur. La dérivée et l'intégrale de cette erreur sont estimées numériquement en utilisant respectivement la méthode d'Euler et la méthode des rectangle. On a :
+        
+        $$\mathbf{u} = \frac{\mathbf{p_c} - \mathbf{p_p}}{||\mathbf{p_c} - \mathbf{p_p}||} \qquad e(t) = \frac{||\mathbf{p_c} - \mathbf{p_p}|| - l}{||\mathbf{p_c} - \mathbf{p_p}||}$$
+        
+        Ces deux forces $\mathbf{f_p}$ et $\mathbf{f_n}$ peuvent en outre être exprimées en utilisant l'expression de $\mathbf{f}$, en prenant soin d'utiliser le bon élément considéré et l'élément précédent.
+    \end{itemize}
+    \end{description}
+
+    Ainsi on a exprimé les forces nécéssaires à la simulation de l'ombilical par éléments finis. La \textsc{Figure}~\ref{fig:modelization} montre la modélisation du problème. Les différents n\oe uds sont représentés en bleu. Pour des raisons de clarté, les différentes forces ne sont représentées que sur un seul n\oe ud mais sont bien évidemment appliquées sur tous les n\oe uds, et la représentation de l'ombilical est volontairement tronquée pour des questions de lisibilitées.
+
+    \begin{figure}[!htb]
+        \centering
+        \begin{tikzpicture}
+            \tikzstyle{TetherElement}=[circle,draw,fill=RoyalBlue]
+            \tikzstyle{Link}=[thick,black]
+            \tikzstyle{vector}=[-stealth,Red,very thick]
+            \tikzset{ext/.pic={
+                \path [fill=white] (-0.2,0)to[bend left](0,0.1)to[bend right](0.2,0.2)to(0.2,0)to[bend left](0,-0.1)to[bend right](-0.2,-0.2)--cycle;
+                \draw (-0.2,0)to[bend left](0,0.1)to[bend right](0.2,0.2) (0.2,0)to[bend left](0,-0.1)to[bend right](-0.2,-0.2);
+            }}
+
+            \foreach \x in {1, 2, 3, 4, 5}
+                \node[TetherElement] (T\x) at ({1.5*(\x-3)+3.5}, {8*cosh(0.25*(\x-3))-7}) {};
+
+            \draw[Link] (T1) -- pic[rotate=45,scale=0.6] {ext} (T2);
+            \draw[Link] (T2) -- (T3) -- (T4);
+            \draw[Link] (T4) -- pic[rotate=-70,scale=0.6] {ext} (T5);
+            
+            \node (fp) at ($(T2)!.3!(T3)$) {};
+            \draw[vector] (T3) -- (fp) node[yshift=1em]{$\mathbf{f_p}$};
+
+            \node (fn) at ($(T3)!.7!(T4)$) {};
+            \draw[vector] (T3) -- (fn) node[yshift=1em]{$\mathbf{f_n}$};
+            \draw[vector] (T3) -- +(270:1cm) node[yshift=-.6em]{$\mathbf{w}$};
+            \draw[vector] (T3) -- +(90:1cm) node[yshift=.6em]{$\mathbf{b}$};
+            \draw[vector] (T3) -- +(225:0.8cm) node[xshift=-.4em]{$\mathbf{d}$};
+            \draw[vector,Green] (T3) -- +(45:1cm) node[xshift=.2em,yshift=.4em]{$\mathbf{v}$};
+
+
+            
+
+            \draw[->,red,very thick] (0,0) -- (-0.4,-0.6) node[left] {$\mathbf{x}$}; 
+            \draw[->,Green,very thick] (0,0) -- (1,0) node[above left] {$\mathbf{y}$}; 
+            \draw[->,blue,very thick] (0,0) -- (0,1) node[above] {$\mathbf{z}$}; 
+        \end{tikzpicture}
+        \caption{Modelization of the problem}
+        \label{fig:modelization}
+    \end{figure}
+
 
 \subsection{Initialisation}
     L'initialisation des différents n\oe uds de l'ombilical est une étape importante car les coefficients du modèle comportemental sont reglés pour avoir un comportement cohérent lorsque la position du câble a convergée. Si l'initialisation est aléatoire, le temps du régime transitoire peut être long et la simulation peut ne pas être consistante.

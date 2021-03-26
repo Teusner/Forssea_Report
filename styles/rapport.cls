@@ -28,7 +28,7 @@
 \textheight 225mm
 
 
-\RequirePackage{xcolor}
+\RequirePackage[usenames, dvipsnames]{xcolor}
 
 \RequirePackage{makeidx} % creation d'index
 \RequirePackage[english,french]{babel} % style francais
