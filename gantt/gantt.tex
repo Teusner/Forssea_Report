@@ -57,35 +57,36 @@
             \ganttlink[link mid=.98]{Relecture}{PFE}
             \ganttlink[link mid=.8]{Soutenance}{PFE}
 
-        \ganttgroup{\textbf{Simulation environnement}}{2021-03-01}{2021-04-14} \\
-            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation tether}{2021-03-01}{2021-04-14} \\
+        \ganttgroup{\textbf{Simulation environnement}}{2021-03-01}{2021-06-01} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation tether}{2021-03-01}{2021-05-01} \\
                 \ganttbar[]{Etude bibliographique}{2021-03-01}{2021-03-07} \\
-                \ganttbar[name=TPython]{Simulation Python}{2021-03-01}{2021-03-21} \\
-                \ganttlinkedbar[progress=50, name=TPlugin]{Implémentation plugin Gazebo}{2021-03-22}{2021-04-14} \\
+                \ganttbar[name=TPython]{Simulation Python}{2021-03-01}{2021-03-31} \\
+                \ganttlinkedbar[progress=50, name=TPlugin]{Implémentation plugin Gazebo}{2021-04-01}{2021-04-31} \\
 
-            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation courant}{2021-03-01}{2021-04-14} \\
-                \ganttbar[name=TBiblio]{Etude bibliographique}{2021-03-01}{2021-03-14} \\
-                \ganttlinkedbar[progress=40, name=CNode]{Modèle de courant Python}{2021-03-15}{2021-03-31} \\
-                \ganttlinkedbar[progress=0, name=CPlugin]{Implémentation plugin Gazebo}{2021-04-01}{2021-04-14} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation courant}{2021-04-15}{2021-05-31} \\
+                \ganttbar[name=TBiblio]{Etude bibliographique}{2021-04-15}{2021-04-21} \\
+                \ganttlinkedbar[progress=40, name=CNode]{Modèle de courant Python}{2021-04-21}{2021-04-31} \\
+                \ganttlinkedbar[progress=0, name=CPlugin]{Implémentation plugin Gazebo}{2021-05-01}{2021-05-31} \\
 
-        \ganttgroup{\textbf{Simulation robots}}{2021-04-01}{2021-05-31} \\
-            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Composants}{2021-04-01}{2021-04-30} \\
-                \ganttbar[progress=60, name=CDescription]{Description SDF des sous parties}{2021-04-01}{2021-04-30} \\
-                \ganttbar[progress=30, name=RPlugins]{Intégration plugin}{2021-04-01}{2021-04-30} \\
-                \ganttlink[link type=f-f]{CDescription}{RPlugins}
+        \ganttgroup{\textbf{Simulation robots}}{2021-04-01}{2021-07-31} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Composants}{2021-04-01}{2021-05-31} \\
+                \ganttbar[progress=60, name=CDescription]{Description SDF des sous parties}{2021-04-01}{2021-04-31} \\
+                \ganttbar[progress=30, name=RPlugins]{Plugin Gazebo}{2021-05-01}{2021-05-14} \\
+                \ganttbar[progress=30, name=RHI]{Interface logicielle}{2021-05-15}{2021-05-31} \\
+                % \ganttlink[link type=f-f]{CDescription}{RPlugins}
+                % \ganttlink[link type=f-f]{CDescription}{RHI}
             
-            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Argos}{2021-05-01}{2021-05-30} \\
-                \ganttbar[progress=80, name=SDFArgos]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
-                \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
-                \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Argos}{2021-06-01}{2021-06-30} \\
+                \ganttbar[progress=80, name=SDFArgos]{Description SDF du robot}{2021-06-01}{2021-06-07} \\
+                \ganttlinkedbar[progress=30]{Intégration des composants}{2021-06-07}{2021-06-14} \\
+                \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-06-14}{2021-06-31} \\
 
-            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Atoll}{2021-05-01}{2021-05-31} \\
-                \ganttbar[progress=80, name=SDFAtoll]{Description SDF du robot}{2021-05-01}{2021-05-07} \\
-                \ganttlinkedbar[progress=30]{Intégration des composants}{2021-05-07}{2021-05-14} \\
-                \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-05-14}{2021-05-31}
-
-                \ganttlink[link type=f-s]{RPlugins}{SDFArgos}
-                \ganttlink[link type=f-s]{RPlugins}{SDFAtoll}
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Atoll}{2021-07-01}{2021-07-31} \\
+                \ganttbar[progress=80, name=SDFAtoll]{Description SDF du robot}{2021-07-01}{2021-07-07} \\
+                \ganttlinkedbar[progress=30]{Intégration des composants}{2021-07-07}{2021-07-14} \\
+                \ganttlinkedbar[progress=0]{Test dans l'environnement}{2021-07-14}{2021-07-31}
+                % \ganttlink[link type=f-s]{RPlugins}{SDFArgos}
+                % \ganttlink[link type=f-s]{RPlugins}{SDFAtoll}
 
         \ganttvrule[]{Stagiaire Mécanique}{2021-03-31}
         \ganttvrule[vrule label node/.append style={anchor=north west}]{Vacances}{2021-07-31}
