@@ -1,8 +1,46 @@
 \chapter{Simulation des robots}
 	
 	\section{Introduction}
+		Le simulateur doit permettre de simuler chacun des deux robots dans l'environnement défini dans le \textsc{Chapitre}~\ref{chapitre:environnement}. Pour ce faire, nous allons devoir décrire les paramètres mécaniques des robots \gls{Argos} et \gls{Atoll}, ainsi que leurs capteurs et actionneurs à simuler.
+
+		En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler les différents composants dans \gls{Gazebo}, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler et indique les dépendances entre les robots et ces composants.
+
+		\begin{table}[!htb]
+			\centering
+			\begin{tabular}{|l|l|c|c|}
+				\hline
+				Composant & Description & \gls{Argos} & \gls{Atoll} \\
+				\hline
+				Argos Frame & Chassis d'\gls{Argos} & \cmark & \xmark \\
+				\hline
+				Atoll Frame & Chassis d'\gls{Atoll} & \xmark & \cmark \\
+				\hline
+				Electronic Pod & Boîtier electronique & \cmark & \cmark \\
+				\hline
+				Latch & Crochet de levage & \xmark & \cmark\\
+				\hline
+				\gls{Navcam} & Caméra de navigation & \cmark & \cmark\\
+				\hline
+				\gls{Obscam} & Caméra d'observation & \cmark & \cmark\\
+				\hline
+				Rovins & Centrale Inertielle & \cmark & \cmark\\
+				\hline
+				Spotlight & Lumières étanches & \cmark & \cmark \\
+				\hline
+				SPE75 Thruster & Propulseur & \cmark & \cmark \\
+				\hline
+				SS309 Tilt & Nacelle orientable pour caméra & \cmark & \cmark \\
+				\hline
+			\end{tabular}
+			\caption{Composants à simuler}
+			\label{table:components}
+		\end{table}
+
+		Chaque composant a ainsi un \gle{Package} de description nommé suivant la convention de nommage \gls{ROS} : \textit{nom_du_package_description}. Ce package contient 
 
 	\section{Simulation des sous-composants}
+		\subsection{\gls{Argos} Frame}
+
 
 	\section{Simulation d'Argos}
 
