@@ -40,6 +40,7 @@
 \RequirePackage[pdftex]{graphicx}
 \graphicspath{{pdfs/}{pngs/}{imgs/}}
 \DeclareGraphicsExtensions{.pdf,.png,.mps}
+\RequirePackage{adjustbox}
 
 % Al�lioration de la gestion des couleurs du pdf
 \pdfpageattr {/Group << /S /Transparency /I true /CS /DeviceRGB>>}
@@ -116,8 +117,8 @@
 \RequirePackage[simplified]{pgf-umlcd}
 
 \usepackage{pifont}% http://ctan.org/pkg/pifont
-\newcommand{\cmark}{\ding{51}}%
-\newcommand{\xmark}{\ding{55}}%
+\newcommand{\cmark}{\color{ForestGreen}\ding{51}}%
+\newcommand{\xmark}{\color{Red}\ding{55}}%
 
 \RequirePackage{longtable,booktabs}
 
