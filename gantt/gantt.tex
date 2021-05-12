@@ -43,7 +43,7 @@
         \ganttset{link/.style={Black}}
 
         \ganttgroup{\textbf{Projet de fin d'études}}{2021-03-01}{2021-09-10} \\
-            \ganttbar[progress=10, name=Rapport]{Rédaction rapport}{2021-03-01}{2021-07-14} \\
+            \ganttbar[progress=20, name=Rapport]{Rédaction rapport}{2021-03-01}{2021-07-14} \\
             \ganttbar[progress=0, name=Relecture]{Relecture rapport}{2021-07-15}{2021-07-31} \\
             \ganttmilestone[name=Envoi]{Envoi rapport}{2021-07-31} \\
             \ganttlink{Rapport}{Relecture}
@@ -71,8 +71,8 @@
         \ganttgroup{\textbf{Simulation robots}}{2021-04-01}{2021-07-31} \\
             \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Composants}{2021-04-01}{2021-05-31} \\
                 \ganttbar[progress=60, name=CDescription]{Description SDF des sous parties}{2021-04-01}{2021-04-31} \\
-                \ganttbar[progress=30, name=RPlugins]{Plugin Gazebo}{2021-05-01}{2021-05-14} \\
-                \ganttbar[progress=30, name=RHI]{Interface logicielle}{2021-05-15}{2021-05-31} \\
+                \ganttbar[progress=70, name=RPlugins]{Plugin Gazebo}{2021-05-01}{2021-05-14} \\
+                \ganttbar[progress=70, name=RHI]{Interface logicielle}{2021-05-15}{2021-05-31} \\
                 % \ganttlink[link type=f-f]{CDescription}{RPlugins}
                 % \ganttlink[link type=f-f]{CDescription}{RHI}
             
