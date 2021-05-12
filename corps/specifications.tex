@@ -118,3 +118,14 @@
             \end{figure}
 
             La \textsc{Figure}~\ref{fig:ros2_control} nous montre l'architecture logicielle de \gls{ROS2Control}. Ce framework va instancier un \gls{ControllerManager} qui va s'occuper de charger les contrôleurs qui seront utilisés dans le robot, des \gls{HardwareInterface} qui sont les interfaces qui vont communiquer avec les composants et un \gls{RessourceManager} qui va faire transiter les données entre les contrôleurs et les composants. L'\gls{HardwareInterface} peut être réelle ou simulées, c'est-à dire qu'elle peut communiquer avec des vrai composants ou des composants simulés. L'idée est de crée une \gls{HardwareInterface} proposant les mêmes interfaces que celle implémentée pour les composants réels. Ainsi on peut utiliser les mêmes algorithmes de contrôle de manière totalement transparente sur les composant réels et les composants simulés.
+
+        \subsection{Architecture Logicielle}
+
+            En rassemblant ce qui a pu être présenté dans cette \textsc{Section}, on peut proposer une architecture logicielle pour ce simulateur présentée sur la \textsc{Figure}~\ref{fig:architecture_logicielle}.
+            
+            \begin{figure}[!htb]
+                \centering
+                \includegraphics[]{imgs/architecture_logicielle.pdf}
+                \caption{Architecture logicielle du simulateur}
+                \label{fig:architecture_logicielle}
+            \end{figure}
