@@ -9,20 +9,113 @@
         En outre, l'étude de l'existant nous aura au moins permis de se rendre compte que \gls{Gazebo}~\cite{Koenig-gazebo} est largement utilisé dans le domaine de la simulation sous-marine, mais aussi plus largement dans la simulation robotique. \gls{Gazebo} est un logiciel de simulation multi-physique open-source\footnote{Code communautaire ouvert libre de redistribution et d'accès}. Il est aujourd'hui développé par la communauté \gls{OpenRobotics}. Il présente l'avantage de pouvoir communiquer avec \gls{ROS}, ce qui est une exigence importante de notre simulateur, car il doit permettre de tester l'implémentation logicielle des robots. La description des robots se fait en utilisant le language \gls{SDF}\footnote{\url{http://sdformat.org/}}, et il est possible de décrire le comportement complexe d'un composant en implémentant un \gls{Plugin}.
 
 
-    \section{Spécifications techniques}
-
     \section{Spécifications fonctionnelles}
+        \label{sec:spec_fonc}
 
-    \section{Architecture logicielle}
-
-        L'exigence principale du simulateur étant de s'interfacer parfaitement avec le reste de l'implémentation logicielle, il est nécéssaire de définir une architecture logicielle permettant de communiquer à la fois avec les \gls{ROV}s réels et simulés. \gls{ROS2Control}~\cite{ros_control} est un framework permettant de faire communiquer des contrôleurs et des drivers ensemble. L'avantage est de pouvoir changer à chaud de contôleurs de manière consistante, sans temps mort durant lesquels le robot ne serait pas commandé. L'architecture de \gls{ROS2Control} permet aussi de faire des \gls{HardwareInterface} pour des actionneur et des capteurs réels ou simulés, qui sont des interface logicielle permettant de communiquer avec du matériel. En chargeant la version réelle ou simulée de l'\gls{HardwareInterface}, on est donc en mesure d'utiliser les contrôleurs sur les \gls{ROV}s réels ou simulés.
+        Le simulateur doit respecter un certain nombre de spécifications foncitonnelles qui délimitent les exigences requises par le système. La \textsc{Figure}~\ref{figure:pieuvre} complétée par la \textsc{Table}~\ref{table:specs} présentent les exigences du système. Ces outils vont servir à la fois à construire ce simulateur, mais aussi à pouvoir le critiquer.
 
         \begin{figure}[!htb]
             \centering
-            \includegraphics[width=0.5\textwidth]{imgs/ros2_control.png}
+            \begin{tikzpicture}[scale=0.7, every node/.style={ellipse, align=center, scale=0.7}]
+                \node[draw,minimum height=40pt, minimum width=100pt, fill=Lavender!80!pink!100] (S) at (0, 0) {Simulateur};
+                \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C0) at (0:5.5cm) {Middleware};
+                \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C1) at (48:3.5cm) {Robot};
+                \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C2) at (132:3.5cm) {Stockage};
+                \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C3) at (180:5.5cm) {Interface};
+                \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C4) at (228:3.5cm) {Capteur};
+                \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C5) at (312:3.5cm) {Environnement};
+                
+                \draw[blue!75, line width=0.8mm] (C1) -- (S) node[midway, fill=white]{FP1};
+                \draw[orange!80, line width=0.8mm] (C0) -- (S) node[midway, fill=white]{FC3};
+                \draw[orange!80, line width=0.8mm] (C3) -- (S) node[midway, fill=white]{FC1};
+                \draw[orange!80, line width=0.8mm] (C5.90) -- (S.330) node[midway, fill=white]{FC2};
+                \draw[orange!80, line width=0.8mm] (C2.320) to[bend left=70, in=158, out=60] node[fill=white, pos=0.25]{FC4} (C4.90);
+                \draw[blue!75, line width=0.8mm] (C5.160) to[in=0, out=118] node[pos=0.25, fill=white]{FP2} (-0.3, -0.4) node (I){~} to[in=60, out=180] (C4.50);
+            \end{tikzpicture}
+            \caption{Diagramme pieuvre du simulateur}
+            \label{figure:pieuvre}
+        \end{figure}
+
+        \begin{table}[!htb]
+            \centering
+            \begin{adjustbox}{max width=\textwidth}
+                \begin{tabularx}{\textwidth}{|lX|}
+                    \hline
+                    \cellcolor{gray!25}\textbf{id} & \cellcolor{gray!25} \textbf{Fonction} \\
+                    \hline \hline
+                    \cellcolor{blue!30}\textbf{FP1}&\cellcolor{blue!25} Le système doit avoir un comportement proche du robot réel. \\
+                    \hline
+                    \cellcolor{gray!10}FP1.1& Le système doit utiliser des dimensions semblables au robot réel. \\
+                    \hline
+                    \cellcolor{gray!10}FP1.2& Le système doit avoir des masses et des inerties semblables au robot réel. \\
+                    \hline
+                    \cellcolor{gray!10}FP1.3& Le système doit avoir les mêmes degrès de liberté que le robot réel. \\
+                    \hline
+                    \cellcolor{gray!10}FP1.4& Le système doit avoir les mêmes actionneurs que le robot réel. \\
+            
+                    \hline \hline
+            
+                    \cellcolor{blue!30}\textbf{FP2}&\cellcolor{blue!25} Le système doit simuler le comportement de capteurs afin d'acquérir des informations sur l'environnement de simulation. \\
+                    \hline
+                    \cellcolor{gray!10}FP2.1& Le système doit simuler les capteurs suivants :
+                    \begin{compactitem}[\textbullet]
+                        \item Camera RGB
+                        \item Lidar 3D
+                        \item Sonar
+                    \end{compactitem} \\ [-\normalbaselineskip]
+                    \hline
+                    \cellcolor{gray!10}FP2.2& Les mesures des capteurs doivent être bruitées numériquement afin d'être le plus proche de capteurs réels. \\
+                    \hline
+            
+                    \hline \hline
+            
+                    \cellcolor{orange!40}\textbf{FC1} &\cellcolor{orange!30} Le système doit être interfaceable avec l'implémentation logicielle afin de pouvoir tester le comportement du robot. \\
+                    \hline
+                    \cellcolor{gray!10}FC1.1& Le système doit interpréter les commandes actionneurs de la partie implémentation logicielle. \\
+                    \hline
+                    \cellcolor{gray!10}FC1.2& Le système doit communiquer son état à l'implémentation logicielle.\\
+                    \hline
+            
+                    \hline \hline
+            
+                    \cellcolor{orange!40}\textbf{FC2}&\cellcolor{orange!30} Le système doit pouvoir évoluer dans différents environnements simulés. \\
+                    \hline
+                    \cellcolor{gray!10}FC2.1& Le système doit pouvoir évoluer dans un monde vide. \\
+                    \hline
+                    \cellcolor{gray!10}FC2.2& Le système doit pouvoir évoluer dans une vigne ayant une largeur paramétrable. \\
+                    \hline
+                    \cellcolor{gray!10}FC2.3& Le système doit pouvoir entrer en collision avec les objets solides de l'environnement de simulation. \\
+            
+                    \hline \hline
+            
+                    \cellcolor{orange!40}\textbf{FC3}&\cellcolor{orange!30} Le système doit être compatible avec le \textsc{Middleware} choisi pour l'iplémentation logicielle. \\
+                    \hline
+            
+                    \hline \hline
+            
+                    \cellcolor{orange!40}\textbf{FC4}&\cellcolor{orange!30} Le système doit pouvoir enregistrer les données des capteurs pour être analysées ultérieurement. \\
+                    \hline
+                    \cellcolor{gray!10}FC4.1& Le système doit utiliser des messages standard pour le transit de données des capteurs. \\
+                    \hline
+                \end{tabularx}
+            \end{adjustbox}
+            \caption{Spécifications fonctionnelles du simulateur}
+            \label{table:specs}
+        \end{table}    
+
+    \section{Spécifications techniques}
+
+        Pour remplir les différentes spécifications fonctionnelles présentées dans la \textsc{Section}~\ref{sec:spec_fonc}, nous allons définir un certain nombre de spécifications techniques. Ces dernières devraient présenter les outils et les différents critères permettant de remplir les exigences attendues.
+
+    \section{Architecture logicielle}
+
+        L'exigence principale du simulateur étant de s'interfacer parfaitement avec le reste de l'implémentation logicielle, il est nécéssaire de définir une architecture logicielle permettant de communiquer à la fois avec les \gls{ROV}s réels et simulés. \gls{ROS2Control}~\cite{ros_control} est un framework permettant de faire communiquer des contrôleurs et des drivers ensemble. L'avantage est de pouvoir changer à chaud de contôleurs de manière consistante, sans temps mort durant lesquels le robot ne serait pas commandé.
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics{imgs/ros2_control.pdf}
             \caption{Architecture logicielle avec \gls{ROS2Control}}
             \label{fig:ros2_control}
         \end{figure}
 
-        La \textsc{Figure}~\ref{fig:ros2_control} nous montre l'architecture logicielle des robots utilisant \gls{ROS2Control}. Ce framework va instancier un ControllerManager qui va s'occuper de charger les contrôleurs qui seront utilisés dans le robot. Ensuite un RessourceManager va créer les interfaces qui seront utilisées par le ControllerManager et par les HardwareInterface qui sont les interfaces qui vont communiquer avec les composants. En chargeant une HardwareInterface réelle, on sera en mesure d'utiliser le composant réel, et en chargeant une HardwareInterface simulée, on pourra prendre le contrôle du composant dans la simulation. Enfin, les CommandInterface permettent d'envoyer des informations aux composants, typiquement pour commander des actionneurs, tandis que les StateInterface permettent de reçevoir des informations de la part des composants, typiquement des informations de capteurs.
-        
+        La \textsc{Figure}~\ref{fig:ros2_control} nous montre l'architecture logicielle de \gls{ROS2Control}. Ce framework va instancier un \gls{ControllerManager} qui va s'occuper de charger les contrôleurs qui seront utilisés dans le robot, des \gls{HardwareInterface} qui sont les interfaces qui vont communiquer avec les composants et un \gls{RessourceManager} qui va faire transiter les données entre les contrôleurs et les composants. L'\gls{HardwareInterface} peut être réelle ou simulées, c'est-à dire qu'elle peut communiquer avec des vrai composants ou des composants simulés. L'idée est de crée une \gls{HardwareInterface} proposant les mêmes interfaces que celle implémentée pour les composants réels. Ainsi on peut utiliser les mêmes algorithmes de contrôle de manière totalement transparente sur les composant réels et les composants simulés.

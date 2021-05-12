@@ -40,7 +40,10 @@
 \RequirePackage[pdftex]{graphicx}
 \graphicspath{{pdfs/}{pngs/}{imgs/}}
 \DeclareGraphicsExtensions{.pdf,.png,.mps}
+\RequirePackage{array}
+\RequirePackage{colortbl}
 \RequirePackage{adjustbox}
+\RequirePackage{paralist}
 
 % Al�lioration de la gestion des couleurs du pdf
 \pdfpageattr {/Group << /S /Transparency /I true /CS /DeviceRGB>>}

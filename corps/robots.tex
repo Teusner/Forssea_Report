@@ -4,22 +4,22 @@
 		Le simulateur doit permettre de simuler chacun des deux robots dans l'environnement défini dans le \textsc{Chapitre}~\ref{chapitre:environnement}. Pour ce faire, nous allons devoir décrire les paramètres mécaniques des robots \gls{Argos} et \gls{Atoll}, ainsi que leurs capteurs et actionneurs à simuler.
 
 	\section{Simulation des composants}
-		En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler les différents composants dans \gls{Gazebo}, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler et indique les dépendances entre les robots et ces composants.
+		En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler les différents composants dans \gls{Gazebo}, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler, s'ils nécéssitent l'utilisation d'un \gls{Plugin}, d'une \gls{HardwareInterface} et indique les dépendances entre les robots et ces composants.
 
 		\begin{table}[!htb]
 			\centering
 			\begin{adjustbox}{max width=\textwidth}
 				\begin{tabular}{|l|l|c|c|c|c|}
 					\hline
-					Composant & Description & \gls{Argos} & \gls{Atoll} & \gls{HardwareInterface} & \gls{Plugin} \\
+					Composant & Description & \gls{Argos} & \gls{Atoll} & \gls{HardwareInterface} & \gls{Gazebo} \gls{Plugin} \\
 					\hline
-					Argos Frame & Chassis d'\gls{Argos} & \cmark & \xmark & \xmark & \xmark \\
+					\gls{Argos} Frame & Chassis d'\gls{Argos} & \cmark & \xmark & \xmark & \xmark \\
 					\hline
-					Atoll Frame & Chassis d'\gls{Atoll} & \xmark & \cmark & \xmark & \xmark \\
+					\gls{Atoll} Frame & Chassis d'\gls{Atoll} & \xmark & \cmark & \xmark & \xmark \\
 					\hline
 					Electronic Pod & Boîtier electronique & \cmark & \cmark & \xmark & \xmark \\
 					\hline
-					Latch & Crochet de levage & \xmark & \cmark & \cmark & \cmark \\
+					\gls{Latch} & Crochet de levage & \xmark & \cmark & \cmark & \cmark \\
 					\hline
 					\gls{Navcam} & Caméra de navigation & \cmark & \cmark & \xmark & \cmark \\
 					\hline
