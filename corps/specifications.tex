@@ -6,7 +6,7 @@
         
         \textsc{UUV Simulator}~\cite{Manhaes_2016} est probablement le plus connu d'entre eux. C'est un simulateur de \gls{ROV} comportant un certain nombre d'éléments d'environnements simulés, comme des mondes marins, du courant ou des ombilicaux par exemple. Il propose aussi la description d'un bon nombre de robots sous-marins commercialisés, et la communauté active partage les nouveaux modèles régulièrement.
         
-        \textsc{Mars}~\cite{MARS} est un simulateur spécifique à des robot baptisés \textsc{Mars}. Il permet de supporter plusiieurs \gls{ROV}s et peut être commandé par \gls{ROS} ou bien en utilisant des sockets TCP.
+        \textsc{Mars}~\cite{MARS} est un simulateur spécifique à des robot baptisés \textsc{Mars}. Il permet de supporter plusieurs \gls{ROV}s et peut être commandé par \gls{ROS} ou bien en utilisant des sockets TCP.
         
         \textsc{Rock-Gazebo}~\cite{Rock} est un projet d'intégration de simulateur basé sur le moteur physique \gls{Gazebo} et sur le framework\footnote{Infrastructure logicielle facilitant le développement logiciel} \textsc{Robot Construction Kit}.
         
@@ -104,7 +104,7 @@
 
         \subsection{Ignition Libraries}
 
-            Ignition Libraries\footnote{\url{https://ignitionrobotics.org/libs}} est un ensemble de libraries permettant de faciliter le développement robotique. Ces librairies sont mises à disposition par \gls{OpenRobotics}. Deux libraries permettent de remplir la fonction contrainte \textbf{FC1} : \textit{Ignition-Transport} et \textit{Ignition-Msgs}. Ces deux libraries permettent de faire communiquer deux ensemble de codes ensemble grâce à un système de messagerie basée sur l'utilisation de la bilbiothèque \textit{ProtocolBuffer} développée par \textit{Google}\footnote{\url{https://developers.google.com/protocol-buffers}}. Enfin, ce système de communication est utilisé par \gls{ROS} et \gls{Gazebo}. Il présente l'avantage de diviser le code en n\oe uds pouvant communiquer ensemble, mais aussi de pouvoir récupérer l'état du simulateur par la lecture des messages transitants sur le réseau \textit{Ignition-Transport}.
+            \textit{Ignition Libraries}\footnote{\url{https://ignitionrobotics.org/libs}} est un ensemble de libraries permettant de faciliter le développement robotique. Ces librairies sont mises à disposition par \gls{OpenRobotics}. Deux libraries permettent de remplir la fonction contrainte \textbf{FC1} : \textit{Ignition-Transport} et \textit{Ignition-Msgs}. Ces deux libraries permettent de faire communiquer deux ensemble de codes ensemble grâce à un système de messagerie basée sur l'utilisation de la bilbiothèque \textit{ProtocolBuffer} développée par \textit{Google}\footnote{\url{https://developers.google.com/protocol-buffers}}. C'est le même système de communication qui est utilisé par \gls{ROS} et \gls{Gazebo}. Il présente l'avantage de diviser le code en n\oe uds pouvant communiquer ensemble, mais aussi de pouvoir récupérer l'état du simulateur par la lecture des messages transitants sur le réseau \textit{Ignition-Transport}.
 
         \subsection{ROS2 Control}
 
