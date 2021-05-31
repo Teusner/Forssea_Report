@@ -96,10 +96,10 @@
 \urlstyle{same}
 \RequirePackage[pdftex,backref=page]{hyperref}
 \hypersetup{
-  colorlinks=true,
-  linkcolor=black,
-  filecolor=black,
-  citecolor = black,      
+  colorlinks=false,
+  linkbordercolor=red, % black
+  filecolor=black, % black
+  citebordercolor = ForestGreen, % black   
   urlcolor=cyan,
 }
 
@@ -108,9 +108,11 @@
 %\newglossary{gloen}{acr2}{acn2}{English glossary}
 
 % Landscape figures
-\usepackage{rotating}
-\usepackage{float}
-\usepackage{subcaption}
+\RequirePackage{rotating}
+\RequirePackage{float}
+\RequirePackage{subcaption}
+
+\RequirePackage{enumitem}
 
 \RequirePackage[ruled,vlined, french]{algorithm2e}
 \RequirePackage{algorithmic}

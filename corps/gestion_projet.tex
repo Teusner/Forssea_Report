@@ -2,16 +2,16 @@
 	
 	\section{Introduction}
 
-		Ce dernier chapitre est consacré à la gestion de projet. Cette partie est nécéssaire à la réalisation d'un système et cela prend une place importante dans la démarche de l'ingénieur. Elle va consister à présenter les différentes méthodes et outils mis en place qui ont été nécessaire au bon déroulement de ce projet de fin d'études.
+		Ce dernier chapitre est consacré à la gestion de projet. Elle est nécéssaire à la réalisation d'un système et cela prend une place importante dans la démarche de l'ingénieur. Nous allons ici présenter les différentes méthodes et outils mis en place qui ont été nécessaire au bon déroulement de ce projet de fin d'études.
 
-		Le format de ce projet de fin d'études est particulier dans la mesure où j'ai réalisé la dernière année de ma formation en contrat de professionnalisation avec l'entreprise Forssea Robotics. J'ai donc pu travailler pendant un an avec eux, en commencant par 6 mois durant lesquels j'ai fini ma formation au sein de l'\gls{ENSTAB}, puis 6 mois durant lesquels j'ai pu travailler à temps plein sur mon projet de fin d'études. Cela présente l'avantage d'avoir à sa charge la gestion d'un projet plus complet, puisque le temps le permet, comparé à un projet de fin d'étude classique dans lequel il est souvent confié au stagiaire la réalisation d'une tâche d'un projet.
+		Le format de ce projet de fin d'études est particulier dans la mesure où j'ai réalisé la dernière année de ma formation en contrat de professionnalisation avec l'entreprise Forssea Robotics. J'ai donc pu travailler pendant une année complète à leurs côtés, en commencant par 6 mois durant lesquels j'ai fini ma formation au sein de l'\gls{ENSTAB}, puis 6 mois durant lesquels j'ai pu travailler à temps plein sur mon projet de fin d'études. Cela a présenté l'avantage d'avoir à ma charge la gestion d'un projet plus complet, puisque le temps l'a permis, comparé à un projet de fin d'étude classique dans lequel il est souvent confié au stagiaire la réalisation d'une tâche d'un projet.
 
 	\section{Méthodologie}
 
 		\subsection{Méthodes Agiles}
-			Les \textit{Methodes Agiles} forment un ensemble de méthodes facilitant la gestion de projet, qui sont particulièrement adaptées au monde du développement logiciel. Il permet de réaliser une plannification adaptative, un développement évolutif et une amélioration continue du produit. Elles s'opposent aux méthodes plus traditionnelles, comme les méthodes séquentielles de type \textit{Cycle en V}, qui s'adaptent très mal à ce type de produit. Elles permettent aussi d'avoir un produit utilisable par le client, avec des fonctionnalités qui évoluent au cours du développement.
+			Les \textit{Methodes Agiles} forment un ensemble de méthodes facilitant la gestion de projet, qui sont particulièrement adaptées au monde du développement logiciel. Il permet de réaliser une plannification adaptative, un développement évolutif et une amélioration continue du produit. Elles s'opposent aux méthodes plus traditionnelles, comme les méthodes séquentielles de type \textit{Cycle en V}, qui s'adaptent très mal à ce type de système. Elles permettent aussi d'avoir un produit utilisable par le client, avec des fonctionnalités qui évoluent au cours du développement.
 
-			La \textit{Methode Scrum} est un cadre hérité de la \textit{Méthode Agile} permettant lui aussi de gérer le développement d'un produit. Il se distingue des \textit{Méthodes Agiles} dans la mesure où ce n'est pas seulement un ensemble de concepts, mais plutôt ici un ensemble de règles à suivre pour gérer correctement un projet. La \textit{Méthode Scrum} nécéssite la désignation de :
+			La \textit{Methode Scrum} est un cadre hérité de la \textit{Méthode Agile} permettant lui aussi de gérer le développement d'un produit. Cette méthode se distingue des \textit{Méthodes Agiles} dans la mesure où ce n'est pas seulement un ensemble de concepts, mais plutôt ici un ensemble de règles à suivre pour gérer correctement un projet. La \textit{Méthode Scrum} nécéssite la désignation de :
 
 			\begin{itemize}
 				\item Un \textit{Scrum Master} : garant de l'application de la \textit{Méthode Scrum},
@@ -46,11 +46,13 @@
 				\item La branche \textit{hotfix} : branche sur laquelle des corrections mineures et urgentes peuvent être apportées sur la branche \textit{master}.
 			\end{itemize}
 
+			Je trouve cette méthodologie intéressante, car elle propose un ensemble de règles à respecter afin de gérer convenablement le développement logiciel d'un produit. C'est quelque chose que je ne connaissais pas auparavent, mais que je n'hésiterais pas à remettre en place dans mes futurs développements.
+
 		\subsection{Jira}
 
 			Un outil intéressant pour appliquer la \textit{Méthode Scrum} est le service \textit{Jira} d'\textit{Atlassian}\footnote{\url{https://www.atlassian.com/fr/software/jira}}. C'est un outil développé pour appliquer ces méthodes de gestion de projet en équipe, avec une intégration des différents concepts et des différentes règles inhérentes à ces procédés. Il permet de facilement planifier le projet, le suivre, mais aussi de livrer facilement et de créer des rapports de fonctionnalités, des notes de versions et autres notices utiles pour l'utilisateur final.
 		
-			Le suivi d'implémentation est automatique entre \textit{Jira} et \textit{Github} : dès qu'une nouvelle fonctionnalité est ajoutée sur \textit{GitHub}, elle est automatiquement classée comme implémentée sur \textit{Jira}. Ainsi la \textit{Roadmap} est tenue à jour et il est possible de se rendre compte de l'intention stratégique prise par les développements en cours ainsi que des délais prévus.
+			Le suivi d'implémentation est automatisé entre \textit{Jira} et \textit{Github} : dès qu'une nouvelle fonctionnalité est ajoutée sur \textit{GitHub}, elle est automatiquement classée comme implémentée sur \textit{Jira}. Ainsi la \textit{Roadmap}\footnote{Planning dans lequel figurent les développements en cours ainsi que leurs durées} est tenue à jour et il est possible de se rendre compte de l'intention stratégique prise par les développements en cours ainsi que des délais prévus.
 
 			Un système de tests unitaires permettent aussi de tester en intégration le code implémenté, afin d'être sûr que le code est fonctionnel. En outre, ces test unitaires servent de tests de non regressions pour les versions suivantes afin de verifier que les prochaines versions logicielles ne changeront pas les comportements implémentés dans les précédentes versions.
 

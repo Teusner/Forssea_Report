@@ -3,6 +3,10 @@
 
     \section{Introduction}
 
+        Dans ce chapitre nous allons réaliser les premières étapes de la conception du système de simulation. Dans un premier temps nous allons réliser une étude de l'existant afin de rendre compte des solutions déjà existante qui permettent de simuler des environnements marins et sous-marins. Ensuite, nous allons établir les spécifications fonctionnelles de notre simulateur afin de définir les différentes foncitons que devra remplir notre système. Puis nous allons élaborer les spécifications techniques de notre système, c'est à dire que nous allons déterminer les solutions techniques à employer afin de respecter le cahier des charges fonctionnelles. Finalement, nous seront en mesure de présenter une architecture logicielle pour notre simulateur, c'est-à-dire que nous allons présenter la manière dont vont s'agencer les différentes solutions techniques afin de produire le simulateur.
+
+    \section{Etude de l'existant}
+
         La simulation de milieux marins est quelque chose de connu dans le domaine de la robotique, et il en existe aujourd'hui déjà de nombreux~\cite{Manhaes_2016, bingham19toward, MARS, Rock}. Ces simulateurs proposent tous un modèle de flottabilité pour les objets à simuler, ce qui permet de pouvoir définir à la fois des bateaux et des robots sous-marins. Cela permet donc de pouvoir simuler le comportement des \gls{ROV}s dans l'eau. Ils proposent ensuite tous leur lot de spécificités qui permettent d'avoir des éléments supplémentaires dans notre simulation.
         
         \textsc{UUV Simulator}~\cite{Manhaes_2016} est probablement le plus connu d'entre eux. C'est un simulateur de \gls{ROV} comportant un certain nombre d'éléments d'environnements simulés, comme des mondes marins, du courant ou des ombilicaux par exemple. Il propose aussi la description d'un bon nombre de robots sous-marins commercialisés, et la communauté active partage les nouveaux modèles régulièrement.

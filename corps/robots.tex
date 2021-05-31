@@ -3,10 +3,12 @@
 	
 	\section{Introduction}
 
-		L'environnement dans lequel doivent évoluer les robots à été défini dans le \textsc{Chapitre}~\ref{chapitre:environnement}. Il est maintenant temps de simuler les \gls{ROV}s. Pour ce faire, nous allons devoir décrire les paramètres mécaniques des robots \gls{Argos} et \gls{Atoll}, ainsi que leurs capteurs et actionneurs à simuler. A la fin de cette partie nous devrions être en mesure de pleinement simuler les robots dans leur environnement, et le système devrait remplir toutes les exigences présentées dans le \textsc{Chapitre}~\ref{chapitre:systeme}.
+		L'environnement dans lequel doivent évoluer les robots à été défini dans le \textsc{Chapitre}~\ref{chapitre:environnement}. Il est maintenant temps de simuler les \gls{ROV}s. Pour ce faire, nous allons devoir décrire les paramètres mécaniques des robots \gls{Argos} et \gls{Atoll}, et décrire le comportement de leurs capteurs et actionneurs à simuler. A la fin de cette partie nous devrions être en mesure de pleinement simuler les robots dans leur environnement, et le simulateur complet devrait ainsi respecter toutes les exigences présentées dans le \textsc{Chapitre}~\ref{chapitre:systeme}.
 
 	\section{Simulation des composants}
-		En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler les différents composants dans \gls{Gazebo}, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler, s'ils nécéssitent l'utilisation d'un \gls{Plugin}, d'une \gls{HardwareInterface} et indique les dépendances entre les robots et ces composants.
+
+		\subsubsection{Liste des composants}
+			En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler ces différents composants dans \gls{Gazebo}, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler, s'ils nécéssitent l'utilisation d'un \gls{Plugin}, d'une \gls{HardwareInterface} et indique les dépendances entre les robots et ces composants.
 
 		\begin{table}[!htb]
 			\centering
@@ -41,7 +43,24 @@
 			\label{table:components}
 		\end{table}
 
-		Chaque composant a ainsi un \gls{Package} de description qui lui est associe nommé suivant la convention de nommage \gls{ROS} : \textit{component\_description}. Ce package contient tout le code nécéssaire à la description du composant, c'est à dire un modèle \gls{Gazebo} permettant de simuler le composant dans le logiciel de simulation, un fichier de lancement qui s'occupe de lancer le composant dans le simulateur, les \gls{Mesh CAO}. Le code source d'un \gls{Plugin} permettant de décrire le comportement du capteur ou de l'actionneur associé au composant se trouve dans le package \textit{component\_model\_plugin}.
+		\subsubsection{Séparation Packages}
+
+			La convention \gls{ROS} et \gls{Gazebo} pour la description des robots dans le but de les simuler prévoit de répartir le code dans différents paquets. Nous allons appliquer ici cette même convention pour chaque composant à simuler.
+
+			\begin{itemize}
+				\renewcommand{\labelitemi}{\textbullet}
+				\item \textit{composant\_description} :
+				\begin{itemize}[noitemsep]
+					\item Description URDF comportant les couches visuelles, inertielles et de collision
+					\item Maillages 3D permettant de représenter visuellement le composant
+					\item Fichier de configuration pour visualiser le composant dans RViz2
+				\end{itemize}
+				\item \textit{composant\_gazebo} :
+				\begin{itemize}[noitemsep]
+					\item \gls{Plugin} décrivant le comportement du composant dans \gls{Gazebo}
+					\item Ficher de lancement du composant dans \gls{Gazebo}
+				\end{itemize}
+			\end{itemize}
 
 		Nous allons à présent détailler l'implémentation de certains composants qui ont un comportement intéressant à développer.
 
