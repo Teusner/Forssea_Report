@@ -1,34 +1,63 @@
 \chapter{Gestion de projet}
 	
 	\section{Introduction}
-		Ce rapport présente le travail effectué durant ce projet de fin d'études. Le format est particulier dans la mesure où j'ai réalisé la dernière année de ma formation en contrat de professionnalisation avec l'entreprise Forssea Robotics. J'ai donc pu travailler pendant un an avec eux, en commencant par 6 mois durant lesquels j'ai fini ma formation au sein de l'\gls{ENSTAB}, puis 6 mois durant lesquels j'ai pu travailler à temps plein sur mon projet de fin d'études. Cela présente l'avantage d'avoir à sa charge la gestion d'un projet plus complet, puisque le temps le permet, comparé à un projet de fin d'étude classique dans lequel il est souvent confié au stagiaire la réalisation d'une tâche d'un projet.
+
+		Ce dernier chapitre est consacré à la gestion de projet. Cette partie est nécéssaire à la réalisation d'un système et cela prend une place importante dans la démarche de l'ingénieur. Elle va consister à présenter les différentes méthodes et outils mis en place qui ont été nécessaire au bon déroulement de ce projet de fin d'études.
+
+		Le format de ce projet de fin d'études est particulier dans la mesure où j'ai réalisé la dernière année de ma formation en contrat de professionnalisation avec l'entreprise Forssea Robotics. J'ai donc pu travailler pendant un an avec eux, en commencant par 6 mois durant lesquels j'ai fini ma formation au sein de l'\gls{ENSTAB}, puis 6 mois durant lesquels j'ai pu travailler à temps plein sur mon projet de fin d'études. Cela présente l'avantage d'avoir à sa charge la gestion d'un projet plus complet, puisque le temps le permet, comparé à un projet de fin d'étude classique dans lequel il est souvent confié au stagiaire la réalisation d'une tâche d'un projet.
 
 	\section{Méthodologie}
-		Les \textit{Methodes Agiles} forment un ensemble de méthodes facilitant la gestion de projet, qui sont particulièrement adaptées au monde du développement logiciel. Il permet de réaliser une plannification adaptative, un développement évolutif et une amélioration continue du produit. Elles s'opposent aux méthodes plus traditionnelles, comme les méthodes séquentielles de type \textit{Cycle en V}, qui s'adaptent très mal à ce type de produit. Elles permettent aussi d'avoir un produit utilisable par le client, avec des fonctionnalités qui évoluent au cours du développement.
 
-		La \textit{Methode Scrum} est un cadre hérité de la \textit{Méthode Agile} permettant lui aussi de gérer le développement d'un produit. Il se distingue des \textit{Méthodes Agiles} dans la mesure où ce n'est pas seulement un ensemble de concepts, mais plutôt ici un ensemble de règles à suivre pour gérer correctement un projet. La \textit{Méthode Scrum} nécéssite la désignation de :
+		\subsection{Méthodes Agiles}
+			Les \textit{Methodes Agiles} forment un ensemble de méthodes facilitant la gestion de projet, qui sont particulièrement adaptées au monde du développement logiciel. Il permet de réaliser une plannification adaptative, un développement évolutif et une amélioration continue du produit. Elles s'opposent aux méthodes plus traditionnelles, comme les méthodes séquentielles de type \textit{Cycle en V}, qui s'adaptent très mal à ce type de produit. Elles permettent aussi d'avoir un produit utilisable par le client, avec des fonctionnalités qui évoluent au cours du développement.
 
-		\begin{itemize}
-			\item Un \textit{Scrum Master} : garant de l'application de la \textit{Méthode Scrum},
-			\item Un \textit{Product Owner} : garant des attentes du client au sein du projet,
-			\item Une équipe de développement : réalisant le produit.
-		\end{itemize}
+			La \textit{Methode Scrum} est un cadre hérité de la \textit{Méthode Agile} permettant lui aussi de gérer le développement d'un produit. Il se distingue des \textit{Méthodes Agiles} dans la mesure où ce n'est pas seulement un ensemble de concepts, mais plutôt ici un ensemble de règles à suivre pour gérer correctement un projet. La \textit{Méthode Scrum} nécéssite la désignation de :
 
-		Les temps forts de la \textit{Méthode Scrum} sont :
+			\begin{itemize}
+				\item Un \textit{Scrum Master} : garant de l'application de la \textit{Méthode Scrum},
+				\item Un \textit{Product Owner} : garant des attentes du client au sein du projet,
+				\item Une équipe de développement : réalisant le produit.
+			\end{itemize}
 
-		\begin{itemize}
-			\item La plannification de \textit{sprint} : réunion durant laquelle les nouvelles fonctionnalités à ajouter au produit sont séléctionnées en accord avec le \textit{Product Owner},
-			\item La revue de \textit{sprint} : réunion se déroulant en général après le sprint et durant laquelle les nouvelles foncitonnalités implémentées durant le \textit{sprint} sont présentées au \textit{Product Owner} et au client, et le prochain sprint est préparé,
-			\item La retrospective de \textit{sprint} : réunion dans laquelle l'équipe analyse sa propre gestion de projet en terme d'efficacité, de qualité, de productivité,
-			\item La mêlée quotidienne : réunion dans laquelle l'équipe de développement expose ce qu'elle a réalisé, ce qu'elle va réaliser et les problèmes qui ont été rencontrés depuis la dernière mêlée.
-		\end{itemize}
-	
-		Lors du développement du simulateur réalisé pendant ce projet de fin d'étude, une \textit{Méthode Scrum} a été utilisée, dans la mesure où c'est la méthode qui est utilisée par le reste de l'entreprise. On peut cependant la qualifier de légère, car les \textit{sprints} n'étaient pas très formalisés, d'abord car j'étais le seul développeur en charge de ce projet de simulation. Le choix des nouvelles fonctionnalités à prendre en compte était décidé lors d'une réunion hebdomadaire servant de point d'avancement du produit. Les réunions quotidiennes étaient cependant bien présente, et elle permettaient d'avoir à l'esprit ce que les autres développeurs étaient en train de faire. En outre la start-up est divisée en trois pôles : Robotique, Vision et Mécanique. Les réunions quotidiennes étaient séparées par pôles afin d'être plus efficace, mais une réunion mensuelle venait synchroniser les différentes équipes afin de définir les objectifs réalisés et à venir pour l'entreprise.
+			Les temps forts de la \textit{Méthode Scrum} sont :
+
+			\begin{itemize}
+				\item La plannification de \textit{sprint} : réunion durant laquelle les nouvelles fonctionnalités à ajouter au produit sont séléctionnées en accord avec le \textit{Product Owner},
+				\item La revue de \textit{sprint} : réunion se déroulant en général après le sprint et durant laquelle les nouvelles foncitonnalités implémentées durant le \textit{sprint} sont présentées au \textit{Product Owner} et au client, et le prochain sprint est préparé,
+				\item La retrospective de \textit{sprint} : réunion dans laquelle l'équipe analyse sa propre gestion de projet en terme d'efficacité, de qualité, de productivité,
+				\item La mêlée quotidienne : réunion dans laquelle l'équipe de développement expose ce qu'elle a réalisé, ce qu'elle va réaliser et les problèmes qui ont été rencontrés depuis la dernière mêlée.
+			\end{itemize}
+		
+			Lors du développement du simulateur réalisé pendant ce projet de fin d'étude, une \textit{Méthode Scrum} a été utilisée, dans la mesure où c'est la méthode qui est utilisée par le reste de l'entreprise. On peut cependant la qualifier de légère, car les \textit{sprints} n'étaient pas très formalisés, d'abord car j'étais le seul développeur en charge de ce projet de simulation. Le choix des nouvelles fonctionnalités à prendre en compte était décidé lors d'une réunion hebdomadaire servant de point d'avancement du produit. Les réunions quotidiennes étaient cependant bien présente, et elle permettaient d'avoir à l'esprit ce que les autres développeurs étaient en train de faire. En outre la start-up est divisée en trois pôles : Robotique, Vision et Mécanique. Les réunions quotidiennes étaient séparées par pôles afin d'être plus efficace, mais une réunion mensuelle venait synchroniser les différentes équipes afin de définir les objectifs réalisés et à venir pour l'entreprise.
 
 	\section{Outil de gestion de projet}
 
-		Un outil intéressant pour appliquer la \textit{Méthode Scrum} est le service \textit{Jira} d'\textit{atlassian}\footnote{\url{https://www.atlassian.com/fr/software/jira}}. C'est un outil développé pour appliquer ces méthodes de gestion de projet en équipe, avec une intégration des différents concepts et des différentes règles inhérentes à ces procédés. Il permet de facilement planifier le projet, le suivre, mais aussi de livrer facilement et de créer des rapports de fonctionnalités, des notes de versions et autres notices utiles pour l'utilisateur final.
+		\subsection{GitHub}
 
-		Le service \textit{Github}\footnote{\url{https://github.com/}} permet lui de versionner et de travailler facilement en collaboration sur du code. Basé sur le logiciel de versionning \textit{Git}\footnote{\url{https://git-scm.com/}}, ce service propose la possibilité de créer des organisaitons, et donc d'avoir une entité possédant tout le code développé pour le produit.
+			Le service \textit{Github}\footnote{\url{https://github.com/}} permet de versionner et de travailler facilement en collaboration sur de l'implémentation logiciell. Basé sur le logiciel de versionning \textit{Git}\footnote{\url{https://git-scm.com/}}, ce service propose la possibilité de créer des organisations, et donc d'avoir une entité associée à la société \textit{Forssea Robotics} possédant tout le code implémenté.
+
+			L'entreprise utilise le \textit{Git Flow} qui est une bonne pratique d'utilisation de \textit{Git}. Elle définit un certain nombre de branches ayant un rôle précis :
+
+			\begin{itemize}
+				\item La branche \textit{master} : branche délivrable au client contenant la dernière version du code,
+				\item La branche \textit{develop} : branche contenant les développements liés à la prochaine version où sont fusionnés les fonctionnalités à venir développés par les différents développeurs,
+				\item Les branches de \textit{features} : branches d'implémentation de fonctionnalités. Il y en a autant que de foncitonnalités à ajouter, et chaque développeur autant de branches qu'il a besoin au cours de l'implémentation,
+				\item La branche \textit{release} : branche sur laquelle est testé le contenu de la branche \textit{develop} avant la livraison de la nouvelle version sur la branche \textit{master},
+				\item La branche \textit{hotfix} : branche sur laquelle des corrections mineures et urgentes peuvent être apportées sur la branche \textit{master}.
+			\end{itemize}
+
+		\subsection{Jira}
+
+			Un outil intéressant pour appliquer la \textit{Méthode Scrum} est le service \textit{Jira} d'\textit{Atlassian}\footnote{\url{https://www.atlassian.com/fr/software/jira}}. C'est un outil développé pour appliquer ces méthodes de gestion de projet en équipe, avec une intégration des différents concepts et des différentes règles inhérentes à ces procédés. Il permet de facilement planifier le projet, le suivre, mais aussi de livrer facilement et de créer des rapports de fonctionnalités, des notes de versions et autres notices utiles pour l'utilisateur final.
 		
-		Ces deux outils sont parfaitement intégrés ensemble. En effet, le suivi d'implémentation est automatique entre \textit{Jira} et \textit{Github}, et dès qu'une nouvelle fonctionnalité est ajoutée, elle est automatiquement classée comme implémentée. Un système de tests unitaires permettent aussi de tester en intégration le code implémenté, afin d'être sûr que le code est foncitonnel.
+			Le suivi d'implémentation est automatique entre \textit{Jira} et \textit{Github} : dès qu'une nouvelle fonctionnalité est ajoutée sur \textit{GitHub}, elle est automatiquement classée comme implémentée sur \textit{Jira}. Ainsi la \textit{Roadmap} est tenue à jour et il est possible de se rendre compte de l'intention stratégique prise par les développements en cours ainsi que des délais prévus.
+
+			Un système de tests unitaires permettent aussi de tester en intégration le code implémenté, afin d'être sûr que le code est fonctionnel. En outre, ces test unitaires servent de tests de non regressions pour les versions suivantes afin de verifier que les prochaines versions logicielles ne changeront pas les comportements implémentés dans les précédentes versions.
+
+		\section{Etude de faisabilité et solution technique}
+
+			La réalisation de chaque tâche passe par la rédaction d'une étude de faisabilité et la présentation de la solution technique, abrégé \textit{FTS}\footnote{\textit{Feasibility and Technical Solution}}. Ce document est souvent accompagné d'une \textit{POC}\footnote{\textit{Proof Of Concept}}, qui est un exemple minimal de code prouvant que le concept à implémenter est faisable et que la solution répond bien au besoin. Cela permet de ne pas passer du temps de développement sur une solution non satisfaisante.
+
+			La simulation de l'ombilical par exemple est la tache qui a nécéssité le plus de préparation. Etant donné que la simulation dans \textsc{Gazebo} d'un ombilical par éléments finis n'avait jamais été fait auparavent, la rédaction de la \textit{FTS} et la \textit{POC} ont nécéssité quelques mois de développements. J'ai pu réaliser ce travail préalable en parallèle de la fin de ma formation, durant les six premiers mois de contrat de professionnalisation. Cela a permis d'éclaircir quelques points qui semblaient triviaux à implémenter, mais qui ont finalement soulevés des problèmes nécéssitant du temps de développement. 
+			
+			Cependant, on remarque que certains problèmes se sont tout de même présentés lors de l'implémentation de cette solution dans \gls{Gazebo}. C'est le cas de l'orientation absolue des solides qui était accessible dans le code développé pour la \textit{POC}, alors que dans le \textit{plugin} implémenté pour le simulateur, seul les orientations relatives ramenées dans l'intervalle $[-\pi; \pi]$ étaient accessible.

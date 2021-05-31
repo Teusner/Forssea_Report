@@ -120,8 +120,9 @@
 \RequirePackage[simplified]{pgf-umlcd}
 
 \usepackage{pifont}% http://ctan.org/pkg/pifont
-\newcommand{\cmark}{\color{ForestGreen}\ding{51}}%
-\newcommand{\xmark}{\color{Red}\ding{55}}%
+\newcommand{\cmark}{\textcolor{ForestGreen}{\ding{51}}}%
+\newcommand{\xmark}{\textcolor{Red}{\ding{55}}}%
+\newcommand{\pmark}{\textcolor{NavyBlue}{\ding{118}}}% 93 118
 
 \RequirePackage{longtable,booktabs}
 

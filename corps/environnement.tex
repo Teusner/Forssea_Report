@@ -1,15 +1,17 @@
 \chapter{Simulation de l'environnement}
-\label{chapitre:environnement}
+	\label{chapitre:environnement}
 	
 	\section{Introduction}
 
-		La simulation de l'environnement est une partie importante du simulateur car c'est ce qui va définir le comportement des \gls{ROV}s dans leur milieu. Elle doit être très proche des conditions réelles afin d'avoir des résultats exploitables. Il faut donc établir les différents élements de l'environnements qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Il y a principalement le milieu marin qui va ajouter une flottabilité au robots, mais aussi la présence de courants et enfin l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations.
+		La simulation de l'environnement est une partie importante du simulateur car c'est ce qui va définir le comportement des \gls{ROV}s dans leur milieu. Elle doit être très proche des conditions réelles afin d'avoir des résultats exploitables. A la fin de cette partie, nous devrions avoir à notre disposition un environnement de simulation complet proche de l'environnement rencontré lors de missions avec les robots.
 
-		La \textsc{Table}~\ref{table:elements} présente les différents élements qui peuvent être simulés dans un environnement marin.
+		Il est donc nécéssaire d'établir les différents élements de l'environnement qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Il y a principalement le milieu marin qui va ajouter une flottabilité au robots, les vagues, le vent, mais aussi la présence de courants marins. Ensuite, il y a l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations. Enfin la présence de structures sous-marines jouent aussi un rôle importante dans les missions des \gls{ROV}s, que ce soit par exemple des piles d'éolienne à inspecter pour le robot \gls{Argos}, son garage, ou bien des \gls{frameLBL} à deplacer pour \gls{Atoll}.
+
+		La \textsc{Table}~\ref{table:elements} présente les différents élements cités précédemment qui peuvent être simulés dans un environnement marin. Nous allons choisir les principaux car tous n'auront pas un impact significatif sur le comportement des \gls{ROV}s, comme le vent ou les vagues. 
 
 		\begin{table}[ht]
 			\centering
-			\begin{tabular}{|c|c|}
+			\begin{tabular}{|l|c|}
 				\hline
 				Element & Simulation \\
 				\hline
@@ -17,9 +19,15 @@
 				\hline
 				Vagues & \xmark\\
 				\hline
-				Courant sous-Marin & \cmark \\
+				Courant marins & \cmark \\
 				\hline
 				Ombilical & \cmark \\
+				\hline
+				Garage d\gls{Argos} & \cmark \\
+				\hline
+				\gls{frameLBL} & \cmark \\
+				\hline
+				Pile d'éolienne & \cmark \\
 				\hline
 			\end{tabular}
 			\caption{Elements pris en compte dans l'environnement de simulation}
@@ -28,13 +36,50 @@
 
 	\section{Simulation d'environnements marins}
 
+		\section{Simulation des courants marins}
+
+			Les courants marins constituent un élément majeur qui va perturber le comportement des robots dans l'environnement simulé. Avec une simulation suffisament précise, la simulation et le comportement réel des \gls{ROV}s deviendront très proches, notamment par l'ajout de la traînée hydrodynamique qui va s'appliquer sur les composants des robots.
+
+			\subsection{Modèle constant}
+
+				Pour simuler ces courants, il est possible d'utiliser en première approximation une idée assez triviale : localement le courant est constant. Par constant on entend uniforme, donc qui ne dépend pas de l'espace, et stationnaire, donc qui ne dépend pas du temps. C'est à dire qu'il serait possible de considérer le courant marin  comme un champ de vecteurs ayant un certain cap et une certaine magnitude représentant la vitesse de l'écoulement. Ce modèle simple permet de rapidement ajouter du courant dans notre simulateur, mais ce courant est peu réaliste dans la mesure ou il ne prends pas du tout en compte la présence de structures sous-marine qui pourraient modifier la vitesse et l'orientation de ce courant.
+
+			\subsection{Modèle procédural}
+
+				Une autre idée serait de générer un courant pseudo-aléatoire par génération procédurale. Cette méthode de génération est largement utilisée dans le domaine des jeux-vidéos et du cinéma, et par extension, il est aussi utilisé dans le domaine de la simulation. Elle permet de générer à l'aide d'algorithme des mondes et des textures pseudo-aléatoires. Dans notre cas, il est possible d'utiliser le \textit{Bruit de Perlin} qui est une texture procédurale. Cette texture se distingue d'une texture complètement aléatoire qui n'est clairement pas esthétique. Une comparaison de ces deux textures est présentée en \textsc{Figure}~\ref{fig:texture}. L'avantage du \textit{Bruit de Perlin} est qu'il est très peu coûteux en espace mémoire et qu'il peut générer des textures dans n'importe quelle dimensions. 
+				
+				Pour notre application nous pouvons générer une texture en deux dimensions. Cette texture formerait un potentiel artificiel, et un champ de vecteur représentant le courant peut être simplement généré en prenant le gradiant de ce potentiel. On obtient le résultat présenté en \textsc{Figure}~\ref{fig:perlin_noise}. Comme avec cette méthode, chaque pixel tient compte de ses pixels voisins, on ne se retrouve pas avec des valeurs très eloignées entre deux pixels adjacents comme avec de la génération de textures purement aléatoire, et on obtient des courants réalistes. 
+
+			\subsection{Modèle de Navier-Stokes}
+
+				Une simulation des courants marins basée sur les équations de Navier-Stokes permet de proposer une approche intéressante à la simulation de courants marins~\cite{Garau2006current}. Ils permettent notament de générer des courants prenant en compte la présence de solides dans le milieu à explorer, comme des rochers ou des piles d'éoliennes offshores qui peuvent être intéressante pour notre application.
+
+			\subsection{Choix du modèle}
+
+				Il faut maintenant choisir un modèle qui va être implémenté dans le simulateur. Pour nous aider dans ce choix, la \textsc{Table}~\ref{table:courants} reprends les principales caractéristiques des différents modèles. La complexité d'implémentation de la solution est aussi ajoutée. Elle représente à la fois le temps d'implémentation de la solution ainsi que la complexité d'execution de celle-ci en terme de ressources utilisées par le simulateur pour générer et appliquer ces courants marins sur les \gls{ROV}s. Elle est représentée par le symbole \pmark (\pmark : \textit{simple}, \pmark \pmark : \textit{intermédiaire}, \pmark \pmark \pmark : \textit{complexe}).
+
+				\begin{table}[ht]
+					\centering
+					\begin{tabular}{|l|c|c|c|c|}
+						\hline
+						Modèle de courants & Aléatoire & Structures sous-marines & Réalisme & Complexité \\
+						\hline
+						Modèle constant & \xmark & \xmark & \pmark & \pmark\\
+						\hline
+						Modèle procédural & \cmark & \xmark & \pmark \pmark & \pmark \pmark\\
+						\hline
+						Modèle Navier-Stokes & \xmark & \cmark & \pmark \pmark \pmark & \pmark \pmark \pmark \\
+						\hline
+					\end{tabular}
+					\caption{Différents modèles de simulation de courants}
+					\label{table:courants}
+				\end{table}
+
+		\section{Simulation d'ombilicaux}
+
+			\input{./sections/ombilicaux.tex}
+
+		\section{Simulation du garage d'\gls{Argos}}
+
+		\section{Simulation des structures sous-marines}
 		
-
-	\section{Simulation des courants marins}
-
-		Une simulation des courants marins basée sur les équations de Navier-Stokes permet de proposer une approche intéressante à la simulation de courants marins~\cite{Garau2006current}.
-
-	\section{Simulation d'ombilicaux}
-
-		\input{./sections/ombilicaux.tex}
-	

@@ -1,4 +1,5 @@
 \chapter{Conception et analyse du système}
+    \label{chapitre:systeme}
 
     \section{Introduction}
 
@@ -121,7 +122,7 @@
 
         \subsection{Architecture Logicielle}
 
-            En rassemblant ce qui a pu être présenté dans cette \textsc{Section}, on peut proposer une architecture logicielle pour ce simulateur présentée sur la \textsc{Figure}~\ref{fig:architecture_logicielle}.
+            En rassemblant ce qui a pu être présenté dans cette \textsc{Section}, on peut proposer une architecture logicielle pour ce simulateur présentée sur la \textsc{Figure}~\ref{fig:architecture_logicielle}. La réalisation de ce système passe donc par la réalisation d'\gls{HardwareInterface} avec les contrôleurs des robots développés par \textit{Forssea Robotics}, dans la partie \gls{ROS2Control}, afin de remplir la fonction contrainte \textbf{FC2}. Elle passe aussi par la description des \gls{ROV}s, du monde simulé ainsi que des différents \textit{plugins} permettant de décrire le comportement des capteurs et des actionneurs des robots. Enfin, le moyen de communication de ces deux parties est d'utiliser les libraries fournies par \textit{ignition robotics}, ce qui permet ausis de voir transiter les messages et donc nonus permet de diagnostiquer d'éventuels problèmes que le système pourrait rencontrer.
             
             \begin{figure}[!htb]
                 \centering
