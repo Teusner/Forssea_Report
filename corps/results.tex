@@ -2,13 +2,23 @@
 	
 	\section{Introduction}
 
-		Nous allons à présent tester le bon fonctionnement et analyser les résultats produits par le simulateur.
+		Nous avons désormais implémenté tous les éléments de notre simulateur, et nous allons donc pouvoir à présent tester le bon fonctionnement de notre système au complet afin d'analyser les résultats produits. Cela va nous permettre de tester que toutes les implémentations logicielles s'interfacent bien toutes ensemble et que le simulateur a un comportement physique correct.
 		
-		Dans un premier temps, nous allons vérifier le respect des exigences présentées dans le \textsc{Chapitre}~\ref{chapitre:systeme}, ainsi que le comportement des robots et de l'environnement développés dans les \textsc{Chapitre}~\ref{chapitre:environnement} et \textsc{Chapitre}~\ref{chapitre:robots}.
+		Dans un premier temps, nous allons vérifier que le système respecte les exigences présentées dans le \textsc{Chapitre}~\ref{chapitre:systeme}, ainsi que le comportement des robots et de l'environnement développés dans les \textsc{Chapitre}~\ref{chapitre:environnement} et \textsc{Chapitre}~\ref{chapitre:robots}.
 
-		Ensuite, nous nous pencherons sur la comparaison du simulateur avec des expérimentations faites sur le terrain, afin de déterminer si les résultats de simulations sont proches du comportement réel des robots, et si ce système permet de réduire les temps de développements en en réduisant le nombre d'essais en conditions réelles à réaliser pour valider de nouvelles fonctionnalités.
+		Ensuite, nous nous pencherons sur la comparaison du simulateur avec des expérimentations faites avec les \gls{ROV}s \gls{Argos} et \gls{Atoll}, afin de déterminer si les résultats de simulations sont proches du comportement réel des robots, et si ce système permettrait bien de réduire les temps de développements en réduisant le nombre d'essais en conditions réelles à réaliser pour valider de nouvelles fonctionnalités.
 
 	\section{Analyse du simulateur}
+
+		\subsection{Visualisation des robots}
+
+			\gls{ROS} propose un outil de visualisation qui permet de 
+
+		\subsection{Invocation des robots dans l'environnement de simulation}
+
+			Le premier test à réaliser est sûrement d'invoquer les robots dans le monde sous-marin afin de tester l'interaction des robots avec leur milieu. Il faut que le robot ait un comportement physique avec l'environnement de simulation qui soit acceptable. Globalement le robot doit avoir une flottabilité quasiment nulle mais légèrement positive, afin qu'il remonte naturellement en cas de problème avec les propulseurs.
+
+			On vérifie que les robots sont bien 
 
 	\section{Comparaison avec les robots réels}
 
