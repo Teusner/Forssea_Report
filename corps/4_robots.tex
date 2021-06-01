@@ -4,39 +4,39 @@
 	
 	\section{Introduction}
 
-		L'environnement dans lequel doivent évoluer les robots à été défini dans le \textsc{Chapitre}~\ref{chapitre:environnement}. Il est maintenant temps de simuler les \gls{ROV}s. Pour ce faire, nous allons devoir décrire les paramètres mécaniques des robots \gls{Argos} et \gls{Atoll}, et décrire le comportement de leurs capteurs et actionneurs à simuler. A la fin de cette partie nous devrions être en mesure de pleinement simuler les robots dans leur environnement, et le simulateur complet devrait ainsi respecter toutes les exigences présentées dans le \textsc{Chapitre}~\ref{chapitre:systeme}.
+		L'environnement dans lequel doivent évoluer les robots à été défini dans le \textsc{Chapitre}~\ref{chapitre:environnement}. Il est maintenant temps de simuler les \gls{ROV}s. Pour ce faire, nous allons devoir décrire les paramètres mécaniques des robots \argos{} et \atoll{}, et décrire le comportement de leurs capteurs et actionneurs à simuler. A la fin de cette partie nous devrions être en mesure de pleinement simuler les robots dans leur environnement, et le simulateur complet devrait ainsi respecter toutes les exigences présentées dans le \textsc{Chapitre}~\ref{chapitre:systeme}.
 
 	\section{Simulation des composants}
 
 		\subsection{Liste des composants}
-			En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler ces différents composants dans \gls{Gazebo}, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler, s'ils nécéssitent l'utilisation d'un \gls{Plugin}, d'une \gls{HardwareInterface} et indique les dépendances entre les robots et ces composants.
+			En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler ces différents composants dans \gazebo, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler, s'ils nécéssitent l'utilisation d'un \plugin{}, d'une \gls{HardwareInterface} et indique les dépendances entre les robots et ces composants.
 
 		\begin{table}[!htb]
 			\centering
 			\begin{adjustbox}{max width=\textwidth}
-				\begin{tabular}{|l|l|c|c|c|c|}
+				\begin{tabular}{|l|c|c|c|c|}
 					\hline
-					Composant & Description & \gls{Argos} & \gls{Atoll} & \gls{HardwareInterface} & \gls{Gazebo} \gls{Plugin} \\
+					Composant & \argos{} & \atoll{} & \gls{HardwareInterface} & \gazebo{} \plugin{} \\
 					\hline
-					\gls{Argos} Frame & Chassis d'\gls{Argos} & \cmark & \xmark & \xmark & \xmark \\
+					Chassis d'\argos{} & \cmark & \xmark & \xmark & \xmark \\
 					\hline
-					\gls{Atoll} Frame & Chassis d'\gls{Atoll} & \xmark & \cmark & \xmark & \xmark \\
+					Chassis d'\atoll{} & \xmark & \cmark & \xmark & \xmark \\
 					\hline
-					Electronic Pod & Boîtier electronique & \cmark & \cmark & \xmark & \xmark \\
+					Boîtier electronique & \cmark & \cmark & \xmark & \xmark \\
 					\hline
-					\gls{Latch} & Crochet de levage & \xmark & \cmark & \cmark & \cmark \\
+					Crochet de levage & \xmark & \cmark & \cmark & \cmark \\
 					\hline
-					\gls{Navcam} & Caméra de navigation & \cmark & \cmark & \xmark & \cmark \\
+					Caméra de navigation & \cmark & \cmark & \xmark & \cmark \\
 					\hline
-					\gls{Obscam} & Caméra d'observation & \cmark & \cmark & \xmark & \cmark \\
+					Caméra d'observation & \cmark & \cmark & \xmark & \cmark \\
 					\hline
-					Rovins & Centrale Inertielle & \cmark & \cmark & \xmark & \cmark \\
+					Centrale Inertielle & \cmark & \cmark & \xmark & \cmark \\
 					\hline
-					Spotlight & Lumières étanches & \cmark & \cmark  & \cmark & \cmark \\
+					Lumières étanches & \cmark & \cmark  & \cmark & \cmark \\
 					\hline
-					SPE75 Thruster & Propulseur & \cmark & \cmark & \cmark & \cmark \\
+					Propulseur & \cmark & \cmark & \cmark & \cmark \\
 					\hline
-					SS309 Tilt & Nacelle pour caméra & \cmark & \cmark & \cmark & \cmark \\
+					Nacelle pour caméra & \cmark & \cmark & \cmark & \cmark \\
 					\hline
 				\end{tabular}}
 			\end{adjustbox}
@@ -46,7 +46,7 @@
 
 		\subsection{Séparation Packages}
 
-			La convention \gls{ROS2} et \gls{Gazebo} pour la description des robots dans le but de les simuler prévoit de répartir le code dans différents paquets. Nous allons appliquer ici cette même convention pour chaque composant à simuler.
+			La convention \gls{ROS2} et \gazebo{} pour la description des robots dans le but de les simuler prévoit de répartir le code dans différents paquets. Nous allons appliquer ici cette même convention pour chaque composant à simuler.
 
 			\begin{itemize}
 				\renewcommand{\labelitemi}{\textbullet}
@@ -58,8 +58,8 @@
 				\end{itemize}
 				\item \textit{composant\_gazebo} :
 				\begin{itemize}[noitemsep]
-					\item \gls{Plugin} décrivant le comportement du composant dans \gls{Gazebo}
-					\item Ficher de lancement du composant dans \gls{Gazebo}
+					\item \plugin{} décrivant le comportement du composant dans \gazebo{}
+					\item Ficher de lancement du composant dans \gazebo{}
 				\end{itemize}
 			\end{itemize}
 
@@ -77,7 +77,7 @@
 				
 			\subsubsection{Model Plugin}
 			
-				Un \textit{Model Plugin} a été développé afin de décrire le comportement du \textit{Latch} dans \gls{Gazebo}. Il est basé sur la machine à états finis présenté en \textsc{Figure}~\ref{fig:latch_fsm} et crée un \gls{Joint} entre le \textit{Latch} et la structure à soulever de type encastrement. Les deux solides sont donc attachés l'un à l'autre jusqu'au moment où le signal de relâchement est envoyé au \textit{Latch} simulé, et le \gls{Joint} est alors supprimé.
+				Un \textit{Model Plugin} a été développé afin de décrire le comportement du \textit{Latch} dans \gazebo{}. Il est basé sur la machine à états finis présenté en \textsc{Figure}~\ref{fig:latch_fsm} et crée un \gls{Joint} entre le \textit{Latch} et la structure à soulever de type encastrement. Les deux solides sont donc attachés l'un à l'autre jusqu'au moment où le signal de relâchement est envoyé au \textit{Latch} simulé, et le \gls{Joint} est alors supprimé.
 
 				\begin{figure}[!htb]
 					\centering
@@ -88,7 +88,7 @@
 
 			\subsubsection{Résultats}
 
-				On obtient alors le composant simulable dans l'environnement de simulation \gls{Gazebo}, comme on peut voir sur la \textsc{Figure}~\ref{fig:latch_gazebo}.
+				On obtient alors le composant simulable dans l'environnement de simulation \gazebo{}, comme on peut voir sur la \textsc{Figure}~\ref{fig:latch_gazebo}.
 
 		\subsection{SS309 Tilt}
 
@@ -111,7 +111,7 @@
 					\label{fig:tilt_position}
 				\end{figure}
 				
-				Pour ce qui est de l'implémentation de ce comportement dans \gls{Gazebo}, on crée un \textit{Thread} qui va s'executer en boucle avec une vitesse variable. Cette vitesse sera fonction de la vitesse de commande du \textit{Tilt} notée $\omega_c$. A chaque tour de boucle, on incrémente donc la position cible de la valeur de l'incrément $d\theta$ si la différence entre la position réelle et la position commandée est plus grande que ce même incrément, et on attends le temps $h$, avec :
+				Pour ce qui est de l'implémentation de ce comportement dans \gazebo{}, on crée un \textit{Thread} qui va s'executer en boucle avec une vitesse variable. Cette vitesse sera fonction de la vitesse de commande du \textit{Tilt} notée $\omega_c$. A chaque tour de boucle, on incrémente donc la position cible de la valeur de l'incrément $d\theta$ si la différence entre la position réelle et la position commandée est plus grande que ce même incrément, et on attends le temps $h$, avec :
 
 				$$h = \frac{d\theta}{\omega_c}$$
 
@@ -149,8 +149,8 @@
 				Le \textit{Model Plugin} va se charger d'appliquer la force et la vitesse de rotation communiquée par l'\textit{Hardware Interface}. Le \textit{plugin} est chargé pour chaque propulseur simulé et permet d'accéder finement aux paramètres de la simulation. On peut alors appliquer à chaque incrément de simulation la force demandée sur le corps du propulseur et la vitesse de rotation sur la liaison pivot entre le corps du propulseur et les pâles.
 				
 
-	\section{Simulation d'Argos}
+	\section{Simulation d'\argos{}}
 
-	\section{Simulation d'Atoll}
+	\section{Simulation d'\atoll{}}
 
 	\section{Conclusion}

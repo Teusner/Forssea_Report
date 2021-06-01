@@ -67,27 +67,35 @@
 	\pagenumbering{roman}
 	\input{8_annexes}
 
-	\clearpage
-	\phantomsection
-	\chapter{Liste des Figures}
-	\makeatletter
-	\@starttoc{lof}% Print List of Figures
-	\makeatother
+	% \chapter{Liste des Figures}
+	% \makeatletter
+	% \@starttoc{lof}% Print List of Figures
+	% \makeatother
 
 
+	% \clearpage
+	% \phantomsection
+	% \chapter{Liste des tableaux}
+	% \makeatletter
+	% \@starttoc{lot}% Print List of Tables
+	% \makeatother
+
 	\clearpage
 	\phantomsection
-	\chapter{Liste des tableaux}
-	\makeatletter
-	\@starttoc{lot}% Print List of Tables
-	\makeatother
+	\label{chapter:lof}
+	\addcontentsline{toc}{chapter}{Liste des figures}
+	\listoffigures
+
+	\clearpage
+	\phantomsection
+	\label{chapter:lot}
+	\addcontentsline{toc}{chapter}{Liste des tables}
+	\listoftables
 
 	\clearpage
 	\phantomsection
 	\label{sec:index}
-	\addcontentsline{toc}{chapter}{Index}
-	\printindex
-
+	\addcontentsline{toc}{chapter}{Glossaire}
 	\printglossaries
 
 
