@@ -56,10 +56,22 @@
 
 			Un système de tests unitaires permettent aussi de tester en intégration le code implémenté, afin d'être sûr que le code est fonctionnel. En outre, ces test unitaires servent de tests de non regressions pour les versions suivantes afin de verifier que les prochaines versions logicielles ne changeront pas les comportements implémentés dans les précédentes versions.
 
-		\section{Etude de faisabilité et solution technique}
+		\subsection{Clockify}
+			
+			Clockify est un logiciel permettant de gérer les temps de développements. Il s'intègre lui aussi parfaitement avec \textit{Jira} et permet de se rendre compte du temps passé sur chaque tâche. Il suffit de démarrer un chronomètre directement dans \textit{Jira}, et le temps commence à s'écouler. A la fin d'un développement, on arrête le chronomètre en appuyant sur le bouton stop, et le temps est automatiquement additionné. On a donc une \textit{Roadmap} mise à jour régulièrement, et une idée des ressources qui ont été allouées pour le projet.
+
+		\subsection{Etude de faisabilité et solution technique}
 
 			La réalisation de chaque tâche passe par la rédaction d'une étude de faisabilité et la présentation de la solution technique, abrégé \textit{FTS}\footnote{\textit{Feasibility and Technical Solution}}. Ce document est souvent accompagné d'une \textit{POC}\footnote{\textit{Proof Of Concept}}, qui est un exemple minimal de code prouvant que le concept à implémenter est faisable et que la solution répond bien au besoin. Cela permet de ne pas passer du temps de développement sur une solution non satisfaisante.
 
 			La simulation de l'ombilical par exemple est la tache qui a nécéssité le plus de préparation. Etant donné que la simulation dans \textsc{Gazebo} d'un ombilical par éléments finis n'avait jamais été fait auparavent, la rédaction de la \textit{FTS} et la \textit{POC} ont nécéssité quelques mois de développements. J'ai pu réaliser ce travail préalable en parallèle de la fin de ma formation, durant les six premiers mois de contrat de professionnalisation. Cela a permis d'éclaircir quelques points qui semblaient triviaux à implémenter, mais qui ont finalement soulevés des problèmes nécéssitant du temps de développement. 
 			
 			Cependant, on remarque que certains problèmes se sont tout de même présentés lors de l'implémentation de cette solution dans \gls{Gazebo}. C'est le cas de l'orientation absolue des solides qui était accessible dans le code développé pour la \textit{POC}, alors que dans le \textit{plugin} implémenté pour le simulateur, seul les orientations relatives ramenées dans l'intervalle $[-\pi; \pi]$ étaient accessible.
+
+		\subsection{Diagramme de Gantt}
+			
+			Pour gérer convenablement ce projet, un diagramme de Gantt prévionnel a été mis en place au début de ce projet. Il a permis d'organiser le temps de ce stage afin de pouvoir mener à bien la réalisation de ce projet. Il a ensuite été mis à jour régulièrement afin de prendre en compte les différents changements et imprévus survenus au cours de cette année. Ces deux diagrammes sont disponibles en \textsc{Annexe}~\ref{annexe:gantt}, et permettent de se rendre compte de l'évolution du projet au cours de son développement.
+
+	\section{Conclusion}
+	
+		Ce projet de fin d'étude m'a permis de découvrir un bon nombre d'outils qui se sont avérés être indispensable dans la gestion de projet. De plus, j'ai pu appliquer des méthodes agiles de gestion de projet au sein de l'équipe robotique de \textit{Forssea Robotics}, qui sont des méthodes très utilisées dans le domaine de la robotique.

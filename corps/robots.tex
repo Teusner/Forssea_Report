@@ -7,7 +7,7 @@
 
 	\section{Simulation des composants}
 
-		\subsubsection{Liste des composants}
+		\subsection{Liste des composants}
 			En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler ces différents composants dans \gls{Gazebo}, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler, s'ils nécéssitent l'utilisation d'un \gls{Plugin}, d'une \gls{HardwareInterface} et indique les dépendances entre les robots et ces composants.
 
 		\begin{table}[!htb]
@@ -43,7 +43,7 @@
 			\label{table:components}
 		\end{table}
 
-		\subsubsection{Séparation Packages}
+		\subsection{Séparation Packages}
 
 			La convention \gls{ROS} et \gls{Gazebo} pour la description des robots dans le but de les simuler prévoit de répartir le code dans différents paquets. Nous allons appliquer ici cette même convention pour chaque composant à simuler.
 
