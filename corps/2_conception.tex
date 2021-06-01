@@ -1,5 +1,6 @@
 \chapter{Conception et analyse du système}
-    \label{chapitre:systeme}
+\chaptermark{Système}
+\label{chapitre:systeme}
 
     \section{Introduction}
 
@@ -11,7 +12,7 @@
         
         \textsc{UUV Simulator}~\cite{Manhaes_2016} est probablement le plus connu d'entre eux. C'est un simulateur de \gls{ROV} comportant un certain nombre d'éléments d'environnements simulés, comme des mondes marins, du courant ou des ombilicaux par exemple. Il propose aussi la description d'un bon nombre de robots sous-marins commercialisés, et la communauté active partage les nouveaux modèles régulièrement.
         
-        \textsc{Mars}~\cite{MARS} est un simulateur spécifique à des robot baptisés \textsc{Mars}. Il permet de supporter plusieurs \gls{ROV}s et peut être commandé par \gls{ROS} ou bien en utilisant des sockets TCP.
+        \textsc{Mars}~\cite{MARS} est un simulateur spécifique à des robot baptisés \textsc{Mars}. Il permet de supporter plusieurs \gls{ROV}s et peut être commandé par \gls{ROS2} ou bien en utilisant des sockets TCP.
         
         \textsc{Rock-Gazebo}~\cite{Rock} est un projet d'intégration de simulateur basé sur le moteur physique \gls{Gazebo} et sur le framework\footnote{Infrastructure logicielle facilitant le développement logiciel} \textsc{Robot Construction Kit}.
         
@@ -103,13 +104,13 @@
 
         \subsection{Logiciel de simulation}
 
-            L'étude de l'existant nous aura au moins permis de se rendre compte que \gls{Gazebo}~\cite{Koenig-gazebo} est largement utilisé dans le domaine de la simulation sous-marine, mais aussi plus largement dans la simulation robotique. \gls{Gazebo} est un logiciel de simulation multi-physique open-source\footnote{Code communautaire ouvert libre de redistribution et d'accès}. Il est aujourd'hui développé par la communauté \gls{OpenRobotics}. Il présente l'avantage de pouvoir communiquer avec \gls{ROS}, ce qui est une exigence importante de notre simulateur, car il doit permettre de tester l'implémentation logicielle des robots. La description des robots se fait en utilisant le language \gls{SDF}\footnote{\url{http://sdformat.org/}}, et il est possible de décrire le comportement complexe d'un composant en implémentant un \gls{Plugin}.
+            L'étude de l'existant nous aura au moins permis de se rendre compte que \gls{Gazebo}~\cite{Koenig-gazebo} est largement utilisé dans le domaine de la simulation sous-marine, mais aussi plus largement dans la simulation robotique. \gls{Gazebo} est un logiciel de simulation multi-physique open-source\footnote{Code communautaire ouvert libre de redistribution et d'accès}. Il est aujourd'hui développé par la communauté \gls{OpenRobotics}. Il présente l'avantage de pouvoir communiquer avec \gls{ROS2}, ce qui est une exigence importante de notre simulateur, car il doit permettre de tester l'implémentation logicielle des robots. La description des robots se fait en utilisant le language \gls{SDF}\footnote{\url{http://sdformat.org/}}, et il est possible de décrire le comportement complexe d'un composant en implémentant un \gls{Plugin}.
 
             L'utilisation de ce logiciel nous permet donc de remplir la fonction principale \textbf{FP1}, dans la mesure où il est possible de décrire tout les composants des \gls{ROV}s avec les trois couches visuelles, de collision et d'inertie, mais aussi les capteurs et les actionneurs dans l'environnement de simulation de \gls{Gazebo}. Il est aussi possible de décrire le comportement de l'environnement du robot dans ce simulateur, ce qui permet de remplir la fonction principale \textbf{FP2}.
 
         \subsection{Ignition Libraries}
 
-            \textit{Ignition Libraries}\footnote{\url{https://ignitionrobotics.org/libs}} est un ensemble de libraries permettant de faciliter le développement robotique. Ces librairies sont mises à disposition par \gls{OpenRobotics}. Deux libraries permettent de remplir la fonction contrainte \textbf{FC1} : \textit{Ignition-Transport} et \textit{Ignition-Msgs}. Elles permettent de faire communiquer deux parties de codes ensemble grâce à un système de messagerie basée sur l'utilisation de la bilbiothèque \textit{ProtocolBuffer} développée par \textit{Google}\footnote{\url{https://developers.google.com/protocol-buffers}}. C'est le même système de communication qui est utilisé par \gls{ROS} et \gls{Gazebo}. Il présente l'avantage de diviser le code en n\oe uds, mais aussi de pouvoir récupérer l'état du simulateur par la lecture des messages transitants sur le réseau \textit{Ignition-Transport}.
+            \textit{Ignition Libraries}\footnote{\url{https://ignitionrobotics.org/libs}} est un ensemble de libraries permettant de faciliter le développement robotique. Ces librairies sont mises à disposition par \gls{OpenRobotics}. Deux libraries permettent de remplir la fonction contrainte \textbf{FC1} : \textit{Ignition-Transport} et \textit{Ignition-Msgs}. Elles permettent de faire communiquer deux parties de codes ensemble grâce à un système de messagerie basée sur l'utilisation de la bilbiothèque \textit{ProtocolBuffer} développée par \textit{Google}\footnote{\url{https://developers.google.com/protocol-buffers}}. C'est le même système de communication qui est utilisé par \gls{ROS2} et \gls{Gazebo}. Il présente l'avantage de diviser le code en n\oe uds, mais aussi de pouvoir récupérer l'état du simulateur par la lecture des messages transitants sur le réseau \textit{Ignition-Transport}.
 
         \subsection{ROS2 Control}
 

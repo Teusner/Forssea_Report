@@ -1,7 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{rapport}[2014/10/08]
 
-\LoadClass[pdftex,11pt,a4paper,twoside]{report}
+\LoadClass[pdftex,11pt,a4paper,twoside,openright]{report}
 \RequirePackage{etex}
 \RequirePackage[a4paper,vdivide={*,22cm,4cm}]{geometry}
 
@@ -154,5 +154,9 @@
 \newtheorem{prop}{Propriété}
 \newtheorem*{prop*}{Propriétés}
 
-
 \RequirePackage{ifthen}
+
+\RequirePackage{forsseamacro}
+
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}

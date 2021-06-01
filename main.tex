@@ -37,36 +37,35 @@
 	\maketitle
 
 	% chargement du fichier abstract.tex
-	\input{abstract}
-
+	\pagestyle{plain}
+	\input{0_abstract}
 	\clearpage
 
 	% table des matieres
 	\tableofcontents
 
-	\clearpage
-
 	% Partie principale
 	\mainmatter
-
-	\input{introduction}
-
-	\input{specifications}
+	\pagestyle{fancy}
 	
-	\input{environnement}
+	\input{1_introduction}
 
-	\input{robots}
+	\input{2_conception}
+	
+	\input{3_environnement}
 
-	\input{results}
+	\input{4_robots}
 
-	\input{gestion_projet}
+	\input{5_resultats}
 
-	\input{conclusion}
+	\input{6_projet}
+
+	\input{7_conclusion}
 	
 	\appendix
 	\cleardoublepage
 	\pagenumbering{roman}
-	\input{annexes}
+	\input{8_annexes}
 
 	\clearpage
 	\phantomsection
