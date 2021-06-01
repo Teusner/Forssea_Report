@@ -1,5 +1,10 @@
 *.pdf
 
+# Adding some files to be untracked
+*.ist
+*.acr1
+*.acn1
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
