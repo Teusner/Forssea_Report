@@ -97,10 +97,10 @@
 \RequirePackage[pdftex,backref=page]{hyperref}
 \hypersetup{
   colorlinks=false,
-  linkbordercolor=red, % black
-  filecolor=black, % black
-  citebordercolor = ForestGreen, % black   
-  urlcolor=cyan,
+  linkbordercolor = black,
+  filebordercolor = black,
+  citebordercolor = YellowOrange,
+  urlbordercolor = RoyalBlue,
 }
 
 \RequirePackage[acronymlists={glo},toc]{glossaries} % glossaires
