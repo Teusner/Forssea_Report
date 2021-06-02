@@ -27,18 +27,21 @@
 
         \begin{figure}[!htb]
             \centering
-            \begin{tikzpicture}[scale=0.7, every node/.style={ellipse, align=center, scale=0.7}]
-                \node[draw,minimum height=40pt, minimum width=100pt, fill=Lavender!80!pink!100] (S) at (0, 0) {Simulateur};
-                \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C0) at (25:5.5cm) {Robot};
-                \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C1) at (155:5.5cm) {Environnement};
-                \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C2) at (205:5.5cm) {Communication};
-                \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C3) at (335:5.5cm) {Interface};
+            % \begin{tikzpicture}[scale=0.7, every node/.style={ellipse, align=center, scale=0.7}]
+            %     \node[draw,minimum height=40pt, minimum width=100pt, fill=Lavender!80!pink!100] (S) at (0, 0) {Simulateur};
+            %     \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C0) at (0:5.5cm) {Robot};
+            %     \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C1) at (72:4cm) {Environnement};
+            %     \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C2) at (144:4cm) {Communication};
+            %     \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C3) at (216:4cm) {Interface};
+            %     \node[draw,minimum height=40pt, minimum width=100pt, fill=cyan!60!pink!70] (C4) at (288:4cm) {Vizualisation};
                 
-                \draw[blue!75, line width=0.8mm] (C0) -- (S) node[midway, fill=white]{FP1};
-                \draw[blue!75, line width=0.8mm] (C1) -- (S) node[midway, fill=white]{FP2};
-                \draw[orange!80, line width=0.8mm] (C2) -- (S) node[midway, fill=white]{FC1};
-                \draw[orange!80, line width=0.8mm] (C3) -- (S) node[midway, fill=white]{FC2};
-            \end{tikzpicture}
+            %     \draw[blue!75, line width=0.8mm] (C0) -- (S) node[midway, fill=white]{FP1};
+            %     \draw[blue!75, line width=0.8mm] (C1) -- (S) node[midway, fill=white]{FP2};
+            %     \draw[orange!80, line width=0.8mm] (C2) -- (S) node[midway, fill=white]{FC1};
+            %     \draw[orange!80, line width=0.8mm] (C3) -- (S) node[midway, fill=white]{FC2};
+            %     \draw[orange!80, line width=0.8mm] (C4) -- (S) node[midway, fill=white]{FC3};
+            % \end{tikzpicture}
+            \includegraphics[scale=0.8]{imgs/diagramme_pieuvre.pdf}
             \caption{Diagramme pieuvre du simulateur}
             \label{figure:pieuvre}
         \end{figure}
