@@ -103,7 +103,7 @@
 			
 				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées succéssivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Il n'est pas non plus possible de piloter précisement la vitesse avec laquelle il se rend à cette position incrémentée. En revanche, il est tout à fait possible de connaître précisement la position du moteur, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles, et il suffit donc de compter le nombre d'incréments commandés. Enfin, on peut commander la vitesse avec laquelle le moteur se rend à cette position, en allumant les phases à la vitesse désirée.
 
-				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle s'il est alimenté via le canal de communication \textit{power}, ainsi que la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}.Il renvoit sa position et sa vitesse réelle récupérée dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velociy}.
+				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle s'il est alimenté via le canal de communication \textit{power}, ainsi que la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}. Il renvoit sa position et sa vitesse réelle récupérée dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velociy}.
 
 				\begin{figure}[!htb]
 					\centering
@@ -141,25 +141,134 @@
 				\end{algorithm}
 
 			\subsubsection{SPE75 Thrusters}
-
-				\subsubsubsection{Présentation}
 		
-					Les \textit{SPE75 Thrusters} sont les propulseurs qui permettent aux robots de se déplacer et de s'orienter dans leur environnements. Ils sont composés d'un moteur permettant de mettre en mouvement des pale qui va permettre de générer une force dans la direction du propulseur.
-					
-				\subsubsubsection{Hardware Interface}
+				Les \textit{SPE75 Thrusters} sont les propulseurs qui permettent aux robots de se déplacer et de s'orienter dans leur environnements. Ils sont composés d'un moteur permettant de mettre en mouvement des pale qui va permettre de générer une force dans la direction du propulseur.
+				
+				L'\textit{Hardware Interface} va proposer une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur qui va être transmise au robot. Elle va ensuite se charger de calculer la vitesse de rotation des pales nécéssaire à la création de cette force. Pour le composant réel, cette vitesse va être transmise au propulseur qui générer la force voulue et un couple résistant dans le sens inverse de la rotation des pâles sur le corps du propulseur qui va être transmis au robot. Pour le composant simulé, on est en mesure d'intéragir avec le simulateur afin d'appliquer des forces et des couples directement sur les objets simulés. 
+				
+				Le calcul de la vitesse de rotation des pâles en fonction de la force demandée est réalisé grâce à une interpolation de points de mesures faits sur un banc d'essai. L'idée est de faire tourner en eau le propulseur fixé sur un capteur de force à une certaine vitesse, et de mesurer la force générée par celui-ci. Ensuite, on est capable d'interpoler les points expérimentaux logiciellement à l'aide de la librairie \gls{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} et de la fonctionnalité \textit{spline}. On peut ainsi calculer une vitesse de rotation à appliquer quel que soit la valeur de force demandée.
+				
+				L'idée retenue pour ce simulateur est d'appliquer directement la force demandée sur le corps du propulseur, car il est assez difficile et coûteux en ressources de calculs de realiser de la mécanique des fluides afin de simuler pleinement le comportement des pâles du propulseur. Il est tout de même nécéssaire de faire tourner les pâles dans le simulateur, car outre l'aspect cosmétique de voir les pales tourner quand le moteur fournit une poussée au robot, le simple fait de faire tourner ce solide ayant une certaine masse dans le simulateur va générer le couple résistant sur le corps du propulseur. Ainsi cette \textit{Hardware Interface} va communiquer au \textit{Model Plugin} la force et la vitesse de rotation des pâles calculée à appliquer sur le propulseur simulé.
+	
+				Le \textit{Model Plugin} va se charger d'appliquer la force et la vitesse de rotation communiquée par l'\textit{Hardware Interface}. Le \textit{plugin} est chargé pour chaque propulseur simulé et permet d'accéder finement aux paramètres de la simulation. On peut alors appliquer à chaque incrément de simulation la force demandée sur le corps du propulseur et la vitesse de rotation sur la liaison pivot entre le corps du propulseur et les pâles.
 
-					L'\textit{Hardware Interface} va proposer une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur qui va être transmise au robot. Elle va ensuite se charger de calculer la vitesse de rotation des pales nécéssaire à la création de cette force. Pour le composant réel, cette vitesse va être transmise au propulseur qui générer la force voulue et un couple résistant dans le sens inverse de la rotation des pâles sur le corps du propulseur qui va être transmis au robot. Pour le composant simulé, on est en mesure d'intéragir avec le simulateur afin d'appliquer des forces et des couples directement sur les objets simulés. 
-					
-					Le calcul de la vitesse de rotation des pâles en fonction de la force demandée est réalisé grâce à une interpolation de points de mesures faits sur un banc d'essai. L'idée est de faire tourner en eau le propulseur fixé sur un capteur de force à une certaine vitesse, et de mesurer la force générée par celui-ci. Ensuite, on est capable d'interpoler les pointsexpérimentaux logiciellement à l'aide de la librairie \gls{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} et de la fonctionnalité \textit{spline}. On peut ainsi calculer une vitesse de rotation à appliquer quel que soit la valeur de force demandée.
-					
-					L'idée retenue pour ce simulateur est d'appliquer directement la force demandée sur le corps du propulseur, car il est assez difficile et coûteux en ressources de calculs de realiser de la mécanique des fluides afin de simuler pleinement le comportement des pâles du propulseur. Il est tout de même nécéssaire de faire tourner les pâles dans le simulateur, car outre l'aspect cosmétique de voir les pales tourner quand le moteur fournit une poussée au robot, le simple fait de faire tourner ce solide ayant une certaine masse dans le simulateur va générer le couple résistant sur le corps du propulseur. Ainsi cette \textit{Hardware Interface} va communiquer au \textit{Model Plugin} la force et la vitesse de rotation des pâles calculée à appliquer sur le propulseur simulé.
+	\section{Simulation des robots}
+
+		\subsection{Description du robot}
+
+		\subsection{Tests unitaires}
+				
+			Il est nécéssaire de vérifier si tous les composants fonctionnent correctement et ont été convenablement ajoutés dans le robot. Pour cela il est courant d'implémenter des tests unitaires. Ils permettent de tester unitairement les différentes fonctionnalités requises. Il est cependant nécéssaire d'ajouter des tests liés au choix de conception que nous avons fait, c'est à dire le fait d'avoir séparé les robots en composants simulés indépendamments les uns des autres.
+
+			En effet, nous allons avec cette méthode créer une description qui va inclure la description des sous-composants. Il faut impérativement verifier que la masse du robot, la position de son centre de gravite, sa matrice d'inertie, son volume et son centre de volume correspondent bien aux paramètres que l'équipe mécanique possède sur les robots. Pour ce faire, nous allons interprêter le fichier de description \textit{URDF} du robot en utilisant le module python \textit{urdfpy}\footnote{\url{https://github.com/mmatl/urdfpy}} afin de vérifier ces informations.
+
+			\subsubsection{Vérification de la masse}
+
+				Pour calculer la masse totale du robot, il suffit de sommer la masse de tous les composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, m_i$ représente la masse du \textit{i-ème} composant, et $m_robot$ la masse du robot, on a :
+
+				$$m_{robot} = \sum_{i=0}^{N}m_i$$
+
+			\subsection{Vérification du centre de gravité}
+
+				Pour calculer le centre de gravité du robot, on réalise une moyenne des centres de gravités pondérée par les masses des différents composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, m_i$ représente la masse du \textit{i-ème} composant et $G_i$ représente les coordonnées de son centre de gravité dans le repère monde, et $G_{robot}$ le centre de gravité du robot, on a :
+
+				$$G_{robot} = \frac{\sum_{i=0}^{N}m_i.G_i}{\sum_{i=0}^{N}m_i}$$
+
+			\subsection{Vérification de la matrice d'inertie}
+
+				Pour calculer la matrice d'inertie du robot, il faut sommer les inerties du robot. Définissons le repère \textit{0} associé au chassis du robot, et le repère \textit{i} associé au composant \textit{i}. Partons de la matrice d'inertie disponibles dans la description \textit{URDF} du robot exprimées dans le repère de chaque composant et en leur centre de gravité. Notons cette matrice $I_i^i(G_i)$. 
+				
+				Par cinématique directe, on peut obtenir la matrice de la transformation homogène $H_0^i$ entre les repères \textit{0} et \textit{i}, qui exprime la rotation et la translation entre ces deux repères. Cette matrice est composée d'une matrice de rotation $R_{3, 3}$ et d'une matrice traduisant la translation $T_{3, 1}$ entre les deux solides.
+
+				$$H_0^i = \begin{bNiceArray}{CCC:C}[margin] &&& \\ & R_{3, 3} && T_{3, 1} \\ &&& \\ \hdottedline 0 & 0 & 0 & 1 \end{bNiceArray}$$
+
+				En notant $I_i^0(G_i)$ la matrice d'inertie d'un composant exprimée en son centre de gravité dans le repère associé auc chassis du roobot, on peut exprimer le changement de base du tenseur d'inertie comme suit :
+
+				$$I_i^0(G_i) = R^T.I_i^i(G_i).R$$
+
+				Puis, il faut exprimer le décallage entre l'origine du robot, et le centre de gravité du composant, pris ici dans la convention des coordonnées homogènes et noté $d^H = \begin{bmatrix}a & b & c & 1\end{bmatrix}$. Ainsi on a :
+
+				$$d^H = H_0^i . G_i^H$$
+
+				Ensuite on peut déplacer ce tenseur à l'origine du repère \textit{0} à l'aide de la formule de \textit{König-Huygens} :
+
+				$$I_i^0(O) = I_i^0(G) + m_i.\begin{bmatrix} b^2 + c^2 & -a.b & -a.c \\ -a.b & a^2 + c^2 & -b.c \\ -a.c & -b.c & a^2 + b^2 \end{bmatrix}$$
+
+				Enfin, en possèdant le tenseur d'inertie de chaque composant dans la base \textit{0} et au même point qui est l'origine du robot, on est en mesure de sommer ces inerties pour obtenir l'inertie totale du robot.
+
+				$$I_{robot}^0(O) = \sum_{i=0}^N I_i^0(O)$$
+
+			\subsection{Vérification du volume}
+
+				Pour calculer le volume total du robot, il suffit de sommer le volume de tous les composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, v_i$ représente le volume du \textit{i-ème} composant, et $V_{robot}$ le volume du robot, on a :
+
+				$$v_{robot} = \sum_{i=0}^{N}v_i$$
+
+			\subsection{Vérification du centre de volume}
+
+				Pour calculer le centre de volume du robot, on réalise une moyenne des centres de volume pondérée par le volume des différents composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, v_i$ représente le volume du \textit{i-ème} composant, $V_i$ représente les coordonnées du centre de volume dans le repère du robot, et $V_{robot}$ le volume du robot, on a :
+
+				$$V_{robot} = \frac{\sum_{i=0}^{N}v_i.V_i}{\sum_{i=0}^{N}v_i}$$
+
+
+		\subsection{Tests unitaires d'\argos{}}
+
+			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\argos{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques.
+
+			La \textsc{Table}~\ref{table:argos_unittest} présente le résultat des tests unitaires pour Argos :
+			
+			\begin{table}[!htb]
+				\centering
+				\begin{adjustbox}{max width=\textwidth}
+					\begin{tabular}{|c|c|c|c|c|}
+						\hline
+						\textbf{Test} & \textbf{Valeur attendue} & \textbf{Valeur calculée} & \textbf{Marge d'erreur} & \textbf{Validation} \\
+						\hline
+						Masse (en $kg$) & $176$ & $176$ & $\pm 0.5$ & \cmark \\
+						\hline
+						Centre de Gravité (en $m$) & $1 \quad 1 \quad 1$ & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad 0.05 \quad 0.05$ & \cmark \\
+						\hline
+						Inertie (en $m^2.kg$) & $\begin{bmatrix}1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1\end{bmatrix}$ & $\begin{bmatrix}1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1\end{bmatrix}$ & $\pm \begin{bmatrix}0.3 & 0.1 & 0.1 \\ 0.1 & 0.3 & 0.1 \\ 0.1 & 0.1 & 0.3\end{bmatrix}$ & \cmark \\
+						\hline
+						Volume (en $m^3$) & $1$ & $1$ & $\pm 0.005$ & \cmark \\
+						\hline
+						Centre de Volume (en $m$) & $1 \quad 1 \quad 1$ & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad 0.05 \quad 0.05$ & \cmark \\
+						\hline
+					\end{tabular}
+				\end{adjustbox}
+				\caption{Tests unitaires d'\argos{}}
+				\label{table:argos_unittest}
+			\end{table}
+
+		\subsection{Tests unitaires d'\atoll{}}
+
+		Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\atoll{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques.
+
+		La \textsc{Table}~\ref{table:atoll_unittest} présente le résultat des tests unitaires pour Argos :
 		
-				\subsubsubsection{Model Plugin}
-
-					Le \textit{Model Plugin} va se charger d'appliquer la force et la vitesse de rotation communiquée par l'\textit{Hardware Interface}. Le \textit{plugin} est chargé pour chaque propulseur simulé et permet d'accéder finement aux paramètres de la simulation. On peut alors appliquer à chaque incrément de simulation la force demandée sur le corps du propulseur et la vitesse de rotation sur la liaison pivot entre le corps du propulseur et les pâles.
-
-	\section{Simulation d'\argos{}}
-
-	\section{Simulation d'\atoll{}}
+		\begin{table}[!htb]
+			\centering
+			\begin{adjustbox}{max width=\textwidth}
+				\begin{tabular}{|c|c|c|c|c|}
+					\hline
+					\textbf{Test} & \textbf{Valeur attendue} & \textbf{Valeur calculée} & \textbf{Marge d'erreur} & \textbf{Validation} \\
+					\hline
+					Masse (en $kg$) & $176$ & $176$ & $\pm 0.5$ & \cmark \\
+					\hline
+					Centre de Gravité (en $m$) & $1 \quad 1 \quad 1$ & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad 0.05 \quad 0.05$ & \cmark \\
+					\hline
+					Inertie (en $m^2.kg$) & $\begin{bmatrix}1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1\end{bmatrix}$ & $\begin{bmatrix}1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1\end{bmatrix}$ & $\pm \begin{bmatrix}0.3 & 0.1 & 0.1 \\ 0.1 & 0.3 & 0.1 \\ 0.1 & 0.1 & 0.3\end{bmatrix}$ & \cmark \\
+					\hline
+					Volume (en $m^3$) & $1$ & $1$ & $\pm 0.005$ & \cmark \\
+					\hline
+					Centre de Volume (en $m$) & $1 \quad 1 \quad 1$ & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad 0.05 \quad 0.05$ & \cmark \\
+					\hline
+				\end{tabular}
+			\end{adjustbox}
+			\caption{Tests unitaires d'\atoll{}}
+			\label{table:atoll_unittest}
+		\end{table}
 
 	\section{Conclusion}
+	
+		En conclusion, nous avons divisé le travail de simulation des robots en simulant les composants uns à uns, afin de simplifier les développements et de mettre en commun un maximum de code entre les \gls{ROV}s. Pour la plupart des composants, un \plugin{} \gazebo{} a été nécéssaire afin de décrire leur comportement dans l'environnement de simulation, et de pouvoir contrôler les robots avec le reste de l'implémentation logicielle. Enfin, nous nous sommes assurés que la simulation en composants donnait bien des paramètres mécaniques corrects pour les robots simulés par rapport au robot réel, afin d'avoir une simulation des robots ayant un comportement proche des \gls{ROV}s en conditions réelles.

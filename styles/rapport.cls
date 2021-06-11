@@ -79,6 +79,8 @@
 \RequirePackage{eurosym} % pour le symbole euro
 \RequirePackage{float}
 \RequirePackage{multicol}
+\RequirePackage{stmaryrd}
+\RequirePackage{nicematrix}
 
 \RequirePackage{tipa}
 
