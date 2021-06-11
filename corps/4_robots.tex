@@ -9,7 +9,7 @@
 	\section{Simulation des composants}
 
 		\subsection{Composition des robots}
-			En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler ces différents composants dans \gazebo, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler, s'ils nécéssitent l'utilisation d'un \plugin{}, d'une \gls{HardwareInterface} et indique les dépendances entre les robots et ces composants.
+			En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler ces différents composants dans \gazebo, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler et les dépendances entre les robots et les composants. On y retrouve aussi s'ils nécéssitent l'utilisation d'un \plugin{} \gazebo{} pour décrire leur comportement et d'une \gls{HardwareInterface} pour s'interfacer avec le reste de l'implémentation logicielle.
 
 		\begin{table}[!htb]
 			\centering
@@ -44,95 +44,101 @@
 			\label{table:components}
 		\end{table}
 
-		\subsection{Séparation Packages}
+		\subsection{Séparation en paquets}
 
-			La convention \gls{ROS2} et \gazebo{} pour la description des robots prévoit de répartir le code dans différents paquets. Nous allons appliquer ici cette même convention pour chaque composant à simuler.
+			La convention \gls{ROS2} et \gazebo{} pour la description des robots prévoit de répartir le code dans différents paquets. Nous allons appliquer ici cette même convention pour chaque composant à simuler. Pour un composant s'appellant \textit{composant}, nous aurons les paquets suivants :
 
 			\begin{itemize}
 				\renewcommand{\labelitemi}{\textbullet}
-				\item Package \textit{composant\_description} :
+				\item \textbf{composant\_description} :
 				\begin{itemize}[noitemsep]
 					\item Description URDF comportant les couches visuelles, inertielles et de collision
 					\item Maillages 3D permettant de représenter visuellement le composant
 					\item Fichier de configuration pour visualiser le composant dans RViz2
 				\end{itemize}
-				\item Package \textit{composant\_gazebo} :
+				\item \textbf{composant\_gazebo} :
 				\begin{itemize}[noitemsep]
-					\item \plugin{} décrivant le comportement du composant dans \gazebo{}
+					\item \textit{Plugin} décrivant le comportement du composant dans \gazebo{}
 					\item Ficher de lancement du composant dans \gazebo{}
 				\end{itemize}
 			\end{itemize}
 
-		Nous allons à présent détailler l'implémentation de certains composants qui ont un comportement intéressant à développer.
+		Nous allons à présent détailler l'implémentation réalisée pour simuler ces composants.
 
 		\subsection{Implémentation des composants}
 
 			\subsubsection{Latch}
 
-				\subsubsubsection{Présentation}
+				Le \textit{Latch} est un composant propre au robot \gls{Atoll}. Ce crochet de levage permettant de transporter des structures sous-marines pouvant peser jusqu'à $1,5\ T$ est fabriqué par Forssea Robotics, et permet de positionner et de transporter des balises de positionnement acoustique sur les fonds marins.
 
-					Le Latch est un composant propre au robot \gls{Atoll}. Ce crochet de levage permettant de transporter des structures sous-marines pouvant peser jusqu'à $1,5\ T$ est fabriqué par Forssea Robotics, et permet de positionner et de transporter des balises de positionnement acoustique sur les fonds marins.
+				L'architecture logicielle du \textit{Latch} est présentée en \textsc{Figure}~\ref{fig:sa_latch}. Le composant reçoit deux informations de la part de l'implémentation logicielle : s'il est alimenté via le canal de communication \textit{power} et le signal de relâchement du crochet sur le canal \textit{release}. En retour, le crochet de levage renvoit son état à l'aide d'une sonde à effet hall qui indique si le crochet est fermé ou ouvert sur le canal \textit{sensor}.
 
-				\subsubsubsection{Hardware Interface}
+				\begin{figure}[!htb]
+					\centering
+					\includegraphics[]{imgs/components/sa_latch.pdf}
+					\caption{Architecture logicielle du \textit{Latch}}
+					\label{fig:sa_latch}
+				\end{figure}
+							
+				Le \plugin{} \gazebo{} développé afin de décrire le comportement du \textit{Latch} est basé sur la machine à états finis présenté en \textsc{Figure}~\ref{fig:latch_fsm}. L'idée est de créer une liaison encastrement dynamique entre le \textit{Latch} et la structure sous-marine à transporter. La logique implémentée dans la machine à état finis permet de simuler le fait que mécaniquement le crochet s'accroche automatiquement à un point d'attache de structure sous-marine qui rentrerait dans le composant, et que l'on ne commande que le relachement de cette structure par l'ouverture du crochet.
 
+				\begin{figure}[!htb]
+					\centering
+					\includegraphics[scale=0.8]{imgs/latch_fsm.pdf}
+					\caption{Machine à états du \textit{Latch}}
+					\label{fig:latch_fsm}
+				\end{figure}
 
-				
-				\subsubsubsection{Model Plugin}
-				
-					Un \textit{Model Plugin} a été développé afin de décrire le comportement du \textit{Latch} dans \gazebo{}. Il est basé sur la machine à états finis présenté en \textsc{Figure}~\ref{fig:latch_fsm} et crée un \gls{Joint} entre le \textit{Latch} et la structure à soulever de type encastrement. Les deux solides sont donc attachés l'un à l'autre jusqu'au moment où le signal de relâchement est envoyé au \textit{Latch} simulé, et le \gls{Joint} est alors supprimé.
+				On obtient alors le composant simulable dans l'environnement de simulation \gazebo{} et visualisable dans \rviz{} comme on peut le voir sur la \textsc{Figure}~\ref{fig:latch_gazebo_rviz}.
 
-					\begin{figure}[!htb]
-						\centering
-						\includegraphics[scale=0.8]{imgs/latch_fsm.pdf}
-						\caption{Machine à états du \textit{Latch}}
-						\label{fig:latch_fsm}
-					\end{figure}
-
-				\subsubsubsection{Résultats}
-
-					On obtient alors le composant simulable dans l'environnement de simulation \gazebo{}, comme on peut voir sur la \textsc{Figure}~\ref{fig:latch_gazebo}.
+				\begin{figure}[!htb]
+					\centering
+					\caption{Simulation du Latch}
+					\label{fig:latch_gazebo_rviz}
+				\end{figure}
 		
 			\subsubsection{SS309 Tilt}
 
-				\subsubsubsection{Présentation}
+				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position, et l'axe se déplace avec une vitesse de rotation spécifiée.
+			
+				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées succéssivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Il n'est pas non plus possible de piloter précisement la vitesse avec laquelle il se rend à cette position incrémentée. En revanche, il est tout à fait possible de connaître précisement la position du moteur, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles, et il suffit donc de compter le nombre d'incréments commandés. Enfin, on peut commander la vitesse avec laquelle le moteur se rend à cette position, en allumant les phases à la vitesse désirée.
 
-					Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter l'\gls{Obscam}. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position, et l'axe se déplace avec une vitesse de rotation spécifiée.
+				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle s'il est alimenté via le canal de communication \textit{power}, ainsi que la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}.Il renvoit sa position et sa vitesse réelle récupérée dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velociy}.
+
+				\begin{figure}[!htb]
+					\centering
+					\includegraphics[]{imgs/components/sa_tilt.pdf}
+					\caption{Architecture logicielle de la nacelle de caméra}
+					\label{fig:sa_tilt}
+				\end{figure}
+
+				Nous allons à présent distinguer la position réelle de l'arbre moteur, la position cible et la position commandée. La position réelle est la position de l'arbre moteur dans le simulateur. La position cible est un multiple de l'incrément d'angle à laquelle doit se rendre le moteur à l'instant actuel. La position commandée la position finale dans laquelle doit se retrouver l'arbre moteur et peut être une position réelle quelconque. Le moteur ne sera capable que de se rendre à la position multiple de la valeur de l'incrément d'angle la plus proche de la position commandée. La \textsc{Figure}~\ref{fig:tilt_position} reprends ces différentes notions. En commandant la vitesse à laquelle on incrémente la position cible, on contrôle l'axe en vitesse.
+
+				\begin{figure}[!htb]
+					\centering
+					\includegraphics[width=0.6\textwidth]{imgs/stepper_motor.png}
+					\caption{Simulation d'un moteur pas-à-pas}
+					\label{fig:tilt_position}
+				\end{figure}
 				
-				\subsubsubsection{Hardware Interface}
+				Pour ce qui est de l'implémentation de ce comportement dans \gazebo{}, on crée un \textit{Thread} qui va s'executer en boucle avec une vitesse variable. Cette vitesse sera fonction de la vitesse de commande du \textit{Tilt} notée $\omega_c$. A chaque tour de boucle, on incrémente donc la position cible de la valeur de l'incrément $d\theta$ si la différence entre la position réelle et la position commandée est plus grande que ce même incrément, et on attends le temps $h$, avec :
 
-				\subsubsubsection{Model Plugin}
+				$$h = \frac{d\theta}{\omega_c}$$
 
-					Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées succéssivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Il n'est pas non plus possible de piloter précisement la vitesse avec laquelle il se rend à cette position incrémentée. En revanche, il est tout à fait possible de connaître précisement la position du moteur, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles, et il suffit donc de compter le nombre d'incréments commandés. Enfin, on peut commander la vitesse avec laquelle le moteur se rend à cette position, en allumant les phases à la vitesse désirée.
-
-					Nous allons à présent distinguer la position réelle de l'arbre moteur, la position cible et la position commandée. La position réelle est la position de l'arbre moteur dans le simulateur. La position cible est un multiple de l'incrément d'angle à laquelle doit se rendre le moteur à l'instant actuel. La position commandée la position finale dans laquelle doit se retrouver l'arbre moteur et peut être une position réelle quelconque. Le moteur ne sera capable que de se rendre à la position multiple de la valeur de l'incrément d'angle la plus proche de la position commandée. La \textsc{Figure}~\ref{fig:tilt_position} reprends ces différentes notions. En commandant la vitesse à laquelle on incrémente la position cible, on contrôle l'axe en vitesse.
-
-					\begin{figure}[!htb]
-						\centering
-						\includegraphics[width=0.6\textwidth]{imgs/stepper_motor.png}
-						\caption{Simulation d'un moteur pas-à-pas}
-						\label{fig:tilt_position}
-					\end{figure}
-					
-					Pour ce qui est de l'implémentation de ce comportement dans \gazebo{}, on crée un \textit{Thread} qui va s'executer en boucle avec une vitesse variable. Cette vitesse sera fonction de la vitesse de commande du \textit{Tilt} notée $\omega_c$. A chaque tour de boucle, on incrémente donc la position cible de la valeur de l'incrément $d\theta$ si la différence entre la position réelle et la position commandée est plus grande que ce même incrément, et on attends le temps $h$, avec :
-
-					$$h = \frac{d\theta}{\omega_c}$$
-
-					\begin{algorithm}[!htb]
-						\caption{Algorithme de simulation d'un moteur pas-à-pas}
-						\label{algo:stepper_motor}
-						\begin{algorithmic}
-							\WHILE {true}
-								\STATE read $\theta_r$, $\omega_c$
-								\IF {$|\theta_c - \theta_r| > d\theta$}
-									\STATE $\theta_t \leftarrow \theta_t + d\theta$
-								\ENDIF
-								\STATE $h \leftarrow \frac{d\theta}{\omega_c}$
-								\STATE sleep $h$
-							\ENDWHILE
-						\end{algorithmic}
-					\end{algorithm}
-
-				\subsubsubsection{Résultats}
+				\begin{algorithm}[!htb]
+					\caption{Algorithme de simulation d'un moteur pas-à-pas}
+					\label{algo:stepper_motor}
+					\begin{algorithmic}
+						\WHILE {true}
+							\STATE read $\theta_r$, $\omega_c$
+							\IF {$|\theta_c - \theta_r| > d\theta$}
+								\STATE $\theta_t \leftarrow \theta_t + d\theta$
+							\ENDIF
+							\STATE $h \leftarrow \frac{d\theta}{\omega_c}$
+							\STATE sleep $h$
+						\ENDWHILE
+					\end{algorithmic}
+				\end{algorithm}
 
 			\subsubsection{SPE75 Thrusters}
 
