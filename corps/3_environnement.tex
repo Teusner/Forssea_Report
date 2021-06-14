@@ -143,15 +143,15 @@
 						
 						$$\overrightarrow{F} = - \left(K_p \cdot e(t) + K_d \cdot \dot e(t) + K_i \cdot \int_{0}^te(\tau) \cdot d\tau \right) \cdot \overrightarrow{u}$$
 						
-						Dans cette expression, $\overrightarrow{u}$ est le vecteur unitaire orienté du n\oe ud courant vers le n\oe ud voisin, $e$ est l'erreur de positionnement du n\oe ud, $\dot e$ est la dérivée de cette erreur et $\int_{0}^te(\tau) \cdot d\tau$ est l'intégrale de cette erreur. La dérivée et l'intégrale de cette erreur sont estimées numériquement en utilisant respectivement la méthode d'Euler et la méthode des rectangle. On a :
+						Dans cette expression, $\overrightarrow{u}$ est le vecteur unitaire orienté du n\oe ud courant vers le n\oe ud voisin, $e$ est l'erreur de positionnement du n\oe ud, $\dot e$ est la dérivée de cette erreur et $\int_{0}^te(\tau) \cdot d\tau$ est l'intégrale de cette erreur. La dérivée et l'intégrale de cette erreur sont estimées numériquement en utilisant respectivement la méthode d'Euler et la méthode des rectangle. On trouve les expressions de $\overrightarrow{u}$ et $e(t)$ :
 						
 						$$\overrightarrow{u} = \frac{\mathbf{p_c} - \mathbf{p_p}}{||\mathbf{p_c} - \mathbf{p_p}||} \qquad e(t) = \frac{||\mathbf{p_c} - \mathbf{p_p}|| - l}{||\mathbf{p_c} - \mathbf{p_p}||}$$
 						
-						Ces deux forces $\overrightarrow{F_p}$ et $\overrightarrow{F_s}$ peuvent en outre être exprimées en utilisant l'expression de $\overrightarrow{F}$, en prenant soin d'utiliser le bon élément considéré et l'élément précédent.
+						Les deux forces $\overrightarrow{F_p}$ et $\overrightarrow{F_s}$ peuvent enfin être exprimées en utilisant l'expression de $\overrightarrow{F}$ et en prenant soin d'adapter les expressions de $\overrightarrow{u}$ et $e(t)$ en actualisant l'élément courant et l'élément précédent.
 					\end{itemize}
 				\end{description}
 			
-				Ainsi on a exprimé les forces nécéssaires à la simulation de l'ombilical par éléments finis. La \textsc{Figure}~\ref{fig:modelization} montre la modélisation du problème. Les différents n\oe uds sont représentés en bleu. Pour des raisons de clarté, les différentes forces ne sont représentées que sur un seul n\oe ud mais sont bien évidemment appliquées sur tous les n\oe uds, et la représentation de l'ombilical est volontairement tronquée pour des questions de lisibilitées.
+				Ainsi on a exprimé les forces nécéssaires à la simulation de l'ombilical par éléments finis. La \textsc{Figure}~\ref{fig:modelization} montre la modélisation du problème. Les différents n\oe uds sont représentés en bleu. Pour des raisons de clarté, les différentes forces ne sont représentées que sur un seul n\oe ud mais sont bien évidemment appliquées sur tous les n\oe uds, et la représentation de l'ombilical est volontairement tronquée.
 			
 				\begin{figure}[!htb]
 					\centering
@@ -178,11 +178,8 @@
 						\draw[vector] (T3) -- (fn) node[yshift=1em]{$\overrightarrow{F_n}$};
 						\draw[vector] (T3) -- +(270:1cm) node[yshift=-.6em]{$\overrightarrow{P}$};
 						\draw[vector] (T3) -- +(90:1cm) node[yshift=.6em]{$\overrightarrow{\Pi}$};
-						\draw[vector] (T3) -- +(225:0.8cm) node[xshift=-.4em]{$\overrightarrow{F_f}$};
+						\draw[vector] (T3) -- +(225:0.8cm) node[xshift=-.5em]{$\overrightarrow{F_f}$};
 						\draw[vector,Green] (T3) -- +(45:1cm) node[xshift=.2em,yshift=.4em]{$\overrightarrow{v}$};
-			
-			
-						
 			
 						\draw[->,red,very thick] (0,0) -- (-0.4,-0.6) node[left] {$\mathbf{x}$}; 
 						\draw[->,Green,very thick] (0,0) -- (1,0) node[above left] {$\mathbf{y}$}; 
