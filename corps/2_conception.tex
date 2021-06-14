@@ -4,13 +4,13 @@
 
     \section{Introduction}
 
-        Dans ce chapitre nous allons réaliser les premières étapes de la conception du système de simulation. Dans un premier temps nous allons réliser une étude de l'existant afin de rendre compte des solutions déjà existante qui permettent de simuler des environnements marins et sous-marins. Ensuite, nous allons établir les spécifications fonctionnelles de notre simulateur afin de définir les différentes foncitons que devra remplir notre système. Puis nous allons élaborer les spécifications techniques de notre système, c'est à dire que nous allons déterminer les solutions techniques à employer afin de respecter le cahier des charges fonctionnelles. Finalement, nous seront en mesure de présenter une architecture logicielle pour notre simulateur, c'est-à-dire que nous allons présenter la manière dont vont s'agencer les différentes solutions techniques afin de produire le simulateur.
+        Dans ce chapitre nous allons réaliser les premières étapes de la conception du système de simulation. Dans un premier temps nous allons réliser une étude de l'existant afin de rendre compte des solutions permettant de simuler des environnements marins et sous-marins. Ensuite, nous allons établir les spécifications fonctionnelles de notre simulateur afin de définir les différentes fonctions que devra remplir notre système. Puis, nous allons élaborer les spécifications techniques de notre système, c'est à dire que nous allons déterminer les solutions techniques à employer afin de respecter le cahier des charges fonctionnelles. Enfin, nous seront en mesure de présenter une architecture logicielle pour notre simulateur, c'est-à-dire que nous allons présenter la manière dont vont s'agencer les différentes solutions techniques afin de produire le simulateur.
 
     \section{Etude de l'existant}
 
         La simulation de milieux marins est quelque chose de connu dans le domaine de la robotique, et il en existe aujourd'hui déjà de nombreux~\cite{Manhaes_2016, bingham19toward, MARS, Rock}. Ces simulateurs proposent tous un modèle de flottabilité pour les objets à simuler, ce qui permet de pouvoir définir à la fois des bateaux et des robots sous-marins. Cela permet donc de pouvoir simuler le comportement des \gls{ROV}s dans l'eau. Ils proposent ensuite tous leur lot de spécificités qui permettent d'avoir des éléments supplémentaires dans notre simulation.
         
-        \textsc{UUV Simulator}~\cite{Manhaes_2016} est probablement le plus connu d'entre eux. C'est un simulateur de \gls{ROV} comportant un certain nombre d'éléments d'environnements simulés, comme des mondes marins, du courant ou des ombilicaux par exemple. Il propose aussi la description d'un bon nombre de robots sous-marins commercialisés, et la communauté active partage les nouveaux modèles régulièrement.
+        \textsc{UUV Simulator}~\cite{Manhaes_2016} est probablement le plus connu d'entre eux. C'est un simulateur de \gls{ROV} comportant un certain nombre d'éléments d'environnements simulés, comme des mondes marins, du courant ou des ombilicaux par exemple. Il propose aussi la description d'un bon nombre de robots sous-marins commercialisés, et la communauté active partage de nouveaux modèles régulièrement.
         
         \textsc{Mars}~\cite{MARS} est un simulateur spécifique à des robot baptisés \textsc{Mars}. Il permet de supporter plusieurs \gls{ROV}s et peut être commandé par \gls{ROS2} ou bien en utilisant des sockets TCP.
         
@@ -18,7 +18,7 @@
         
         Le simulateur \textsc{VRX}~\cite{bingham19toward} est un projet open-source de robotique marine dont un simulateur a été implémenté sur la base de \gazebo{}. Il propose un ensemble d'environnement, de modèles et de plugin permettant la simulation de missions de vaisseaux de surface, avec notamment la possibilité de prendre en compte la présence de vagues et de vent à la surface.
 
-        Ces simulateurs proposent tous des spécificités différentes et intéressantes. Cependant, notre application de simulation de \gls{ROV}s pour \textsc{Forssea Robotics} est assez contrainte. En effet, l'existance de composants spécifiques, comme la simulation du \gls{Latch} ainsi que la \gls{frameLBL} rendent l'adaptation de simulateurs déjà existants trop difficile. C'est pourquoi il est nécéssaire de réaliser notre propre simulateur.
+        Ces simulateurs proposent tous des spécificités différentes et intéressantes. Cependant, notre application de simulation de \gls{ROV}s pour \textsc{Forssea Robotics} est assez contrainte. En effet, l'existance de composants spécifiques, comme la simulation de structures sous-marines transportables rendent l'adaptation de simulateurs déjà existants trop difficile. C'est pourquoi il est nécéssaire de réaliser notre propre simulateur.
 
     \section{Spécifications fonctionnelles}
         \label{sec:spec_fonc}
@@ -107,13 +107,19 @@
 
         \subsection{Logiciel de simulation}
 
-            L'étude de l'existant nous aura au moins permis de se rendre compte que \gazebo{}~\cite{Koenig-gazebo} est largement utilisé dans le domaine de la simulation sous-marine, mais aussi plus largement dans la simulation robotique. \gazebo{} est un logiciel de simulation multi-physique \textit{open-source}\footnote{Code communautaire ouvert libre de redistribution et d'accès}. Il est aujourd'hui développé par la communauté \textit{Open Robotics}\footnote{\url{https://www.openrobotics.org/}}. Il présente l'avantage de pouvoir communiquer avec \gls{ROS2}, ce qui est une exigence importante de notre simulateur, car il doit permettre de tester l'implémentation logicielle des robots. La description des robots se fait en utilisant le language \gls{SDF}\footnote{\url{http://sdformat.org/}}, et il est possible de décrire le comportement complexe d'un composant en implémentant un \plugin{}.
+            L'étude de l'existant nous aura au moins permis de se rendre compte que \gazebo{}~\cite{Koenig-gazebo} est largement utilisé dans le domaine de la simulation sous-marine, mais aussi plus largement dans la simulation robotique. \gazebo{} est un logiciel de simulation multi-physique \textit{open-source}\footnote{Code communautaire ouvert libre de redistribution et d'accès}. Il est aujourd'hui développé par la communauté \textit{Open Robotics}\footnote{\url{https://www.openrobotics.org/}}.
+            
+            Il est possible de décrire précisément les robots, c'est-à-dire de décrire les couches visuelles, d'inerties et de collisions des robots afin de les simuler dans \gazebo{} en utilisant le language \gls{SDF}\footnote{\url{http://sdformat.org/}}. Pour décrire le comportement de composants plus complexes comme des capteurs ou des actionneurs, un système de \textit{plugins} est disponible afin de laisser les développeurs ajouter des fonctionnalités à \gazebo{}. Ainsi la fonction principale \textbf{FP1} est remplie, car on est en mesure de simuler les robots avec des paramètres mécaniques proches du robot réel.
 
-            L'utilisation de ce logiciel nous permet donc de remplir la fonction principale \textbf{FP1}, dans la mesure où il est possible de décrire tout les composants des \gls{ROV}s avec les trois couches visuelles, de collision et d'inertie, mais aussi les capteurs et les actionneurs dans l'environnement de simulation de \gazebo{}. Il est aussi possible de décrire le comportement de l'environnement du robot dans ce simulateur, ce qui permet de remplir la fonction principale \textbf{FP2}.
+            De même, l'environnement est décrit à l'aide du language \gls{SDF} et un système de \textit{plugins} permet d'intéragir avec l'environnement de simulation afin d'ajouter des forces, des couples, ou bien des marqueurs visuels par exmple. Cela permet de remplir la fonction principale \textbf{FP2}.
+
+            Ensuite, l'état du système est directement visualisable sur \gazebo{}. En effet, ce logiciel réalise la simulation et montre les robots évoluants dans leur environnement simulé, ce qui permet aussi de remplir une partie de la fonction contrainte \textbf{FC1}.
+
+            Enfin, ce logiciel présente l'avantage de pouvoir communiquer avec \gls{ROS2}, ce qui satisfait la fonction contrainte \textbf{FC2}, en interfaçant le simulateur avec le reste de l'implémentation logicielle des robots.
 
         \subsection{Ignition Libraries}
 
-            \textit{Ignition Libraries}\footnote{\url{https://ignitionrobotics.org/libs}} est un ensemble de libraries permettant de faciliter le développement robotique. Deux libraries permettent de remplir la fonction contrainte \textbf{FC1} : \textit{Ignition-Transport} et \textit{Ignition-Msgs}. Elles permettent de faire communiquer deux parties de codes ensemble grâce à un système de messagerie basée sur l'utilisation de la bilbiothèque \textit{ProtocolBuffer} développée par \textit{Google}\footnote{\url{https://developers.google.com/protocol-buffers}}. C'est le même système de communication qui est utilisé par \gls{ROS2} et \gazebo{}. Il présente l'avantage de diviser le code en n\oe uds pouvant s'exécuter en parallèle et communicant ensemble par ces librairies, mais aussi de pouvoir récupérer l'état du simulateur par la lecture des messages transitants sur le réseau \textit{Ignition-Transport}.
+            \textit{Ignition Libraries}\footnote{\url{https://ignitionrobotics.org/libs}} est un ensemble de libraries permettant de faciliter le développement robotique. Deux libraries permettent de compléter la fonction contrainte \textbf{FC1} : \textit{Ignition-Transport} et \textit{Ignition-Msgs}. Elles permettent de faire communiquer deux parties de codes ensemble grâce à un système de messagerie basée sur l'utilisation de la bibliothèque \textit{ProtocolBuffer} développée par \textit{Google}\footnote{\url{https://developers.google.com/protocol-buffers}}. C'est le même système de communication qui est utilisé par \gls{ROS2} et \gazebo{}. Ce système de communication présente l'avantage de diviser le code en n\oe uds pouvant s'exécuter en parallèle et communiquant ensemble par ces librairies, mais aussi de pouvoir récupérer l'état du simulateur par la lecture des messages transitants sur le réseau \textit{Ignition-Transport}. Ainsi on peut précisément savoir ce qu'il se passe dans le simulateur à cahque instant.
 
         \subsection{ROS2 Control}
 
@@ -130,7 +136,9 @@
 
         \subsection{Architecture Logicielle}
 
-            En rassemblant ce qui a pu être présenté dans cette chapitre, on peut proposer l'architecture logicielle présentée sur la \textsc{Figure}~\ref{fig:architecture_logicielle} pour ce simulateur. La réalisation de ce système passe donc par l'implémentation d'\textit{Hardware Interface} avec les contrôleurs des robots développés par \textit{Forssea Robotics}, dans la partie \gls{ROS2Control}, afin de remplir la fonction contrainte \textbf{FC2}. Elle passe aussi par la description des \gls{ROV}s, du monde simulé ainsi que des différents \textit{plugins} permettant de décrire le comportement des capteurs et des actionneurs des robots. Enfin, le moyen de communication de ces deux parties est d'utiliser les libraries fournies par \textit{ignition robotics}, ce qui permet ausis de voir transiter les messages et donc nonus permet de diagnostiquer d'éventuels problèmes que le système pourrait rencontrer.
+            En rassemblant ce qui a pu être présenté dans cette chapitre, on peut proposer l'architecture logicielle présentée sur la \textsc{Figure}~\ref{fig:architecture_logicielle} pour ce simulateur.
+            
+            Ce système nécessite donc dans un premier la description pour \gazebo{} d'un monde de simulation sous-marin ainsi que la description des \gls{ROV}s dans un premier temps afin de pouvoir simuler les robots. Puis vient l'implémentation de \textit{plugins} \gazebo{} et d'\textit{Hardware Interface} pour interagir et controller ces robots, qui communique ensemble par le biai des librairies fournies par \textit{ignition robotics}.
             
             \begin{figure}[!htb]
                 \centering
@@ -141,4 +149,5 @@
 
     \section{Conclusion}
 
-        En conlusion, nous avons défini dans cette parties les attentes de ce simulateur. Ces exigences nous ont permis de choisir des solutions techniques pour réaliser ce système et de proposer une architecture logicielle à mettre en place pour simuler correctement les \gls{ROV}s de \textit{Forssea Robotics}. Nous sommes maintenant en mesure de lancer le développement de notre simulation.
+        En conlusion, nous avons défini dans ce chapitre les exigences attendues pour ce simulateur. Elles nous ont permis de choisir des solutions techniques adaptées à la réalisation de ce système et nous avons donc pu proposer une architecture logicielle à mettre en place pour simuler correctement les \gls{ROV}s de \textit{Forssea Robotics}. Nous allons donc pouvoir commencer le développement de ce système en utilisant les outils mis en place dans ce chapitre.
+        

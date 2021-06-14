@@ -82,6 +82,13 @@
 \RequirePackage{stmaryrd}
 \RequirePackage{nicematrix}
 
+\newcommand\inputpgf[2]{{
+  \let\pgfimageWithoutPath\pgfimage
+  \renewcommand{\pgfimage}[2][]{\pgfimageWithoutPath[##1]{#1/##2}}
+  \input{#1/#2}
+}}
+
+
 \RequirePackage{tipa}
 
 \RequirePackage{pgf,tikz}
