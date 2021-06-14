@@ -133,19 +133,40 @@
 				\begin{description}
 					\item [Bilan des Forces] \
 					\begin{itemize}
-						\item[\textbullet] \textbf{Poids $\overrightarrow{P}$} : En considérant que chaque élément a une masse $m$, et en notant $g$ l'accélération de pesanteur, on a : $$\overrightarrow{P} = \begin{bmatrix}0\\ 0\\ -m.g\end{bmatrix}$$
+						\item[\textbullet] \textbf{Poids $\overrightarrow{P}$} : En considérant que chaque élément a une masse $m$, et en notant $g$ l'accélération de pesanteur, on a : 
+						
+						\begin{equation}
+							\overrightarrow{P} = \begin{bmatrix}0\\ 0\\ -m.g\end{bmatrix}
+							\label{eq:poids}
+						\end{equation}
 				
-						\item[\textbullet] \textbf{Poussée d'Archimède $\overrightarrow{\Pi}$} : Si on note le volume d'un élément $V$ et $\rho$ la masse volumique du fluide dans lequel est immergé l'ombilical, on a : $$\overrightarrow{\Pi} = \begin{bmatrix}0\\ 0\\ \rho.V.g\end{bmatrix}$$
+						\item[\textbullet] \textbf{Poussée d'Archimède $\overrightarrow{\Pi}$} : Si on note le volume d'un élément $V$ et $\rho$ la masse volumique du fluide dans lequel est immergé l'ombilical, on a : 
+						
+						\begin{equation}
+							\overrightarrow{\Pi} = \begin{bmatrix}0\\ 0\\ \rho.V.g\end{bmatrix}
+							\label{eq:archimede}
+						\end{equation}
 				
-						\item[\textbullet] \textbf{Trainée hydrodynamique $\overrightarrow{F_f}$} : En notant $A$ la surface de référence, $C_D$ le coefficient de trainée, $\rho$ la masse volumique du fluide, et $\overrightarrow{v}$ la vitesse du n\oe ud, on a : $$\overrightarrow{F_f} = - \frac{1}{2} \cdot \rho \cdot A \cdot C_D \cdot ||\overrightarrow{v}|| \cdot \overrightarrow{v}$$
+						\item[\textbullet] \textbf{Trainée hydrodynamique $\overrightarrow{F_f}$} : En notant $A$ la surface de référence, $C_D$ le coefficient de trainée, $\rho$ la masse volumique du fluide, et $\overrightarrow{v}$ la vitesse du n\oe ud, on a : 
+					
+						\begin{equation}
+							\overrightarrow{F_f} = - \frac{1}{2} \cdot \rho \cdot A \cdot C_D \cdot ||\overrightarrow{v}|| \cdot \overrightarrow{v}
+							\label{eq:drag}
+						\end{equation}
 						
 						\item[\textbullet] \textbf{Force inter-éléments $\overrightarrow{F_p}$ et $\overrightarrow{F_s}$} : Il est difficile de trouver une forme analytique pour décrire cette force. Nous avons toutefois trouver un moyen de l'exprimer. C'est pourquoi nous allons utiliser ici un modèle comportemental de ces forces. Nous savons que chaque n\oe ud doit se trouver à une distance $l$ de ses voisins. En notant $p_{p}$ la position du n\oe ud précédent et $p_{c}$ la position du n\oe ud considéré, en introduisant les trois coefficients $K_p$, $K_d$ et $K_i$ qui vont nous permettre de régler la dynamique du système, on est en mesure de proposer le modèle de force comportemental suivant :
 						
-						$$\overrightarrow{F} = - \left(K_p \cdot e(t) + K_d \cdot \dot e(t) + K_i \cdot \int_{0}^te(\tau) \cdot d\tau \right) \cdot \overrightarrow{u}$$
+						\begin{equation}
+							\overrightarrow{F} = - \left(K_p \cdot e(t) + K_d \cdot \dot e(t) + K_i \cdot \int_{0}^te(\tau) \cdot d\tau \right) \cdot \overrightarrow{u}
+							\label{eq:pid}
+						\end{equation}
 						
-						Dans cette expression, $\overrightarrow{u}$ est le vecteur unitaire orienté du n\oe ud courant vers le n\oe ud voisin, $e$ est l'erreur de positionnement du n\oe ud, $\dot e$ est la dérivée de cette erreur et $\int_{0}^te(\tau) \cdot d\tau$ est l'intégrale de cette erreur. La dérivée et l'intégrale de cette erreur sont estimées numériquement en utilisant respectivement la méthode d'Euler et la méthode des rectangle. On trouve les expressions de $\overrightarrow{u}$ et $e(t)$ :
-						
-						$$\overrightarrow{u} = \frac{\mathbf{p_c} - \mathbf{p_p}}{||\mathbf{p_c} - \mathbf{p_p}||} \qquad e(t) = \frac{||\mathbf{p_c} - \mathbf{p_p}|| - l}{||\mathbf{p_c} - \mathbf{p_p}||}$$
+						Dans cette expression, $\overrightarrow{u}$ est le vecteur unitaire orienté du n\oe ud courant vers le n\oe ud voisin, $e$ est l'erreur de positionnement du n\oe ud, $\dot e$ est la dérivée de cette erreur et $\int_{0}^te(\tau) \cdot d\tau$ est l'intégrale de cette erreur. La dérivée et l'intégrale de cette erreur sont estimées numériquement en utilisant respectivement la méthode d'Euler et la méthode des rectangle. On trouve les expressions de $\overrightarrow{u}$ et $e(t)$ pour deux éléments en position $\mathbf{p_c}$ et $\mathbf{p_p}$ tel que $||\mathbf{p_c} - \mathbf{p_p}|| \neq 0$ :
+
+						\begin{equation}
+							\overrightarrow{u} = \frac{\mathbf{p_c} - \mathbf{p_p}}{||\mathbf{p_c} - \mathbf{p_p}||} \qquad e(t) = \frac{||\mathbf{p_c} - \mathbf{p_p}|| - l}{||\mathbf{p_c} - \mathbf{p_p}||}
+							\label{eq:behavioral}
+						\end{equation}
 						
 						Les deux forces $\overrightarrow{F_p}$ et $\overrightarrow{F_s}$ peuvent enfin être exprimées en utilisant l'expression de $\overrightarrow{F}$ et en prenant soin d'adapter les expressions de $\overrightarrow{u}$ et $e(t)$ en actualisant l'élément courant et l'élément précédent.
 					\end{itemize}
@@ -191,9 +212,11 @@
 			
 			
 			\subsection{Initialisation}
-				L'initialisation des différents n\oe uds de l'ombilical est une étape importante car les coefficients du modèle comportemental sont reglés pour avoir un comportement cohérent lorsque la position du câble a convergée. Si l'initialisation est aléatoire, le temps du régime transitoire peut être long et la simulation peut ne pas être consistante.
+				L'initialisation des différents n\oe uds de l'ombilical est une étape importante car les coefficients du modèle comportemental sont reglés pour avoir un comportement cohérent lorsque la position du câble a convergée. Si l'initialisation est aléatoire, le temps du régime transitoire peut être long et la simulation peut ne pas être consistante. De plus il faut impérativement que deux n\oe uds adjacents n'aient pas la même position, sinon l'expression de $\overrightarrow{u}$ dans l'\textsc{Equation}~\ref{eq:behavioral} n'est plus valable, car le dénominateur n'annule.
 			
-				Pour initialiser l'ombilical, nous allons nous appuyer sur l'équation de la chaînette. Cette équation représente la forme que prend une corde attachée à ses deux extrémités, sachant qu'elle va chercher à minimiser son énergie potentielle [? ref ?]. Comme notre ombilical va pouvoir être attaché à deux extrémités aux positions $p_1 = (x_1, y_1, z_1)$ et $p_n = (x_n, y_n, z_n)$ qui peuvent être quelconque, nous allons devoir ajouter deux coefficients $c_2$ et $c_3$ permettants de translater cette représentation graphique dans le plan. Ainsi la forme que va prendre notre obilical lors de l'initialisation va être régie par l'\textsc{Equation}~\ref{eq:tether}.
+				Pour initialiser l'ombilical, nous allons nous appuyer sur l'équation de la chaînette. Cette équation représente la forme que prend une corde attachée à ses deux extrémités, sachant qu'elle va chercher à minimiser son énergie potentielle [? ref ?]. L'équation de la chaînette est valable pour une corde attachée à ses extrémités en $(-x_0, y_0, z_0)$ et $(x_0, y_0, z_0)$.
+				
+				Dans notre cas, notre ombilical va pouvoir être attaché à deux extrémités aux positions $p_1 = (x_1, y_1, z_1)$ et $p_n = (x_n, y_n, z_n)$ qui peuvent être quelconque, nous allons devoir ajouter deux coefficients $c_2$ et $c_3$ à la solution de l'équation de la chaînette permettants de translater sa représentation graphique dans le plan. Ainsi la forme que va prendre notre obilical lors de l'initialisation va être régie par l'\textsc{Equation}~\ref{eq:tether}.
 			
 				\begin{equation}
 					z = c_1\cdot cosh\left(\frac{x + c_2}{c_1}\right) + c_3
@@ -212,7 +235,7 @@
 					\label{eq:systeme}
 				\end{align}
 			
-				\begin{figure}
+				\begin{figure}[!htb]
 					\centering
 					\begin{subfigure}[b]{0.45\textwidth}
 						\begin{tikzpicture}[scale=1.2]
@@ -297,42 +320,14 @@
 						\label{fig:2d_plot}
 					\end{subfigure}
 					\caption{Modélisation de l'ombilical en 3 dimensions}
+					\label{fig:tether_plot}
 				\end{figure}
 				
-				Pour résoudre ce système, on utilise un solveur numérique. Lors de l'implémentation en \gls{Cpp} de cette étape d'initialisation, la librairie \gls{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} a été utilisée. Une fois les paramètres déterminés, on est en mesure de déterminer la position initiale de chaque n\oe ud dans le repère de l'ombilical, avant de projeter ces positions dans le repère du monde.
+				Pour résoudre ce système et trouver une approximation numérique pour $c_1$, $c_2$ et $c_3$, on utilise un solveur numérique. Lors de l'implémentation pour le simulateur de cette étape d'initialisation, la librairie \gls{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} est utilisée. Une fois les paramètres déterminés, on est en mesure de déterminer la position initiale de chaque n\oe ud dans le repère de l'ombilical. Il faut enfin projeter ces positions dans le repère du monde afin de pouvoir correctement initialiser chaque n\oe uds, comme présenté sur la \textsc{Figure}~\ref{fig:tether_plot}
 			
 			\subsection{Implémentation}
 				L'implémentation d'un \plugin{} \gazebo{} permet de simuler le comportement de l'ombilical dans l'environnement de simulation. Ce \plugin{} est basé sur l'instanciation d'objets de type \textit{Tether} et \textit{TetherElement}. L'objet \textit{Tether} possède les paramètres de simulation de l'ombilical, tandis que l'objet \textit{TetherElement} représente un tronçon de cet ombilical. Un diagramme de classe est présenté en \textsc{Figure}~\ref{fig:uml_class} et montre les différents attributs et méthodes associées à chaque classe.
-				
-				La \textit{Tether} utilise une structure de liste doublement chaînée\footnote{structure de données liée qui consiste en un ensemble n\oe uds liés les uns aux autres par des références au n\oe uds voisins.} de \textit{TetherElement}. Chaque \textit{TetherElement} possède alors une référence vers l'élément le précédant et l'élément le suivant, comme le montre la \textsc{Figure}~\label{fig:goubly_linked_list}. La \textit{Tether} ne possède ainsi qu'une référence vers le premier et le dernier n\oe ud de la chaîne, nommés respectivements \textit{head} et \textit{tail}. Il est ensuite possible de parcourir la chaîne de \textit{TetherElement} dans les deux sens en utilisant les références gardées par les \textit{TetherElement} eux-mêmes. 
-			
-				\begin{figure}[!htb]
-					\centering
-					\resizebox{0.90\textwidth}{!}{
-						\begin{tikzpicture}
-							\tikzset{TE/.style={draw, inner sep=0, outer sep=0, fill=yellow!20}}
-			
-							\node[TE, fill=red!20] (TE0) at (0,0) {\begin{tabular}{c} \textit{TetherElement} \\ \hline \hfill \textit{prev} \hfill \vline \hfill \textit{next} \hfill \\ \hline data \end{tabular}};
-			
-							\node[TE, fill=red!20] (TE4) at (16,0) {\begin{tabular}{c} \textit{TetherElement} \\ \hline \hfill \textit{prev} \hfill \vline \hfill \textit{next} \hfill \\ \hline data \end{tabular}};
-			
-							\foreach \i in {1,3} {
-								\node[TE] (TE\i) at (4*\i,0) {\begin{tabular}{c} \textit{TetherElement} \\ \hline \hfill \textit{prev} \hfill \vline \hfill \textit{next} \hfill \\ \hline data \end{tabular}};
-							}
-							\node[minimum width=80] (TE2) at (8,0) {\dots};
-							\foreach \i in {0,1,2,3} {
-								\pgfmathtruncatemacro{\next}{\i +1}
-								\draw[<->] (TE\i) -- (TE\next);
-							}
-			
-							\node (head) at (0,1) {\textit{head}};
-							\node (tail) at (16,1) {\textit{tail}};
-						\end{tikzpicture}
-					}
-					\caption{Liste doublement chainée}
-					\label{fig:doubly_linked_list}
-				\end{figure}
-			
+
 				\begin{figure}[!htb]
 					\centering
 					\resizebox{0.50\textwidth}{!}{
@@ -371,9 +366,57 @@
 					\caption{Diagramme de classe UML des classes \textit{Tether} et \textit{TetherElement}}
 					\label{fig:uml_class}
 				\end{figure}
+				
+				La \textit{Tether} utilise une structure de \textit{liste doublement chaînée}\footnote{structure de données liée qui consiste en un ensemble n\oe uds liés les uns aux autres par des références au n\oe uds voisins.} de \textit{TetherElement}. Chaque \textit{TetherElement} possède alors une référence vers l'élément le précédant et l'élément le suivant, comme le montre la \textsc{Figure}~\ref{fig:doubly_linked_list}. La \textit{Tether} ne possède ainsi qu'une référence vers le premier et le dernier n\oe ud de la chaîne, nommés respectivements \textit{head} et \textit{tail}. Il est ensuite possible de parcourir la chaîne de \textit{TetherElement} dans les deux sens en utilisant les références gardées par les \textit{TetherElement} eux-mêmes. 
+			
+				\begin{figure}[!htb]
+					\centering
+					\resizebox{0.90\textwidth}{!}{
+						\begin{tikzpicture}
+							\tikzset{TE/.style={draw, inner sep=0, outer sep=0, fill=yellow!20}}
+			
+							\node[TE, fill=red!20] (TE0) at (0,0) {\begin{tabular}{c} \textit{TetherElement} \\ \hline \hfill \textit{prev} \hfill \vline \hfill \textit{next} \hfill \\ \hline data \end{tabular}};
+			
+							\node[TE, fill=red!20] (TE4) at (16,0) {\begin{tabular}{c} \textit{TetherElement} \\ \hline \hfill \textit{prev} \hfill \vline \hfill \textit{next} \hfill \\ \hline data \end{tabular}};
+			
+							\foreach \i in {1,3} {
+								\node[TE] (TE\i) at (4*\i,0) {\begin{tabular}{c} \textit{TetherElement} \\ \hline \hfill \textit{prev} \hfill \vline \hfill \textit{next} \hfill \\ \hline data \end{tabular}};
+							}
+							\node[minimum width=80] (TE2) at (8,0) {\dots};
+							\foreach \i in {0,1,2,3} {
+								\pgfmathtruncatemacro{\next}{\i +1}
+								\draw[<->] (TE\i) -- (TE\next);
+							}
+			
+							\node (head) at (0,1) {\textit{head}};
+							\node (tail) at (16,1) {\textit{tail}};
+						\end{tikzpicture}
+					}
+					\caption{Liste doublement chainée}
+					\label{fig:doubly_linked_list}
+				\end{figure}
+
+				A chaque pas de temps, on va actualiser la position des \textit{TetherElement}. Les extrémités peuvent être libres, dans ce cas on les traites comme les autres \textit{TetherElement}, ou bien attachée à des solides, dans ce cas la position actualisée est celle de l'élément auquel l'extrémité est attachée. Puis, on parcours la \textit{liste doublement chaînée} et on réalise le bilan des forces qui s'appliquent sur chaque éléments. D'après le Principe Fondamental de la Dynamique, en notant $a$ l'accélération d'un \textit{TetherElement}, on a :
+
+				\begin{equation}
+					m.a_{t_{i+1}} = \overrightarrow{P} + \overrightarrow{\Pi} + \overrightarrow{F_f} + \overrightarrow{F_p} + \overrightarrow{F_s}
+					\label{eq:newton}
+				\end{equation}
+
+				A ce stade, on peut appliquer l'accélération des \textit{TetherElement} aux extrémités dans les solides auxquel l'ombilical est attaché. Par exemple si l'ombilical simulé est attaché à un robot, il va induire une force à celui-ci qui va le gêner dans ses mouvements. Cette force est égale à l'opposé de la somme des forces calculées dans l'élément en extrémité d'ombilical.
+				
+				Ensuite, à l'aide de la méthode d'Euler on est en mesure d'obtenir une approximation de la vitesse puis de la position de chaque éléments. En notant $v$ la vitesse et $p$ la position d'un \textit{TetherElement}, et $h$ le pas de temps entre deux instants de calculs, on a :
+
+				\begin{eqnarray}
+					v_{t_{i+1}} & = & v_{t_i} + h.a_{t_{i+1}} \\
+					p_{t_{i+1}} & = & p_{t_i} + h.v_{t_{i+1}}
+					\label{eq:euler}
+				\end{eqnarray}
+
+				On a donc actualisé la position de chaque \textit{TetherElement}. Après avoir actualisé la représentation graphique de cet élément dans \gazebo{}, on est prêt pour la prochaine itération de calcul.
 			
 			\subsection{Suivi d'angles normalisés}
-				Un problème avec la représentation numérique de l'orientation des solides est qu'elle est souvent normalisée, et les valeurs sont ainsi ramenées dans l'intervalle $[-\pi; \pi]$. On ne peut donc pas avoir l'orientation absolue, c'est à dire l'orientation d'un solide en prenant en compte les eventuels tours qu'il aurait pu faire sur lui-même.
+				Un problème avec la représentation numérique de l'orientation des solides est qu'elle est souvent normalisée, et les valeurs sont ainsi ramenées dans l'intervalle $[-\pi; \pi]$. On ne peut donc pas avoir l'orientation absolue, c'est à dire l'orientation d'un solide en prenant en compte les eventuels tours qu'il aurait pu faire sur lui-même. C'est le cas dans \gazebo{}, et cela pose problème pour le calcul du couple transmissible le long de l'ombilical qui utilise l'orientation absolue des \þextit{TetherElements}.
 			
 				Pour résoudre ce problème, l'\textsc{Algorithme}~\ref{algo:suivi_angle} de suivi d'angles normalisés a été implémenté. Il prends en paramètres l'angle normalisé ainsi que l'angle précédemment calculé, et il retourne la valeur de l'angle absolu. L'idée de fournir l'angle précédent est de pouvoir retourner le nouvel angle qui se trouve dans le même quadrant et aussi de pouvoir suivre les sauts d'angles. Ainsi on peut suivre l'orientation absolue de solides en rotation dans l'espace, en ne fournissant que des orientations relatives ramenées dans l'intervalle $[-\pi; \pi]$, et en gardant en mémoire la précédente orientation calculée.
 				
@@ -399,8 +442,7 @@
 					\includegraphics[width=0.5\textwidth]{suivi_angle.png}
 					\caption{Suivi d'angle}
 					\label{fig:suivi_angle}
-				\end{figure}
-		
+				\end{figure}		
 		
 		\subsection{Resultats}
 
