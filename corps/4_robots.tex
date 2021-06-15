@@ -218,19 +218,19 @@
 			\begin{table}[!htb]
 				\centering
 				\begin{adjustbox}{max width=\textwidth}
-					\begin{tabular}{|c|c|c|c|c|}
+					\begin{tabular}{|l|c|c|c|c|}
 						\hline
-						\textbf{Test} & \textbf{Valeur attendue} & \textbf{Valeur calculée} & \textbf{Marge d'erreur acceptée} & \textbf{Validation} \\
+						\textbf{Grandeur testée} & \textbf{Ecart avec la réalité} & \textbf{Marge d'erreur acceptée} & \textbf{Validation} \\
 						\hline
-						Masse (en $kg$) & $173.23$ & $173.89$ & $\pm 1$ & \cmark \\
+						Masse (en $kg$) & $0.66$ & $\pm 1$ & \cmark \\
 						\hline
-						Centre de Gravité (en $m$) & $0.0011 \quad 0.0039 \quad -0.1046$ & $-0.0014 \quad 0.0040 \quad -0.1044$ & $\pm 0.001 \quad 0.001 \quad 0.001$ & \cmark \\
+						Position du Centre de Gravité (en $mm$) & $0.3 \quad 0.1 \quad 0.2$ & $\pm 1 \quad 1 \quad 1$ & \cmark \\
 						\hline
-						Inertie (en $m^2.kg$) & $\begin{bmatrix}17.90 & -0.2559 & 0.1227 \\ -0.2559 & 26.20 & -0.1847 \\ 0.1227 & -0.1847 & 25.42\end{bmatrix}$ & $\begin{bmatrix}18.10 & -0.2253 & 0.2345 \\ -0.2253 & 26.43 & -0.2669 \\ 0.2345 & -0.2669 & 25.42\end{bmatrix}$ & $\pm \begin{bmatrix}0.3 & 0.1 & 0.1 \\ 0.1 & 0.3 & 0.1 \\ 0.1 & 0.1 & 0.3\end{bmatrix}$ & \cmark \\
+						Matrice d'Inertie (en $m^2.kg$) & $\begin{bmatrix}0.2 & 0.03 & 0.11 \\ 0.03 & 0.23 & 0.08 \\ 0.11 & 0.08 & 0\end{bmatrix}$ & $\pm \begin{bmatrix}0.3 & 0.15 & 0.15 \\ 0.15 & 0.3 & 0.15 \\ 0.15 & 0.15 & 0.3\end{bmatrix}$ & \cmark \\
 						\hline
-						Volume (en $m^3$) & $0.1656$ & $1$ & $\pm 0.005$ & \cmark \\
+						Volume (en $m^3$) & $0.1656$ & $\pm 0.005$ & \cmark \\
 						\hline
-						Centre de Volume (en $m$) & $1 \quad 1 \quad 1$ & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad 0.05 \quad 0.05$ & \cmark \\
+						Position du Centre de Volume (en $mm$) & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad 0.05 \quad 0.05$ & \cmark \\
 						\hline
 					\end{tabular}
 				\end{adjustbox}
