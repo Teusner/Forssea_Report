@@ -158,13 +158,13 @@
 
 		\subsection{Tests unitaires}
 				
-			Il est nécéssaire de vérifier si tous les composants fonctionnent correctement et ont été convenablement ajoutés dans le robot. Pour cela il est courant d'implémenter des tests unitaires. Ils permettent de tester unitairement les différentes fonctionnalités requises. Il est cependant nécéssaire d'ajouter des tests liés au choix de conception que nous avons fait, c'est à dire le fait d'avoir séparé les robots en composants simulés indépendamments les uns des autres.
+			Il est nécéssaire de vérifier si tous les composants fonctionnent correctement et ont été convenablement ajoutés dans le robot. Pour cela il est courant d'implémenter des tests unitaires., qui vont permettre de tester unitairement les différentes fonctionnalités implémentées. Il est aussi nécéssaire d'ajouter des tests liés au choix de conception que nous avons fait, c'est à dire le fait d'avoir séparé les robots en composants simulés indépendamments les uns des autres.
 
-			En effet, nous allons avec cette méthode créer une description qui va inclure la description des sous-composants. Il faut impérativement verifier que la masse du robot, la position de son centre de gravite, sa matrice d'inertie, son volume et son centre de volume correspondent bien aux paramètres que l'équipe mécanique possède sur les robots. Pour ce faire, nous allons interprêter le fichier de description \textit{URDF} du robot en utilisant le module python \textit{urdfpy}\footnote{\url{https://github.com/mmatl/urdfpy}} afin de vérifier ces informations.
+			En effet, nous avons crée une description des \gls{ROV}s en incluant la description des sous-composants nécéssaires. Il faut maintenant verifier que la masse du robot, la position de son centre de gravite, sa matrice d'inertie, son volume et son centre de volume correspondent bien aux paramètres des robots. Pour ce faire, nous allons interprêter le fichier de description \textit{URDF} des robot en utilisant le module python \textit{urdfpy}\footnote{\url{https://github.com/mmatl/urdfpy}} afin de vérifier ces informations.
 
 			\subsubsection{Vérification de la masse}
 
-				Pour calculer la masse totale du robot, il suffit de sommer la masse de tous les composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, m_i$ représente la masse du \textit{i-ème} composant, et $m_robot$ la masse du robot, on a :
+				Pour calculer la masse totale du robot, il suffit de sommer la masse de tous les composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, m_i$ représente la masse du \textit{i-ème} composant, et $m_{robot}$ la masse du robot, on a :
 
 				$$m_{robot} = \sum_{i=0}^{N}m_i$$
 
@@ -176,31 +176,31 @@
 
 			\subsection{Vérification de la matrice d'inertie}
 
-				Pour calculer la matrice d'inertie du robot, il faut sommer les inerties du robot. Définissons le repère \textit{0} associé au chassis du robot, et le repère \textit{i} associé au composant \textit{i}. Partons de la matrice d'inertie disponibles dans la description \textit{URDF} du robot exprimées dans le repère de chaque composant et en leur centre de gravité. Notons cette matrice $I_i^i(G_i)$. 
+				Pour calculer la matrice d'inertie du robot, il faut sommer les inerties du robot. Définissons le repère $R_0$ associé au chassis du robot, et le repère $R_i$ associé au composant \textit{i}. Partons de la matrice d'inertie disponibles dans la description \textit{URDF} du robot exprimées dans le repère de chaque composant et en leur centre de gravité. Notons cette matrice $I_{i, R_i}(G_i)$. 
 				
-				Par cinématique directe, on peut obtenir la matrice de la transformation homogène $H_0^i$ entre les repères \textit{0} et \textit{i}, qui exprime la rotation et la translation entre ces deux repères. Cette matrice est composée d'une matrice de rotation $R_{3, 3}$ et d'une matrice traduisant la translation $T_{3, 1}$ entre les deux solides.
+				Par cinématique directe, on peut obtenir la matrice de la transformation homogène $H_0^i$ entre les repères $R_0$ et $R_i$, qui exprime la rotation et la translation entre ces deux repères. Cette matrice est composée d'une matrice de rotation $R_{3, 3}$ et d'une matrice traduisant la translation $T_{3, 1}$ entre les deux solides.
 
-				$$H_0^i = \begin{bNiceArray}{CCC:C}[margin] &&& \\ & R_{3, 3} && T_{3, 1} \\ &&& \\ \hdottedline 0 & 0 & 0 & 1 \end{bNiceArray}$$
+				$$H_{R_0}^{R_i} = \begin{bNiceArray}{CCC:C}[margin] &&& \\ & R_{3, 3} && T_{3, 1} \\ &&& \\ \hdottedline 0 & 0 & 0 & 1 \end{bNiceArray}$$
 
-				En notant $I_i^0(G_i)$ la matrice d'inertie d'un composant exprimée en son centre de gravité dans le repère associé auc chassis du roobot, on peut exprimer le changement de base du tenseur d'inertie comme suit :
+				En notant $I_{i, R_0}(G_i)$ la matrice d'inertie du i-ème composant exprimée en son centre de gravité dans le repère associé au chassis du roobot, on peut exprimer le changement de base du tenseur d'inertie comme suit :
 
-				$$I_i^0(G_i) = R^T.I_i^i(G_i).R$$
+				$$I_{i, R_0}(G_i) = R^T.I_{i, R_i}(G_i).R$$
 
-				Puis, il faut exprimer le décallage entre l'origine du robot, et le centre de gravité du composant, pris ici dans la convention des coordonnées homogènes et noté $d^H = \begin{bmatrix}a & b & c & 1\end{bmatrix}$. Ainsi on a :
+				Puis, il faut exprimer le décallage entre l'origine du robot, et le centre de gravité du composant. En utilisant la convention des coordonnées homogènes, et en notant $d^H = \begin{bmatrix}a & b & c & 1\end{bmatrix}^T$, on a :
 
 				$$d^H = H_0^i . G_i^H$$
 
 				Ensuite on peut déplacer ce tenseur à l'origine du repère \textit{0} à l'aide de la formule de \textit{König-Huygens} :
 
-				$$I_i^0(O) = I_i^0(G) + m_i.\begin{bmatrix} b^2 + c^2 & -a.b & -a.c \\ -a.b & a^2 + c^2 & -b.c \\ -a.c & -b.c & a^2 + b^2 \end{bmatrix}$$
+				$$I_{i, R_0}(O) = I_{i, R_0}(G_i) + m_i.\begin{bmatrix} b^2 + c^2 & -a.b & -a.c \\ -a.b & a^2 + c^2 & -b.c \\ -a.c & -b.c & a^2 + b^2 \end{bmatrix}$$
 
 				Enfin, en possèdant le tenseur d'inertie de chaque composant dans la base \textit{0} et au même point qui est l'origine du robot, on est en mesure de sommer ces inerties pour obtenir l'inertie totale du robot.
 
-				$$I_{robot}^0(O) = \sum_{i=0}^N I_i^0(O)$$
+				$$I_{robot, R_0}(O) = \sum_{i=0}^N I_{i, R_0}(O)$$
 
 			\subsection{Vérification du volume}
 
-				Pour calculer le volume total du robot, il suffit de sommer le volume de tous les composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, v_i$ représente le volume du \textit{i-ème} composant, et $V_{robot}$ le volume du robot, on a :
+				Pour calculer le volume total du robot, il suffit de sommer le volume de tous les composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, v_i$ représente le volume du \textit{i-ème} composant, et $v_{robot}$ le volume du robot, on a :
 
 				$$v_{robot} = \sum_{i=0}^{N}v_i$$
 
@@ -213,9 +213,36 @@
 
 		\subsection{Tests unitaires d'\argos{}}
 
-			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\argos{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques.
+			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\argos{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques. La \textsc{Table}~\ref{table:argos_unittest} présente le résultat des tests unitaires pour \argos{}.
+			
+			\begin{table}[!htb]
+				\centering
+				\begin{adjustbox}{max width=\textwidth}
+					\begin{tabular}{|c|c|c|c|c|}
+						\hline
+						\textbf{Test} & \textbf{Valeur attendue} & \textbf{Valeur calculée} & \textbf{Marge d'erreur acceptée} & \textbf{Validation} \\
+						\hline
+						Masse (en $kg$) & $173.23$ & $173.89$ & $\pm 1$ & \cmark \\
+						\hline
+						Centre de Gravité (en $m$) & $0.0011 \quad 0.0039 \quad -0.1046$ & $-0.0014 \quad 0.0040 \quad -0.1044$ & $\pm 0.001 \quad 0.001 \quad 0.001$ & \cmark \\
+						\hline
+						Inertie (en $m^2.kg$) & $\begin{bmatrix}17.90 & -0.2559 & 0.1227 \\ -0.2559 & 26.20 & -0.1847 \\ 0.1227 & -0.1847 & 25.42\end{bmatrix}$ & $\begin{bmatrix}18.10 & -0.2253 & 0.2345 \\ -0.2253 & 26.43 & -0.2669 \\ 0.2345 & -0.2669 & 25.42\end{bmatrix}$ & $\pm \begin{bmatrix}0.3 & 0.1 & 0.1 \\ 0.1 & 0.3 & 0.1 \\ 0.1 & 0.1 & 0.3\end{bmatrix}$ & \cmark \\
+						\hline
+						Volume (en $m^3$) & $0.1656$ & $1$ & $\pm 0.005$ & \cmark \\
+						\hline
+						Centre de Volume (en $m$) & $1 \quad 1 \quad 1$ & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad 0.05 \quad 0.05$ & \cmark \\
+						\hline
+					\end{tabular}
+				\end{adjustbox}
+				\caption{Tests unitaires d'\argos{}}
+				\label{table:argos_unittest}
+			\end{table}
 
-			La \textsc{Table}~\ref{table:argos_unittest} présente le résultat des tests unitaires pour Argos :
+			On voit que tous les tests unitaires sont bien validés pour \argos{}, ce qui valide bien la description \textit{URDF} de ce robot.
+
+		\subsection{Tests unitaires d'\atoll{}}
+
+			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\atoll{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques. La \textsc{Table}~\ref{table:atoll_unittest} présente le résultat des tests unitaires pour \atoll{}.
 			
 			\begin{table}[!htb]
 				\centering
@@ -236,38 +263,11 @@
 						\hline
 					\end{tabular}
 				\end{adjustbox}
-				\caption{Tests unitaires d'\argos{}}
-				\label{table:argos_unittest}
+				\caption{Tests unitaires d'\atoll{}}
+				\label{table:atoll_unittest}
 			\end{table}
 
-		\subsection{Tests unitaires d'\atoll{}}
-
-		Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\atoll{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques.
-
-		La \textsc{Table}~\ref{table:atoll_unittest} présente le résultat des tests unitaires pour Argos :
-		
-		\begin{table}[!htb]
-			\centering
-			\begin{adjustbox}{max width=\textwidth}
-				\begin{tabular}{|c|c|c|c|c|}
-					\hline
-					\textbf{Test} & \textbf{Valeur attendue} & \textbf{Valeur calculée} & \textbf{Marge d'erreur acceptée} & \textbf{Validation} \\
-					\hline
-					Masse (en $kg$) & $176$ & $176$ & $\pm 0.5$ & \cmark \\
-					\hline
-					Centre de Gravité (en $m$) & $1 \quad 1 \quad 1$ & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad 0.05 \quad 0.05$ & \cmark \\
-					\hline
-					Inertie (en $m^2.kg$) & $\begin{bmatrix}1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1\end{bmatrix}$ & $\begin{bmatrix}1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1\end{bmatrix}$ & $\pm \begin{bmatrix}0.3 & 0.1 & 0.1 \\ 0.1 & 0.3 & 0.1 \\ 0.1 & 0.1 & 0.3\end{bmatrix}$ & \cmark \\
-					\hline
-					Volume (en $m^3$) & $1$ & $1$ & $\pm 0.005$ & \cmark \\
-					\hline
-					Centre de Volume (en $m$) & $1 \quad 1 \quad 1$ & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad 0.05 \quad 0.05$ & \cmark \\
-					\hline
-				\end{tabular}
-			\end{adjustbox}
-			\caption{Tests unitaires d'\atoll{}}
-			\label{table:atoll_unittest}
-		\end{table}
+			On voit que tous les tests unitaires sont bien validés pour \atoll{}, ce qui valide bien la description \textit{URDF} de ce robot.
 
 	\section{Conclusion}
 	
