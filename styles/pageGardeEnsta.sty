@@ -27,6 +27,10 @@
 %\definecolor{monorange}{RGB}{240,143,36}
 \definecolor{mongris2}{RGB}{187,191,194}
 
+\definecolor{WetAsphalt}{RGB}{52, 73, 94}
+\definecolor{BelizeHole}{RGB}{41, 128, 185}
+\definecolor{SunFlower}{RGB}{241, 196, 15}
+
 % texte centre sur la partie droite de la page
 \newcommand{\centre}[1]{
   \hbox{
@@ -51,6 +55,10 @@
 {
 \def\@etablissement{#1}
 }
+\newcommand{\entreprise}[1]
+{
+\def\@entreprise{#1}
+}
 \newcommand{\imgGarde}[1]
 {
 \def\@imgGarde{#1}
@@ -64,6 +72,7 @@
 \def\@nopromo{}
 \def\@typedocument{}
 \def\@etablissement{}
+\def\@entreprise{}
 \def\@imgGarde{}
 \def\@logoEcole{}
 
@@ -76,25 +85,45 @@
         \vskip-1cm
         \hbox{
         \vbox{\begin{tikzpicture}
-          \filldraw[monvert] (0cm,0cm) -- (0cm,4.2cm) -- (4.2cm,4.2cm) -- (4.2cm,0cm) -- cycle;
-          \filldraw[mongris1] (0cm,4.5cm) -- (0cm,6.5cm) arc(180:90:2.2cm) --
-          (4.2cm,8.7cm) -- (4.2cm,4.5cm) -- cycle;  
-          \draw[monbleu,thick] (4.2cm,9cm) -- (2.2cm,9cm) arc(270:180:2.2cm) --
-          (0cm,11.2cm) -- (0cm,13.2cm) -- (4.2cm,13.2cm) -- cycle; 
-          \filldraw[monbleu] (4.5cm,0cm) -- (4.5cm,4.2cm) -- (8.7cm,4.2cm)
-          -- (8.7cm,0cm) -- cycle;  
-          \node[white] at (6.6cm,2.1cm) {\vbox {\center{\large\begin{minipage}{4cm}
-                  \center{\bf\@typedocument\vskip3mm \@nopromo} \vskip3mm \@date\end{minipage}}}};
-          \draw (6.6cm,6.6cm) node {\@logoEcole};
-          \draw (4.5cm,9cm) -- (4.5cm,13.2cm) --
-          (6.5cm,13.2cm) arc(90:0:2.2cm) -- (8.7cm,11cm) -- (8.7cm,9cm) --
-          cycle;  
-          \draw (9cm,0cm) -- (9cm,4.2cm) -- (13.2cm,4.2cm) -- (13.2cm,2.2cm)
-          arc(0:-90:2.2cm) -- (11cm,0cm) -- cycle; 
-          \filldraw[monbleu2] (9cm,4.5cm) -- (9cm,8.7cm) -- (13.2cm,8.7cm) --
-          (13.2cm,4.5cm) -- cycle;
-          \node at (11.2cm,6.6cm) {\vbox {\center{\small\begin{minipage}{4cm}
-                  \@etablissement \end{minipage}}}};
+          \filldraw[SunFlower] (0cm,0cm) -- (0cm,4.2cm) -- (4.2cm,4.2cm) -- (4.2cm,0cm) -- cycle;
+          \filldraw[BelizeHole] (0cm,4.5cm) -- (0cm,8.7cm) -- (4.2cm,8.7cm) -- (4.2cm,4.5cm) -- cycle;
+          \filldraw[WetAsphalt] (0cm,9cm) -- (0cm,13.2cm) -- (4.2cm,13.2cm) -- (4.2cm,9cm) -- cycle;
+          \node[white, text width=4cm] at (2.1cm,11.1cm) {\small \@entreprise};
+
+          \filldraw[white] (4.5cm,0cm) -- (4.5cm,4.2cm) -- (8.7cm,4.2cm) -- (8.7cm,0cm) -- cycle;
+          \filldraw[white] (4.5cm,9cm) -- (4.5cm,13.2cm) -- (8.7cm,13.2cm) -- (8.7cm,9cm) -- cycle;
+
+          \draw (6.6cm,2.1cm) node {\@logoEcole};
+          \filldraw[WetAsphalt] (4.5cm,4.5cm) -- (4.5cm,8.7cm) -- (8.7cm,8.7cm) -- (8.7cm,4.5cm) -- cycle;
+          \node[white] at (6.6cm,6.6cm) {\vbox {\center{\large\begin{minipage}{4cm}
+                    \center{\bf\@typedocument\vskip3mm \@nopromo} \vskip3mm \@date\end{minipage}}}};
+          \draw (6.6cm,11.1cm) node {\includegraphics[width=3.4cm]{imgs/logo_forssea.png}};
+
+          \filldraw[WetAsphalt] (9cm,0cm) -- (9cm,4.2cm) -- (13.2cm,4.2cm) -- (13.2cm,0cm) -- cycle;
+          \filldraw[SunFlower] (9cm,4.5cm) -- (9cm,8.7cm) -- (13.2cm,8.7cm) -- (13.2cm,4.5cm) -- cycle;
+          \filldraw[BelizeHole] (9cm,9cm) -- (9cm,13.2cm) -- (13.2cm,13.2cm) -- (13.2cm,9cm) -- cycle;
+          \node[white, text width=4cm] at (11.2cm,2.1cm) {\small \@etablissement};
+
+          % \filldraw[monvert] (0cm,0cm) -- (0cm,4.2cm) -- (4.2cm,4.2cm) -- (4.2cm,0cm) -- cycle;
+          % \filldraw[mongris1] (0cm,4.5cm) -- (0cm,6.5cm) arc(180:90:2.2cm) --
+          % (4.2cm,8.7cm) -- (4.2cm,4.5cm) -- cycle;  
+          % \draw[monbleu,thick] (4.2cm,9cm) -- (2.2cm,9cm) arc(270:180:2.2cm) --
+          % (0cm,11.2cm) -- (0cm,13.2cm) -- (4.2cm,13.2cm) -- cycle;
+          % % \draw (2.25cm,11.2cm) node {\includegraphics[width=3.4cm]{imgs/logo_forssea.png}};
+          % \filldraw[monbleu] (4.5cm,0cm) -- (4.5cm,4.2cm) -- (8.7cm,4.2cm)
+          % -- (8.7cm,0cm) -- cycle;  
+          % \node[white] at (6.6cm,2.1cm) {\vbox {\center{\large\begin{minipage}{4cm}
+          %         \center{\bf\@typedocument\vskip3mm \@nopromo} \vskip3mm \@date\end{minipage}}}};
+          % \draw (6.6cm,6.6cm) node {\@logoEcole};
+          % \draw (4.5cm,9cm) -- (4.5cm,13.2cm) --
+          % (6.5cm,13.2cm) arc(90:0:2.2cm) -- (8.7cm,11cm) -- (8.7cm,9cm) --
+          % cycle;  
+          % \draw (9cm,0cm) -- (9cm,4.2cm) -- (13.2cm,4.2cm) -- (13.2cm,2.2cm)
+          % arc(0:-90:2.2cm) -- (11cm,0cm) -- cycle; 
+          % \filldraw[monbleu2] (9cm,4.5cm) -- (9cm,8.7cm) -- (13.2cm,8.7cm) --
+          % (13.2cm,4.5cm) -- cycle;
+          % \node at (11.2cm,6.6cm) {\vbox {\center{\small\begin{minipage}{4cm}
+          %         \@etablissement \end{minipage}}}};
         \end{tikzpicture}
       }
     }

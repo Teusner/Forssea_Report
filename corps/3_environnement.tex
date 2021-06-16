@@ -396,20 +396,20 @@
 					\label{fig:doubly_linked_list}
 				\end{figure}
 
-				A chaque pas de temps, on va actualiser la position des \textit{TetherElement}. Les extrémités peuvent être libres, dans ce cas on les traites comme les autres \textit{TetherElement}, ou bien attachée à des solides, dans ce cas la position actualisée est celle de l'élément auquel l'extrémité est attachée. Puis, on parcours la \textit{liste doublement chaînée} et on réalise le bilan des forces qui s'appliquent sur chaque éléments. D'après le Principe Fondamental de la Dynamique, en notant $a$ l'accélération d'un \textit{TetherElement}, on a :
+				A chaque pas de temps, on va actualiser la position des \textit{TetherElement}. Les extrémités peuvent être libres, dans ce cas on les traites comme les autres \textit{TetherElement}, ou bien attachée à des solides, dans ce cas la position actualisée est celle de l'élément auquel l'extrémité est attachée. Puis, on parcours la \textit{liste doublement chaînée} et on réalise le bilan des forces qui s'appliquent sur chaque éléments. D'après le Principe Fondamental de la Dynamique, en notant $\overrightarrow{a}$ l'accélération d'un \textit{TetherElement}, on a :
 
 				\begin{equation}
-					m.a_{t_{i+1}} = \overrightarrow{P} + \overrightarrow{\Pi} + \overrightarrow{F_f} + \overrightarrow{F_p} + \overrightarrow{F_s}
+					m.\overrightarrow{a_{t_{i+1}}} = \overrightarrow{P} + \overrightarrow{\Pi} + \overrightarrow{F_f} + \overrightarrow{F_p} + \overrightarrow{F_s}
 					\label{eq:newton}
 				\end{equation}
 
 				A ce stade, on peut appliquer l'accélération des \textit{TetherElement} aux extrémités dans les solides auxquel l'ombilical est attaché. Par exemple si l'ombilical simulé est attaché à un robot, il va induire une force à celui-ci qui va le gêner dans ses mouvements. Cette force est égale à l'opposé de la somme des forces calculées dans l'élément en extrémité d'ombilical.
 				
-				Ensuite, à l'aide de la méthode d'Euler on est en mesure d'obtenir une approximation de la vitesse puis de la position de chaque éléments. En notant $v$ la vitesse et $p$ la position d'un \textit{TetherElement}, et $h$ le pas de temps entre deux instants de calculs, on a :
+				Ensuite, à l'aide de la méthode d'Euler on est en mesure d'obtenir une approximation de la vitesse puis de la position de chaque éléments. En notant $\overrightarrow{v}$ la vitesse et $\overrightarrow{p}$ la position d'un \textit{TetherElement}, et $h$ le pas de temps entre deux instants de calculs, on a :
 
 				\begin{eqnarray}
-					v_{t_{i+1}} & = & v_{t_i} + h.a_{t_{i+1}} \\
-					p_{t_{i+1}} & = & p_{t_i} + h.v_{t_{i+1}}
+					\overrightarrow{v_{t_{i+1}}} & = & \overrightarrow{v_{t_i}} + h.\overrightarrow{a_{t_{i+1}}} \\
+					\overrightarrow{p_{t_{i+1}}} & = & \overrightarrow{p_{t_i}} + h.\overrightarrow{v_{t_{i+1}}}
 					\label{eq:euler}
 				\end{eqnarray}
 
