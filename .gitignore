@@ -1,4 +1,5 @@
 *.pdf
+build/*
 
 # Adding some files to be untracked
 *.ist

@@ -1,0 +1,108 @@
+% chercher des documents LaTeX dans styles, corps et bib
+\makeatletter\def\input@path{{styles/}{corps/}}\makeatother
+
+% Utiliser le style rapport.cls
+\documentclass{rapport}
+
+\title{Modélisation et simulation d'un environnement sous-marin pour Forssea Robotics}
+\author{Quentin \textsc{Brateau} \\ \texttt{quentin.brateau@ensta-bretagne.org} \\[10mm]{\small Encadrant école \\Luc \textsc{Jaulin} \\\texttt{luc.jaulin@ensta-bretagne.fr}} \\[5mm]{\small Encadrant entreprise \\Alaa \textsc{El Jawad} \\\texttt{alaa@forssea-robotics.fr}}}
+\date{\today}
+\doctype{Rapport de PFE}
+\promo{FISE 2021}
+\etablissement{\begin{center} \textsc{Ensta} Bretagne\\2, rue François Verny\\29806 \textsc{Brest} cedex\\ \textsc{France}\\ Tel +33 (0)2 98 34 88 00 \\ \url{www.ensta-bretagne.fr} \end{center}}
+\entreprise{\begin{center} \textsc{Forssea Robotics} \\130, rue de Lourmel\\ 75015 \textsc{Paris}\\ \textsc{France}\\ \url{www.forssea-robotics.fr/} \end{center}}
+\logoEcole{\includegraphics[height=4cm]{logo_ENSTA_Bretagne_Vertical_CMJN}}
+
+\hypersetup{
+  pdftitle={Rapport de PFE},
+  pdfauthor={Quentin Brateau},
+  pdfkeywords={Robotique, Simulation, ROV, Gazebo, ROS2},
+  bookmarksnumbered,
+  pdfstartview={FitH},
+  breaklinks=true
+}
+
+% creer le glossaire
+\makeglossaries
+% creer l'index
+\makeindex
+
+\begin{document}
+	% Début du préambule
+	\frontmatter
+	% inclure la liste des acronymes
+	\input{acronymes}
+	% creer le titre ici
+	\maketitle
+
+	% chargement du fichier abstract.tex
+	\pagestyle{plain}
+	\cleardoublepage
+	\input{0_abstract}
+	\clearpage
+
+	% table des matieres
+	\tableofcontents
+
+	% Partie principale
+	\mainmatter
+	\pagestyle{fancy}
+	
+	\input{1_introduction}
+
+	\input{2_conception}
+	
+	\input{3_environnement}
+
+	\input{4_robots}
+
+	\input{5_resultats}
+
+	\input{6_projet}
+
+	\input{7_conclusion}
+	
+	\appendix
+	\cleardoublepage
+	\pagenumbering{roman}
+	\input{8_annexes}
+
+	% \chapter{Liste des Figures}
+	% \makeatletter
+	% \@starttoc{lof}% Print List of Figures
+	% \makeatother
+
+
+	% \clearpage
+	% \phantomsection
+	% \chapter{Liste des tableaux}
+	% \makeatletter
+	% \@starttoc{lot}% Print List of Tables
+	% \makeatother
+
+	\clearpage
+	\phantomsection
+	\label{chapter:lof}
+	\addcontentsline{toc}{chapter}{Liste des figures}
+	\listoffigures
+
+	\clearpage
+	\phantomsection
+	\label{chapter:lot}
+	\addcontentsline{toc}{chapter}{Liste des tables}
+	\listoftables
+
+	\clearpage
+	\phantomsection
+	\label{sec:glossaire}
+	\printglossaries
+
+
+	\clearpage
+	\phantomsection
+	\addcontentsline{toc}{chapter}{Bibliographie}
+
+	\bibliography{bib/sea,bib/intro,bib/software.bib}
+	\bibliographystyle{ieeetr}
+
+\end{document}
