@@ -4,14 +4,22 @@
 % Utiliser le style rapport.cls
 \documentclass{rapport}
 
+% Report Title Page
 \title{Modélisation et simulation d'un environnement sous-marin pour Forssea Robotics}
-\author{Quentin \textsc{Brateau} \\ \texttt{quentin.brateau@ensta-bretagne.org} \\[10mm]{\small Encadrant école \\Luc \textsc{Jaulin} \\\texttt{luc.jaulin@ensta-bretagne.fr}} \\[5mm]{\small Encadrant entreprise \\Alaa \textsc{El Jawad} \\\texttt{alaa@forssea-robotics.fr}}}
+\author{Quentin \textsc{Brateau} \\ \texttt{quentin.brateau@ensta-bretagne.org}}
 \date{\today}
 \doctype{Rapport de PFE}
-\promo{FISE 2021}
-\etablissement{\begin{center} Université d'Angers\\10, rue de Rennes\\49035 \textsc{Angers}\\ \textsc{France}\\ Tel +33 (0)2 41 96 23 23 \\ \url{www.univ-angers.fr} \end{center}}
+\promo{Master SDS}
+
+% Université Angers
+\logoLaboratoire{\includegraphics[width=3.8cm]{logo_angers.jpg}}
+\laboratoire{\begin{center} Université d'Angers\\10, rue de Rennes\\49035 \textsc{Angers}\\ \textsc{France}\\ Tel +33 (0)2 41 96 23 23 \\ \url{www.univ-angers.fr} \end{center}}
+\encadrantLaboratoire{Encadrant école \\Luc \textsc{Jaulin} \\\texttt{luc.jaulin@ensta-bretagne.fr}}
+
+% Forssea Robotics
+\logoEntreprise{\includegraphics[width=3.8cm]{imgs/logo_forssea.png}}
 \entreprise{\begin{center} \textsc{Forssea Robotics} \\130, rue de Lourmel\\ 75015 \textsc{Paris}\\ \textsc{France}\\ \url{www.forssea-robotics.fr/} \end{center}}
-\logoEcole{\includegraphics[height=3.8cm]{logo_angers.jpg}}
+\encadrantEntreprise{Encadrant entreprise \\Alaa \textsc{El Jawad} \\\texttt{alaa@forssea-robotics.fr}}
 
 \hypersetup{
 	pdftitle={Rapport de PFE},
@@ -22,63 +30,38 @@
 	breaklinks=true
 }
 
-% creer le glossaire
+% Glossary creating
 \makeglossaries
-% creer l'index
-\makeindex
 
 \begin{document}
-	% Début du préambule
 	\frontmatter
-	% inclure la liste des acronymes
 	\input{acronymes}
-	% creer le titre ici
 	\maketitle
 
-	% chargement du fichier abstract.tex
+	% Abstract
 	\pagestyle{plain}
 	\cleardoublepage
 	\input{0_abstract}
 	\clearpage
 
-	% table des matieres
+	% Table of content
 	\tableofcontents
 
-	% Partie principale
+	% Main Matter
 	\mainmatter
 	\pagestyle{fancy}
-	
 	\input{1_introduction}
-
 	\input{2_conception}
-	
 	\input{3_environnement}
-
 	\input{4_robots}
-
 	\input{5_resultats}
-
 	\input{6_projet}
-
 	\input{7_conclusion}
 	
 	\appendix
 	\cleardoublepage
 	\pagenumbering{roman}
 	\input{8_annexes}
-
-	% \chapter{Liste des Figures}
-	% \makeatletter
-	% \@starttoc{lof}% Print List of Figures
-	% \makeatother
-
-
-	% \clearpage
-	% \phantomsection
-	% \chapter{Liste des tableaux}
-	% \makeatletter
-	% \@starttoc{lot}% Print List of Tables
-	% \makeatother
 
 	\clearpage
 	\phantomsection
@@ -97,12 +80,10 @@
 	\label{sec:glossaire}
 	\printglossaries
 
-
 	\clearpage
 	\phantomsection
 	\addcontentsline{toc}{chapter}{Bibliographie}
 
 	\bibliography{bib/sea,bib/intro,bib/software.bib}
 	\bibliographystyle{ieeetr}
-
 \end{document}

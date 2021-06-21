@@ -18,18 +18,23 @@
 % quelques macros permettant d'initialiser les variables
 \newcommand{\promo}[1]{\def\@nopromo{#1}}
 \newcommand{\doctype}[1]{\def\@typedocument{#1}}
-\newcommand{\etablissement}[1]{\def\@etablissement{#1}}
+\newcommand{\laboratoire}[1]{\def\@laboratoire{#1}}
 \newcommand{\entreprise}[1]{\def\@entreprise{#1}}
-\newcommand{\imgGarde}[1]{\def\@imgGarde{#1}}
-\newcommand{\logoEcole}[1]{\def\@logoEcole{#1}}
+\newcommand{\logoEntreprise}[1]{\def\@logoEntreprise{#1}}
+\newcommand{\logoLaboratoire}[1]{\def\@logoLaboratoire{#1}}
+\newcommand{\encadrantEntreprise}[1]{\def\@encadrantEntreprise{#1}}
+\newcommand{\encadrantLaboratoire}[1]{\def\@encadrantLaboratoire{#1}}
 
 % valeurs par defaut des variables
 \def\@nopromo{}
 \def\@typedocument{}
 \def\@etablissement{}
 \def\@entreprise{}
-\def\@imgGarde{}
-\def\@logoEcole{}
+\def\@laboratoire{}
+\def\@logoEntreprise{}
+\def\@logoLaboratoire{}
+\def\@encadrantEntreprise{}
+\def\@encadrantLaboratoire{}
 
 % redefinition de la page de garde
 \def\maketitle{
@@ -49,37 +54,16 @@
 							\filldraw[white] (4.5cm,0cm) -- (4.5cm,4.2cm) -- (8.7cm,4.2cm) -- (8.7cm,0cm) -- cycle;
 							\filldraw[white] (4.5cm,9cm) -- (4.5cm,13.2cm) -- (8.7cm,13.2cm) -- (8.7cm,9cm) -- cycle;
 
-							\draw (6.6cm,2.1cm) node {\@logoEcole};
+							\draw (6.6cm,2.1cm) node {\@logoLaboratoire};
 							\filldraw[WetAsphalt] (4.5cm,4.5cm) -- (4.5cm,8.7cm) -- (8.7cm,8.7cm) -- (8.7cm,4.5cm) -- cycle;
 							\node[white] at (6.6cm,6.6cm) {\vbox {\center{\large\begin{minipage}{4cm}
 												\center{\bf\@typedocument\vskip3mm \@nopromo} \vskip3mm \@date\end{minipage}}}};
-							\draw (6.6cm,11.1cm) node {\includegraphics[width=3.4cm]{imgs/logo_forssea.png}};
+							\draw (6.6cm,11.1cm) node {\@logoEntreprise};
 
 							\filldraw[WetAsphalt] (9cm,0cm) -- (9cm,4.2cm) -- (13.2cm,4.2cm) -- (13.2cm,0cm) -- cycle;
 							\filldraw[SunFlower] (9cm,4.5cm) -- (9cm,8.7cm) -- (13.2cm,8.7cm) -- (13.2cm,4.5cm) -- cycle;
 							\filldraw[BelizeHole] (9cm,9cm) -- (9cm,13.2cm) -- (13.2cm,13.2cm) -- (13.2cm,9cm) -- cycle;
-							\node[white, text width=4cm] at (11.1cm,2.3cm) {\small \@etablissement};
-
-							% \filldraw[monvert] (0cm,0cm) -- (0cm,4.2cm) -- (4.2cm,4.2cm) -- (4.2cm,0cm) -- cycle;
-							% \filldraw[mongris1] (0cm,4.5cm) -- (0cm,6.5cm) arc(180:90:2.2cm) --
-							% (4.2cm,8.7cm) -- (4.2cm,4.5cm) -- cycle;  
-							% \draw[monbleu,thick] (4.2cm,9cm) -- (2.2cm,9cm) arc(270:180:2.2cm) --
-							% (0cm,11.2cm) -- (0cm,13.2cm) -- (4.2cm,13.2cm) -- cycle;
-							% % \draw (2.25cm,11.2cm) node {\includegraphics[width=3.4cm]{imgs/logo_forssea.png}};
-							% \filldraw[monbleu] (4.5cm,0cm) -- (4.5cm,4.2cm) -- (8.7cm,4.2cm)
-							% -- (8.7cm,0cm) -- cycle;  
-							% \node[white] at (6.6cm,2.1cm) {\vbox {\center{\large\begin{minipage}{4cm}
-							%         \center{\bf\@typedocument\vskip3mm \@nopromo} \vskip3mm \@date\end{minipage}}}};
-							% \draw (6.6cm,6.6cm) node {\@logoEcole};
-							% \draw (4.5cm,9cm) -- (4.5cm,13.2cm) --
-							% (6.5cm,13.2cm) arc(90:0:2.2cm) -- (8.7cm,11cm) -- (8.7cm,9cm) --
-							% cycle;  
-							% \draw (9cm,0cm) -- (9cm,4.2cm) -- (13.2cm,4.2cm) -- (13.2cm,2.2cm)
-							% arc(0:-90:2.2cm) -- (11cm,0cm) -- cycle; 
-							% \filldraw[monbleu2] (9cm,4.5cm) -- (9cm,8.7cm) -- (13.2cm,8.7cm) --
-							% (13.2cm,4.5cm) -- cycle;
-							% \node at (11.2cm,6.6cm) {\vbox {\center{\small\begin{minipage}{4cm}
-							%         \@etablissement \end{minipage}}}};
+							\node[white, text width=4cm] at (11.1cm,2.3cm) {\small \@laboratoire};
 						\end{tikzpicture}
 					}
 				}
@@ -91,16 +75,21 @@
 				{\Huge\bf \@title \par}
 			\end{center}
 
-			\vskip1em
-
-			\begin{center}
-				\@imgGarde
-			\end{center}
-
 			\vskip 1em
 			\begin{center}
 				{\large\lineskip .75em \bf \@author \par}
 			\end{center}
+
+			\vskip 1em
+			\begin{center}
+				{\small\lineskip .75em \bf \@encadrantLaboratoire \par}
+			\end{center}
+
+			\vskip 1em
+			\begin{center}
+				{\small\lineskip .75em \bf \@encadrantEntreprise \par}
+			\end{center}
+
 			\vfill
 		}
 	\end{titlepage}
