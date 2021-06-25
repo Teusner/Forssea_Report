@@ -39,98 +39,161 @@
 		% 	\label{table:elements}
 		% \end{table}
 
-	\section{Environnement marins}
+	\section{Environnement marin}
 
 		\subsection{Introduction}
 			
 			La simulation de l'environnement marin est probablement ce qui va le plus impacter le comportement des \gls{ROV}s. Le milieu marin doit proposer un modèle de mer avec des vagues, ajouter de la flottabilité aux robots et simuler du courant.
 
-			\subsubsection{Modèle de mer}
+		\subsection{Modèle de houle trochoïdale}
 
-				Une modélisation simple de la mer peut être proposée en utilisant une superposition d'ondes progressives sinusoïdales. 
+			\subsubsection{Introduction}
 
-			\subsubsection{Flottabilité}
+				Dans un premier temps, nous allons nous intéresser à la modélisation de la surface libre de la mer, c'est à dire qu'il nous faut trouver un formalisme permettant de simuler la surface de l'environnement marin, à l'interface entre l'air et l'eau. Un modèle établi il y a plus de deux cents par \textit{Gerstner}~\cite{Gerstner} propose une modélisation trochoïdale de la houle.
 
-			\subsubsection{Courants marins}
+			\subsubsection{Modèle visuel de Gerstner}
 
-	\section{Courants marins}
+				Le modèle de \textit{Gerstner} est donc très utilisé en infographie afin de réaliser le rendu visuel de la mer. C'est un modèle qui est particulièrement bien adapté à la description de la surface libre d'une mer profonde, car les ondes en milieu peu profond se reflétent sur le fond, et la houle n'est plus exactement trochoïdale. Ce modèle propose une modélisation en deux dimensions de la houle dans un plan perpendiculaire à la surface de la mer. Une adaptation de ces équations est nécéssaire afin de passer en trois dimensions~\cite{Gerstner-Like_Henry}.
 
-		Les courants marins constituent un élément majeur qui va perturber le comportement des robots dans l'environnement simulé. Avec une simulation suffisament précise, la simulation et le comportement réel des \gls{ROV}s deviendront très proches, notamment par l'ajout de la traînée hydrodynamique qui va s'appliquer sur les composants des robots.
+				Cette modélisation de houle trochoïdale utilise une approche lagrangienne pour définir l'équation paramétrique de la surface libre~\cite{Gerstner, Gerstner-Like_Henry}. On s'intéresse donc à une particule de fluide positionnée au repos en $p_0=(\alpha, \beta, z_0)$, avec $z_0$ la hauteur d'eau au repos dans une mer de fond $h$. Chaque vague trochoïdale $m$ est ensuite définie par son amplitude $a_m$, son nombre d'onde $k_m$, sa phase $\phi_m$ et sa pulsation $\omega_m$ et va influencer la position de cette particule au cours du temps comme suit :
 
-		\subsection{Modèle constant}
+				\begin{eqnarray}
+					\xi(\alpha, \beta, t) & = & \alpha - \sum_{m=0}^{M} \frac{k_{x, m}}{k_m} \frac{a_m}{tanh(k_mh)}sin(\theta_m) \\ 
+					\zeta(\alpha, \beta, t) & = & \beta - \sum_{m=0}^{M} \frac{k_{y, m}}{k_m} \frac{a_m}{tanh(k_mh)}sin(\theta_m) \\ 
+					\eta(\alpha, \beta, t) & = & z_0 - \sum_{m=0}^{M} a_m cos(\theta_m) \\ 
+					\theta_m(\alpha, \beta, t) & = & k_{x, m} \alpha + k_{z, m} \beta - \omega_m t - \phi_m
+				\end{eqnarray}
 
-			Pour simuler ces courants, il est possible d'utiliser en première approximation une idée assez triviale : localement le courant est constant. Par constant on entend uniforme, donc qui ne dépend pas de l'espace, et stationnaire, donc qui ne dépend pas du temps. C'est à dire qu'il est possible de considérer le courant marin  comme un champ de vecteurs ayant un certain cap et une certaine magnitude représentant la vitesse de l'écoulement. Ce modèle simple permet de rapidement ajouter du courant dans notre simulateur, mais ce courant est peu réaliste dans la mesure ou il ne prends pas du tout en compte la présence de structures sous-marine qui pourraient modifier la vitesse et l'orientation de ce courant, comme les piles d'éoliennes ou bien les structures sous marines à déplacer.
+				On a alors défini l'équation paramétrique de la surface libre de l'eau $x = \xi(\alpha, \beta, t)$, $y = \zeta(\alpha, \beta, t)$, et $z = \eta(\alpha, \beta, t)$. La relation de dispersion relie la pulsation $\omega_m$ de chaque signal au nombre d'onde $k_m$, et $k_{x, m}$ et $k_{y, m}$ sont les composantes du vecteur nombre d'ondes dans le plan de la mer tel que  :
+				
+				\begin{eqnarray}
+					\omega_m^2 & = & g \cdot k_m \cdot tanh(k_m h) \label{equation:dispersion} \\
+					k_m & = & \sqrt{k_{x, m}^2 + k_{y, m}^2} \label{equation:nombre_onde}
+				\end{eqnarray}
 
-			\begin{figure}[!htb]
-				\centering
-				\inputpgf{imgs/pgf}{constant.pgf}
-				\caption{Modèle de courant constant}
-				\label{fig:constant}
-			\end{figure}
+				Dès lors, il est possible de définir $k_{x, m}$ et $k_{y, m}$ en introduisant le cap de la vague considérée appelé $h_m$ et en notant :
 
-		\subsection{Modèle procédural}
+				\begin{eqnarray}
+					k_{x, m} & = & cos(h_m) k_m \\
+					k_{y, m} & = & sin(h_m) k_m \\
+				\end{eqnarray}
 
-			Une autre idée serait de générer un courant pseudo-aléatoire par génération procédurale. Cette méthode de génération est largement utilisée dans le domaine des jeux-vidéos et du cinéma, et par extension, il est aussi utilisé dans le domaine de la simulation~\cite{generation_procedurale_monde, volumetric_terrain_generation}. Elle permet de générer à l'aide d'algorithme des mondes et des textures pseudo-aléatoires. Dans notre cas, il est possible d'utiliser le \textit{Bruit de Perlin}~\cite{PerlinNoise} qui est une texture procédurale afin de générer des courants. L'avantage du \textit{Bruit de Perlin} est qu'il est très peu coûteux en espace mémoire et qu'il peut générer des textures dans n'importe quelle dimensions. 
-			
-			Pour notre application nous pouvons générer une texture en deux dimensions. Cette texture forme un potentiel artificiel, et un champ de vecteur représentant le courant peut être simplement généré en prenant le gradiant de ce potentiel. On obtient le résultat présenté en \textsc{Figure}~\ref{fig:perlin_noise}. Comme avec cette méthode, chaque pixel tient compte de ses pixels voisins, on ne se retrouve pas avec des valeurs très éloignées entre deux pixels adjacents comme avec de la génération de textures purement aléatoire, et on obtient des courants réalistes.
+				Ainsi les expressions de $k_{x, m}$ et $k_{y, m}$ vérifient l'\textsc{Equation}~\ref{equation:nombre_onde} et sont calculées uniquement à partir des valeurs de $k_m$ et de $h_m$.
+				
+				Ensuite l'idée générale consiste à définir une vague principale qui va former la houle qui va généralement avoir une amplitude de l'ordre du mètre, et un très petit nombre d'onde donc une très petite pulsation d'après l'\textsc{Equation}~\ref{equation:dispersion}. Puis on ajoute en fonction de la complexité de la surface libre voulue un certain nombre de vaguelettes qui vont s'additionner à la houle, qui ont généralement une très petite amplitude de l'ordre du centimètre et un nombre d'onde assez grand.
 
-			\begin{figure}[!htb]
-				\centering
-				\begin{subfigure}[b]{0.32\textwidth}
+				On est alors en mesure d'obtenir le résultat visualisable en \textsc{Figure}~\ref{fig:Gerstner} dans \gazebo{}, obtenu à l'aide de trois vagues dont les caractéristiques sont présentées dans la \textsc{Table}~\ref{table:wave} et tracé sur une grille de 40 mètres par 40 mètres avec un pas de 1 mètre.
+
+				\begin{figure}[!htb]
+					\begin{minipage}[c]{0.45\textwidth}
+						\centering
+						\includegraphics[width=\textwidth]{imgs/gerstner.jpg}
+						\caption{Vagues de \textit{Gerstner} dans \gazebo{}}
+						\label{fig:Gerstner}
+					\end{minipage} \hfill
+					\begin{minipage}[c]{0.55\textwidth}
+						\begin{adjustbox}{max width=\textwidth}
+							\begin{tabular}{c c c c c}
+								\toprule
+								\textbf{Vague} & $a_m$ ($m$) & $k_m$ ($rad.m^{-1}$) & $\phi_m$ ($rad$) & $h_m$ ($rad$) \\
+								\midrule
+								Vague 1 & 1.2 & 0.06 & 0 & 0 \\
+								Vague 2 & 0.6 & 0.1 & 0 & 0.8 \\
+								Vague 3 & 0.2 & 1 & 0 & -0.3 \\
+								\bottomrule
+							\end{tabular}
+						\end{adjustbox}
+						\caption{Carctéristiques des vagues}
+						\label{table:wave}
+					\end{minipage}
+				\end{figure}
+
+				Cependant, si ce modèle suffit à représenter la surface libre de la mer, il ne fournit pas la dynamique du milieu marin et l'impact qu'il va voir sur les \gls{ROV}s. C'est pourquoi il va falloir établir les équations de PRESSION et de VITESSE des particules afin de pouvoir simuler l'impact des vagues sur les robots.
+
+			\subsubsection{Modèle dynamique du MIT}
+
+				C'est à ce moment qu'intervient l'utilisation du modèle de vague du \textsc{MIT}~\cite{MIT_Waves}.
+
+		\subsection{Flottabilité}
+
+		\subsection{Courants marins}
+
+			Les courants marins constituent un élément majeur qui va perturber le comportement des robots dans l'environnement simulé. Avec une simulation suffisament précise, la simulation et le comportement réel des \gls{ROV}s deviendront très proches, notamment par l'ajout de la traînée hydrodynamique qui va s'appliquer sur les composants des robots.
+
+			\subsubsection{Modèle constant}
+
+				Pour simuler ces courants, il est possible d'utiliser en première approximation une idée assez triviale : localement le courant est constant. Par constant on entend uniforme, donc qui ne dépend pas de l'espace, et stationnaire, donc qui ne dépend pas du temps. C'est à dire qu'il est possible de considérer le courant marin  comme un champ de vecteurs ayant un certain cap et une certaine magnitude représentant la vitesse de l'écoulement. Ce modèle simple permet de rapidement ajouter du courant dans notre simulateur, mais ce courant est peu réaliste dans la mesure ou il ne prends pas du tout en compte la présence de structures sous-marine qui pourraient modifier la vitesse et l'orientation de ce courant, comme les piles d'éoliennes ou bien les structures sous marines à déplacer.
+
+				\begin{figure}[!htb]
 					\centering
-					\inputpgf{imgs/pgf/}{random.pgf}
-					\caption{Bruit aléatoire}
-				\end{subfigure}
-				\hfill
-				\begin{subfigure}[b]{0.32\textwidth}
+					\inputpgf{imgs/pgf}{constant.pgf}
+					\caption{Modèle de courant constant}
+					\label{fig:constant}
+				\end{figure}
+
+			\subsubsection{Modèle procédural}
+
+				Une autre idée serait de générer un courant pseudo-aléatoire par génération procédurale. Cette méthode de génération est largement utilisée dans le domaine des jeux-vidéos et du cinéma, et par extension, il est aussi utilisé dans le domaine de la simulation~\cite{generation_procedurale_monde, volumetric_terrain_generation}. Elle permet de générer à l'aide d'algorithme des mondes et des textures pseudo-aléatoires. Dans notre cas, il est possible d'utiliser le \textit{Bruit de Perlin}~\cite{PerlinNoise} qui est une texture procédurale afin de générer des courants. L'avantage du \textit{Bruit de Perlin} est qu'il est très peu coûteux en espace mémoire et qu'il peut générer des textures dans n'importe quelle dimensions. 
+				
+				Pour notre application nous pouvons générer une texture en deux dimensions. Cette texture forme un potentiel artificiel, et un champ de vecteur représentant le courant peut être simplement généré en prenant le gradiant de ce potentiel. On obtient le résultat présenté en \textsc{Figure}~\ref{fig:perlin_noise}. Comme avec cette méthode, chaque pixel tient compte de ses pixels voisins, on ne se retrouve pas avec des valeurs très éloignées entre deux pixels adjacents comme avec de la génération de textures purement aléatoire, et on obtient des courants réalistes.
+
+				\begin{figure}[!htb]
 					\centering
-					\inputpgf{imgs/pgf/}{perlin.pgf}
-					\caption{Bruit de Perlin}
-				\end{subfigure}
-				\hfill
-				\begin{subfigure}[b]{0.32\textwidth}
+					\begin{subfigure}[b]{0.32\textwidth}
+						\centering
+						\inputpgf{imgs/pgf/}{random.pgf}
+						\caption{Bruit aléatoire}
+					\end{subfigure}
+					\hfill
+					\begin{subfigure}[b]{0.32\textwidth}
+						\centering
+						\inputpgf{imgs/pgf/}{perlin.pgf}
+						\caption{Bruit de Perlin}
+					\end{subfigure}
+					\hfill
+					\begin{subfigure}[b]{0.32\textwidth}
+						\centering
+						\inputpgf{imgs/pgf/}{courant.pgf}
+						\caption{Courant généré}
+					\end{subfigure}
+					\caption{Comparaison bruit aléatoire et bruit de Perlin}
+					\label{fig:perlin_noise}
+				\end{figure}
+
+				C'est une bonne approche pour générer des courants marins de manière pseudo-aléatoire, mais il est difficile de reproduire de manière contrôlée les courants marins qu'il y aurait eu lors d'un essai en milieu naturel afin de comparer les résultats de la simulation avec le comportement des \gls{ROV}s réels.
+				
+				Il serait cependant intéressant d'utiliser ce genre d'algorithme pour de la génération procédurale de terrain. En effet, en interpretant la carte 2D comme un modèle d'élévation numérique de terrain, on serait en mesure de créer de manière pseudo-aléatoire des fonds marins pour testers les robots dans différents environnements.
+
+			\subsubsection{Modèle de Navier-Stokes}
+
+				Une simulation des courants marins basée sur les équations de Navier-Stokes permet de proposer une approche intéressante à la simulation de courants marins~\cite{Garau2006current}. Ils permettent notament de générer des courants prenant en compte la présence de solides dans le milieu à explorer, comme des rochers ou des piles d'éoliennes offshores qui peuvent être intéressante pour notre application. C'est la méthode qui fournirait les résultats les plus vraisemblables et les plus proche de ce qu'on pourrait trouver en milieu naturels.
+
+				En revanche les équations de Navier-Stokes sont des équations aux dérivées partielles non-linéaires~\cite{hinch2012hydrodynamique} qui sont lourdes à résoudre numériquement. Elles alourdiraient grandement la simulation afin de calculer le courant en chaque point de l'espace afin d'impacter tous les solides constituants les robots mais aussi les éléments de l'environnement comme les structures sous-marines et les ombilicaux par exemple.
+
+			\subsubsection{Choix du modèle}
+
+				Il faut maintenant choisir un modèle qui va être implémenté dans le simulateur. Pour nous aider dans ce choix, la \textsc{Table}~\ref{table:courants} reprends les principales caractéristiques des différents modèles, à savoir le caractèr non-aléatoire des courants générés et la prise en compte des structures sous-marines. Le réalisme des courants générés ainsi que la complexité d'implémentation est aussi présentée. Cette dernière représente à la fois le temps d'implémentation de la solution ainsi que la complexité d'execution de celle-ci en terme de ressources nécéssaires. Elle est représentée par le symbole \pmark (\pmark : \textit{simple}, \pmark \pmark : \textit{intermédiaire}, \pmark \pmark \pmark : \textit{complexe}).
+
+				\begin{table}[ht]
 					\centering
-					\inputpgf{imgs/pgf/}{courant.pgf}
-					\caption{Courant généré}
-				\end{subfigure}
-				\caption{Comparaison bruit aléatoire et bruit de Perlin}
-				\label{fig:perlin_noise}
-			\end{figure}
+					\begin{adjustbox}{max width=\textwidth}
+						\begin{tabular}{|c|c|c|c|c|}
+							\hline
+							\textbf{Modèle de courants} & \textbf{Non aléatoire} & \textbf{Structures sous-marines} & \textbf{Réalisme} & \textbf{Complexité} \\
+							\hline
+							Modèle constant & \cmark & \xmark & \pmark \pmark & \pmark\\
+							\hline
+							Modèle procédural & \xmark & \xmark & \pmark & \pmark \pmark \\
+							\hline
+							Modèle Navier-Stokes & \cmark & \cmark & \pmark \pmark \pmark & \pmark \pmark \pmark \\
+							\hline
+						\end{tabular}
+					\end{adjustbox}
+					\caption{Différents modèles de simulation de courants}
+					\label{table:courants}
+				\end{table}
 
-			C'est une bonne approche pour générer des courants marins de manière pseudo-aléatoire, mais il est difficile de reproduire de manière contrôlée les courants marins qu'il y aurait eu lors d'un essai en milieu naturel afin de comparer les résultats de la simulation avec le comportement des \gls{ROV}s réels.
-			
-			Il serait cependant intéressant d'utiliser ce genre d'algorithme pour de la génération procédurale de terrain. En effet, en interpretant la carte 2D comme un modèle d'élévation numérique de terrain, on serait en mesure de créer de manière pseudo-aléatoire des fonds marins pour testers les robots dans différents environnements.
-
-		\subsection{Modèle de Navier-Stokes}
-
-			Une simulation des courants marins basée sur les équations de Navier-Stokes permet de proposer une approche intéressante à la simulation de courants marins~\cite{Garau2006current}. Ils permettent notament de générer des courants prenant en compte la présence de solides dans le milieu à explorer, comme des rochers ou des piles d'éoliennes offshores qui peuvent être intéressante pour notre application. C'est la méthode qui fournirait les résultats les plus vraisemblables et les plus proche de ce qu'on pourrait trouver en milieu naturels.
-
-			En revanche les équations de Navier-Stokes sont des équations aux dérivées partielles non-linéaires~\cite{hinch2012hydrodynamique} qui sont lourdes à résoudre numériquement. Elles alourdiraient grandement la simulation afin de calculer le courant en chaque point de l'espace afin d'impacter tous les solides constituants les robots mais aussi les éléments de l'environnement comme les structures sous-marines et les ombilicaux par exemple.
-
-		\subsection{Choix du modèle}
-
-			Il faut maintenant choisir un modèle qui va être implémenté dans le simulateur. Pour nous aider dans ce choix, la \textsc{Table}~\ref{table:courants} reprends les principales caractéristiques des différents modèles, à savoir le caractèr non-aléatoire des courants générés et la prise en compte des structures sous-marines. Le réalisme des courants générés ainsi que la complexité d'implémentation est aussi présentée. Cette dernière représente à la fois le temps d'implémentation de la solution ainsi que la complexité d'execution de celle-ci en terme de ressources nécéssaires. Elle est représentée par le symbole \pmark (\pmark : \textit{simple}, \pmark \pmark : \textit{intermédiaire}, \pmark \pmark \pmark : \textit{complexe}).
-
-			\begin{table}[ht]
-				\centering
-				\begin{adjustbox}{max width=\textwidth}
-					\begin{tabular}{|c|c|c|c|c|}
-						\hline
-						\textbf{Modèle de courants} & \textbf{Non aléatoire} & \textbf{Structures sous-marines} & \textbf{Réalisme} & \textbf{Complexité} \\
-						\hline
-						Modèle constant & \cmark & \xmark & \pmark \pmark & \pmark\\
-						\hline
-						Modèle procédural & \xmark & \xmark & \pmark & \pmark \pmark \\
-						\hline
-						Modèle Navier-Stokes & \cmark & \cmark & \pmark \pmark \pmark & \pmark \pmark \pmark \\
-						\hline
-					\end{tabular}
-				\end{adjustbox}
-				\caption{Différents modèles de simulation de courants}
-				\label{table:courants}
-			\end{table}
-
-			Nous pouvons aisement écarter le modèle procédural car on remarque au vu des éléments présentés sur la \textsc{Table}~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en terme de ressources pour une simulation temps réel. Notre choix se porte donc l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle macroscopique qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
+				Nous pouvons aisement écarter le modèle procédural car on remarque au vu des éléments présentés sur la \textsc{Table}~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en terme de ressources pour une simulation temps réel. Notre choix se porte donc l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle macroscopique qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
 
 		\section{Simulation d'ombilicaux}
 

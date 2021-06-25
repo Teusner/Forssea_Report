@@ -3,94 +3,44 @@ import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3
 import matplotlib.animation as animation
 
-
-def wave(r, k, omega):
-    x = x0 + r * np.sin(k*x0 - omega*t)
-    z = z0 - r * np.cos(k*x0 - omega*t)
-    return x, z
-
 # https://en.wikipedia.org/wiki/Trochoidal_wave
 
 g = 9.81
 h = 100
-m = 3
-a_m = np.array([1, 0.5, 0.25]).reshape((3, 1))
-k_m = np.array([1, 0.5, 0.25]).reshape((3, 1))
+m = 4
+a_m = np.array([[0.2, 0.1, 0.05, 0.1]])
+k_m = np.array([[0.1, 0.05, 0.001, 0.1]])
 omega_m = np.sqrt(g*k_m*np.tanh(k_m*h))
-phi_m = np.array([0, 0, 0]).reshape((3, 1))
+phi_m = np.array([[0, 0.2, 0.6, 2]])
+h_m = np.array([[0, np.pi/6, np.pi/3, np.pi/9]])
 
 def ksi(alpha, beta, t):
-    return alpha - np.sum(a_m / np.tanh(k_m*h) * np.sin(k_m * alpha - omega_m * t - phi_m * np.ones(t.shape)), axis=0)
+    return alpha - np.sum(np.cos(h_m) * k_m * a_m / np.tanh(k_m*h) * np.sin(alpha[:, :, np.newaxis]@(np.cos(h_m)*k_m) + beta[:, :, np.newaxis]@(np.sin(h_m)*k_m) - np.ones(alpha[:, :, np.newaxis].shape)@(phi_m+omega_m*t) + 10*np.repeat(zeta(alpha, beta, t)[:, :, np.newaxis], m, axis=2)), axis=2)
+
+def eta(alpha, beta, t):
+    return beta - np.sum(np.sin(h_m) * k_m * a_m / np.tanh(k_m*h) * np.sin(alpha[:, :, np.newaxis]@(np.cos(h_m)*k_m) + beta[:, :, np.newaxis]@(np.sin(h_m)*k_m) - np.ones(alpha[:, :, np.newaxis].shape)@(phi_m+omega_m*t) + 10*np.repeat(zeta(alpha, beta, t)[:, :, np.newaxis], m, axis=2)), axis=2)
+
+def zeta(alpha, beta, t):
+    return np.sum(a_m * np.cos(alpha[:, :, np.newaxis]@(np.cos(h_m)*k_m) + beta[:, :, np.newaxis]@(np.sin(h_m)*k_m) - np.ones(alpha[:, :, np.newaxis].shape)@(phi_m+omega_m*t)), axis=2)
 
 
 if __name__ == "__main__":
-    t = np.arange(0, 20, 0.1)
-    alpha = np.arange(-10, 10, 0.1)
-    beta = np.arange(-10, 10, 0.1)
+    t = np.arange(0, 30, 0.5)
+    alpha = np.arange(-100, 100, 2)
+    beta = np.arange(-100, 100, 2)
     Alpha, Beta = np.meshgrid(alpha, beta)
 
-    x = ksi(alpha, beta, t)
+    fig = plt.figure()
+    ax = plt.axes(projection='3d')
+    ax.set_title('Surface plot')
 
-    plt.figure()
-    plt.plot(t, x)
-    plt.show()
+    for T in t:
+        x = ksi(Alpha, Beta, T)
+        y = eta(Alpha, Beta, T)
+        z = zeta(Alpha, Beta, T)
 
+        ax.clear()
+        ax.plot_surface(x, y, z, cmap='viridis', edgecolor='none')
 
-    # # Required parameters
-    # r = 1
-    # k = 5.5
-    # omega = 1
-
-    # # Parameters computing
-    # H = 2*r
-    # L = 2*np.pi/k
-    # T = 2*np.pi/omega
-    # c = omega/k
-
-    # print(f"Celerity {c=}")
-    # print(f"{k*r=}")
-
-    # x = x0 + r * np.sin(k*x0 - omega*t)
-    # z = z0 - r * np.cos(k*x0 - omega*t)
-
-    # #  t=0
-    # # alpha = -k*x0
-    # # x = -alpha/k - r*np.sin(alpha)
-    # # z = r*np.cos(alpha)
-
-    # # fig, (ax1, ax2) = plt.subplots(2, 1)
-    # # ax1.plot(t, x)
-    # # ax2.plot(t, z)
-
-    # fig = plt.figure()
-    # ax = fig.add_subplot(111)
-    # wave_plot, = plt.plot(x, z)
-    # ax.grid(True)
-    # ax.set_aspect('equal')
-
-    # k_slider_ax = plt.axes([0.1, 0.05, 0.8, 0.05])
-    # r_slider_ax = plt.axes([0.1, 0.15, 0.8, 0.05])
-    # k_slider = Slider(k_slider_ax, 'k', 0.1, 10, valinit=5.5)
-    # r_slider = Slider(r_slider_ax, 'r', 0.1, 10, valinit=1)
-    # plt.title(f"Wave {r*k=}")
-
-    # def update(val):
-    #     global x, z, r, k, H, L
-    #     r, k = r_slider.val, k_slider.val
-    #     H = 2*r
-    #     L = 2*np.pi/k
-    #     x = x0 + r * np.sin(k*x0 - omega*t)
-    #     z = z0 - r * np.cos(k*x0 - omega*t)
-    #     wave_plot.set_xdata(x)
-    #     wave_plot.set_ydata(z)
-    #     plt.title(f"Wave {r*k=} {H/L=}")
-    #     ax.axis([np.min(x), np.max(x), np.min(z), np.max(z)])
-    #     fig.canvas.draw_idle()
-
-    # k_slider.on_changed(update)
-    # r_slider.on_changed(update)
-
-    # plt.show()
-
-    
+        plt.pause(0.0001)    
     
