@@ -92,7 +92,7 @@
 \RequirePackage{tipa}
 
 \RequirePackage{pgf,tikz}
-\usetikzlibrary{automata,shapes,plotmarks,chains,positioning,shadows,arrows,trees,calc,matrix}
+\usetikzlibrary{automata,shapes,plotmarks,chains,positioning,shadows,arrows,trees,calc,matrix,arrows.meta}
 
 \RequirePackage{tikz-3dplot}
 
@@ -177,3 +177,60 @@
 \newcommand\subsubsubsection{\@startsection{paragraph}{4}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
 \newcommand\subsubsubsubsection{\@startsection{subparagraph}{5}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
 \makeatother
+
+\newcommand*\cleartoleftpage{%
+  \clearpage
+  \ifodd\value{page}\hbox{}\newpage\fi
+}
+
+\makeatletter
+\tikzoption{canvas is xy plane at z}[]{%
+  \def\tikz@plane@origin{\pgfpointxyz{0}{0}{#1}}%
+  \def\tikz@plane@x{\pgfpointxyz{1}{0}{#1}}%
+  \def\tikz@plane@y{\pgfpointxyz{0}{1}{#1}}%
+  \tikz@canvas@is@plane
+}
+\makeatother
+
+% 3D Arrows
+\pgfkeys{
+  /pgf/arrow keys/.cd,
+  pitch/.code={%
+    \pgfmathsetmacro\pgfarrowpitch{#1}
+    \pgfmathsetmacro\pgfarrowsinpitch{abs(sin(\pgfarrowpitch))}
+    \pgfmathsetmacro\pgfarrowcospitch{abs(cos(\pgfarrowpitch))}
+  },
+}
+
+\pgfdeclarearrow{
+  name = Cone,
+  defaults = {       % inherit from Kite
+    length     = +3.6pt +5.4,
+    width'     = +0pt +0.5,
+    line width = +0pt 1 1,
+    pitch      = +0, % lie on screen
+  },
+  cache = false,     % no need cache
+  setup code = {},   % so no need setup
+  drawing code = {   % but still need math
+    % draw the base
+    \pgfmathsetmacro\pgfarrowhalfwidth{.5\pgfarrowwidth}
+    \pgfmathsetmacro\pgfarrowhalfwidthsin{\pgfarrowhalfwidth*\pgfarrowsinpitch}
+    \pgfpathellipse{\pgfpointorigin}{\pgfqpoint{\pgfarrowhalfwidthsin pt}{0pt}}{\pgfqpoint{0pt}{\pgfarrowhalfwidth pt}}
+    \pgfusepath{fill}
+    % test if the cone part visible
+    \pgfmathsetmacro\pgfarrowlengthcos{\pgfarrowlength*\pgfarrowcospitch}
+    \pgfmathparse{\pgfarrowlengthcos>\pgfarrowhalfwidthsin}
+    \ifnum\pgfmathresult=1
+      % it is visible, so draw
+      \pgfmathsetmacro\pgfarrowlengthtemp{\pgfarrowhalfwidthsin*\pgfarrowhalfwidthsin/\pgfarrowlengthcos}
+      \pgfmathsetmacro\pgfarrowwidthtemp{\pgfarrowhalfwidth/\pgfarrowlengthcos*sqrt(\pgfarrowlengthcos*\pgfarrowlengthcos-\pgfarrowhalfwidthsin*\pgfarrowhalfwidthsin)}
+      \pgfpathmoveto{\pgfqpoint{\pgfarrowlengthcos pt}{0pt}}
+      \pgfpathlineto{\pgfqpoint{\pgfarrowlengthtemp pt}{ \pgfarrowwidthtemp pt}}
+      \pgfpathlineto{\pgfqpoint{\pgfarrowlengthtemp pt}{-\pgfarrowwidthtemp pt}}
+      \pgfpathclose
+      \pgfusepath{fill}
+    \fi
+    \pgfpathmoveto{\pgfpointorigin}
+  }
+}
