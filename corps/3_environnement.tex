@@ -162,8 +162,8 @@
 				En notant $\xi$ la trajectoire des particules suivant l'axe $\overrightarrow{x}$ et $\eta$ celle suivant l'axe $\overrightarrow{z}$, on a :
 
 				\begin{eqnarray}
-					\xi(x, z, t) & = & a \frac{cosh(k_m(z+H))}{sinh(k_mH)} sin(\omega_m t -k_mx + \phi_m) \\
-					\eta(x, z, t) & = & \frac{a_m}{k_m} \frac{cosh(k(z+H))}{sinh(kh)} cos(\omega_m t -k_mx + \phi_m)
+					\xi(x, z, t) & = & x + a \frac{cosh(k_m(z+H))}{sinh(k_mH)} sin(\omega_m t -k_mx + \phi_m) \\
+					\eta(x, z, t) & = & z + \frac{a_m}{k_m} \frac{cosh(k(z+H))}{sinh(kh)} cos(\omega_m t -k_mx + \phi_m)
 				\end{eqnarray}
 
 				Puis nous allons introduire le cap de la vague, qui va permettre d'orienter la vague autrement que suivant l'axe $\overrightarrow{x}$. En notant $h$ son cap, on a :
@@ -175,7 +175,7 @@
 					v & = & sin(h) u(x, y, t)
 				\end{eqnarray}
 
-			\subsubsection{Modèle final}
+			\subsubsection{Simplification en eaux profondes}
 			
 				Finalement, on peut simplifier le modèle précédent, en remarquant que la hauteur de la colonne d'eau dans notre cas est très grande devant la hauteur caractéristiques de nos vagues, donc :
 
@@ -193,6 +193,10 @@
 					\xi(x, z, t) & = & a_m \omega_m e^{kz}sin(\omega_mt -k_mx + \phi_m) \\
 					\eta(x, z, t) & = & a_m \omega_m e^{kz}cos(\omega_mt -k_mx + \phi_m)
 				\end{eqnarray}
+
+			\subsubsection{Choix du spectre de vagues}
+				
+				
 
 		\subsection{Flottabilité}
 
@@ -357,9 +361,9 @@
 						\draw[vector] (T3) -- +(225:0.8cm) node[xshift=-.5em]{$\overrightarrow{F_f}$};
 						\draw[vector,Green] (T3) -- +(45:1cm) node[xshift=.2em,yshift=.4em]{$\overrightarrow{v}$};
 			
-						\draw[->,red,very thick] (0,0) -- (-0.4,-0.6) node[left] {$\mathbf{x}$}; 
-						\draw[->,Green,very thick] (0,0) -- (1,0) node[above left] {$\mathbf{y}$}; 
-						\draw[->,blue,very thick] (0,0) -- (0,1) node[above] {$\mathbf{z}$}; 
+						\draw[->,red,very thick, >=stealth] (0,0) -- (-0.4,-0.6) node[left] {$\mathbf{x}$}; 
+						\draw[->,Green,very thick, >=stealth] (0,0) -- (1,0) node[above left] {$\mathbf{y}$}; 
+						\draw[->,blue,very thick, >=stealth] (0,0) -- (0,1) node[above] {$\mathbf{z}$}; 
 					\end{tikzpicture}
 					\caption{Modelization of the problem}
 					\label{fig:modelization}
