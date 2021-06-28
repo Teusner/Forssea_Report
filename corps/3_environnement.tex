@@ -108,11 +108,40 @@
 					\end{minipage}
 				\end{figure}
 
-				Cependant, si ce modèle suffit à représenter la surface libre de la mer, il ne fournit pas la dynamique du milieu marin et l'impact qu'il va voir sur les \gls{ROV}s. C'est pourquoi il va falloir établir les équations de PRESSION et de VITESSE des particules afin de pouvoir simuler l'impact des vagues sur les robots.
-
+				Cependant, si ce modèle suffit à représenter la surface libre de la mer, il ne fournit pas la dynamique du milieu marin et l'impact qu'il va voir sur les \gls{ROV}s. C'est pourquoi il va falloir établir ces équations afin de pouvoir pleinement simuler le milieu marin.
+				
 			\subsubsection{Modèle dynamique du MIT}
 
-				C'est à ce moment qu'intervient l'utilisation du modèle de vague du \textsc{MIT}~\cite{MIT_Waves}.
+				Le \textit{Massachusetts Institute of Technology} (\textsc{MIT}) a formalisé la modélisation d'un environnement marin dans le cadre linéaire~\cite{MIT_Waves}. Cette modélisation utilise les mêmes équations pour décrire la surface libre de l'eau, mais fournit aussi les équations de pression et de vitesse des particules en tout point du fluide. Cela permet d'agrémenter notre simulation de la dynamique qui nous manquait jusqu'à présent.
+
+				Le modèle est basé sur l'étude de vagues dans le plan $(0, \overrightarrow{x}, \overrightarrow{z})$, avec $\overrightarrow{z}$ orienté vers le haut comme représenté sur la \textsc{Figure}~\ref{fig:mit_frame}. On considère l'eau comme un fluide incompressible et que la surface libre est soumise à la pression atmosphérique $P_a$.
+
+				\begin{figure}[!htb]
+					\centering
+					\begin{tikzpicture}[x={(20:1cm)},y={(90:1cm)},z={(160:0.5cm)},line join=round,]
+							\tikzset{xyp/.style={canvas is xy plane at z=#1}}
+
+							\filldraw[brown!50,draw=black] (0,0,0) -- (3,0,0) -- (3,0.3,0) -- cycle;
+							\filldraw[brown!50,draw=black] (0,0,0) -- (3,0.3,0) -- (3,0.3,3) -- (0,0,3) -- cycle;
+							\draw[blue!50!cyan!50!black,thick] (3,1,0) -- (3,1,3);
+						
+							\foreach \z in {100, 98, ..., 0}
+							{   \pgfmathsetmacro{\drawperc}{or(\z==0,\z==100) ? 1 : 0}
+								\ifthenelse{\z=0 \OR \z=100}
+								{   \gdef\myc{blue!50!cyan!50!black}}
+								{ \gdef\myc{blue!50!cyan!50!white}}
+								\filldraw[blue!50!cyan!50!white,xyp=\z/100*3,opacity=1,draw=\myc,draw opacity=1] (0,0) -- (3,0.3) -- (3,1) to[out=170,in=0,looseness=1] (1.5,2) to[out=180,in=20] (0,1.5) -- cycle;
+							}
+						
+							\draw[blue!50!cyan!50!black] (0,1.5,0) -- (0,1.5,3) -- (0,0,3) --(0,0,0);
+
+							\draw[draw=black, fill=gray, opacity=0.2] (0, 0, 0) -- (0, 2.5, 0) -- (3, 2.5, 0) -- (3, 0, 0) -- cycle;
+							\draw[->, >=stealth, color=red, thick] (0,0,0) -- (1,0,0) node[right] {$\overrightarrow{x}$};
+  							\draw[->, >=stealth, color=NavyBlue, thick] (0,0,0) -- (0,1,0) node[above right] {$\overrightarrow{z}$};
+						\end{tikzpicture}
+						\caption{Modélisation de la vague et repère de l'étude}
+						\label{fig:mit_frame}
+				\end{figure}
 
 		\subsection{Flottabilité}
 

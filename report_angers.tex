@@ -12,9 +12,9 @@
 \promo{Master SDS}
 
 % Université Angers
-\logoLaboratoire{\includegraphics[width=3.8cm]{logo_angers.jpg}}
-\laboratoire{\begin{center} Université d'Angers\\10, rue de Rennes\\49035 \textsc{Angers}\\ \textsc{France}\\ Tel +33 (0)2 41 96 23 23 \\ \url{www.univ-angers.fr} \end{center}}
-\encadrantLaboratoire{Encadrant école \\Luc \textsc{Jaulin} \\\texttt{luc.jaulin@ensta-bretagne.fr}}
+\logoLaboratoire{\includegraphics[width=4.2cm]{logo_angers_polytech.jpg}}
+\laboratoire{\begin{center} Polytech Angers\\62, avenue Notre Dame du Lac\\49000 \textsc{Angers}\\ \textsc{France}\\ \url{www.polytech-angers.fr} \end{center}}
+\encadrantLaboratoire{Jury \\Pr. Laurent \textsc{Hardouin}\\ Pr. Luc \textsc{Jaulin}}
 
 % Forssea Robotics
 \logoEntreprise{\includegraphics[width=3.8cm]{imgs/logo_forssea.png}}
@@ -41,7 +41,19 @@
 	% Abstract
 	\pagestyle{plain}
 	\cleardoublepage
-	\input{0_abstract}
+
+	\section*{Résumé}
+	\input{resume}
+	\section*{Mots clés}
+	\input{mots_cles}
+
+	\selectlanguage{english}
+	\section*{Abstract}
+	\input{abstract}
+	\section*{Keywords}
+	\input{keywords}
+	\selectlanguage{french}
+	\input{remerciements}
 	\clearpage
 
 	% Table of content
@@ -86,4 +98,25 @@
 
 	\bibliography{bib/sea,bib/intro,bib/software.bib}
 	\bibliographystyle{ieeetr}
+
+	\pagestyle{plain}
+	\cleartoleftpage
+	\pagenumbering{gobble}
+	
+	\vspace*{\fill}
+	\noindent\rule[2pt]{\textwidth}{0.5pt}\\
+	\textbf{Abstract ---}
+	\input{abstract.tex}
+
+	{\textbf{Keywords :}}
+	\input{keywords.tex}
+	\\
+	\noindent\rule[2pt]{\textwidth}{0.5pt}
+	\begin{center}
+		Polytech Angers\\
+		62, avenue Notre Dame du Lac\\
+		49000 Angers
+	\end{center}
+	\vspace*{\fill}
+
 \end{document}

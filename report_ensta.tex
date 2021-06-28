@@ -14,7 +14,7 @@
 % ENSTA Bretagne
 \logoLaboratoire{\includegraphics[width=3.4cm]{logo_ENSTA_Bretagne_Vertical_CMJN}}
 \laboratoire{\begin{center} \textsc{Ensta} Bretagne\\2, rue François Verny\\29806 \textsc{Brest} cedex\\ \textsc{France}\\ Tel +33 (0)2 98 34 88 00 \\ \url{www.ensta-bretagne.fr} \end{center}}
-\encadrantLaboratoire{Encadrant école \\Luc \textsc{Jaulin} \\\texttt{luc.jaulin@ensta-bretagne.fr}}
+\encadrantLaboratoire{Encadrant école \\Pr. Luc \textsc{Jaulin} \\\texttt{luc.jaulin@ensta-bretagne.fr}}
 
 % Forssea Robotics
 \logoEntreprise{\includegraphics[width=3.8cm]{imgs/logo_forssea.png}}
@@ -41,7 +41,19 @@
 	% Abstract
 	\pagestyle{plain}
 	\cleardoublepage
-	\input{0_abstract}
+
+	\section*{Résumé}
+	\input{resume}
+	\section*{Mots clés}
+	\input{mots_cles}
+
+	\selectlanguage{english}
+	\section*{Abstract}
+	\input{abstract}
+	\section*{Keywords}
+	\input{keywords}
+	\selectlanguage{french}
+	\input{remerciements}
 	\clearpage
 
 	% Table of content
