@@ -4,13 +4,11 @@
 	
 	\section{Introduction}
 
-		Dans ce chapitre, nous allons nous intéresser à la simulation de l'environnement. Elle constitue une partie importante du simulateur car c'est elle qui va définir le comportement des \gls{ROV}s dans leur milieu.  A la fin de ce chapitre, nous devrions avoir à notre disposition un environnement de simulation complet proche de l'environnement rencontré lors de missions avec les robots.
+		Dans ce chapitre, nous allons nous intéresser à la simulation de l'environnement. Elle constitue une partie importante du simulateur car elle va influencer le comportement des \gls{ROV}s dans leur milieu.  A la fin de ce chapitre, nous devrions avoir à notre disposition un environnement de simulation complet proche de l'environnement rencontré lors de missions avec les robots.
 
-		Pour ce faire, nous allons donc d'établir les différents élements de l'environnement qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. 
-		
-		Ce qui va principalement influencer le comportement des robots est le milieu marin qui va ajouter la flottabilité, les vagues, des courants marins et du vent. Ensuite, il y a l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations. Enfin la présence de structures sous-marines jouent aussi un rôle importante dans les missions des \gls{ROV}s, que ce soit par exemple des piles d'éolienne à inspecter pour le robot \argos{}, son garage, ou bien des structures sous-marines à deplacer pour \atoll{}.
+		Pour ce faire, nous allons donc d'établir les différents élements de l'environnement qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Ce qui va principalement influencer le comportement des robots est le milieu marin qui va ajouter la flottabilité, les vagues, des courants marins et du vent. Ensuite, il y a l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations. Enfin la présence de structures sous-marines jouent aussi un rôle importante dans les missions des \gls{ROV}s, que ce soit par exemple des piles d'éolienne à inspecter pour le robot \argos{}, son garage, ou bien des structures sous-marines à deplacer pour \atoll{}.
 
-		Nous allons donc nous intéresser par la suite a la manière de simuler ces différents éléments d'environnement pour le simulateur.
+		Nous allons donc nous intéresser à la manière de simuler ces différents éléments d'environnement pour le simulateur.
 
 		% La \textsc{Table}~\ref{table:elements} présente les différents élements cités précédemment qui peuvent être simulés dans un environnement marin. Nous allons choisir les principaux car tous n'auront pas un impact significatif sur le comportement des \gls{ROV}s, comme le vent ou les vagues. 
 
@@ -45,17 +43,17 @@
 			
 			La simulation de l'environnement marin est probablement ce qui va le plus impacter le comportement des \gls{ROV}s. Le milieu marin doit proposer un modèle de mer avec des vagues, ajouter de la flottabilité aux robots et simuler du courant.
 
-		\subsection{Modèle de houle trochoïdale}
+		\subsection{Modèle de vagues}
 
 			\subsubsection{Introduction}
 
-				Dans un premier temps, nous allons nous intéresser à la modélisation de la surface libre de la mer, c'est à dire qu'il nous faut trouver un formalisme permettant de simuler la surface de l'environnement marin, à l'interface entre l'air et l'eau. Un modèle établi il y a plus de deux cents par \textit{Gerstner}~\cite{Gerstner} propose une modélisation trochoïdale de la houle.
+				Dans un premier temps, nous allons nous intéresser à la modélisation de la surface libre de la mer, c'est à dire qu'il nous faut trouver un formalisme permettant de simuler la surface de l'environnement marin, à l'interface entre l'air et l'eau. Un modèle établi il y a plus de deux cents par \textit{Gerstner}~\cite{Gerstner} propose une modélisation trochoïdale de la houle. Nous allons implémenter cette solution afin de voir les résultats qu'elle peut fournir.
 
 			\subsubsection{Modèle visuel de Gerstner}
 
-				Le modèle de \textit{Gerstner} est donc très utilisé en infographie afin de réaliser le rendu visuel de la mer. C'est un modèle qui est particulièrement bien adapté à la description de la surface libre d'une mer profonde, car les ondes en milieu peu profond se reflétent sur le fond, et la houle n'est plus exactement trochoïdale. Ce modèle propose une modélisation en deux dimensions de la houle dans un plan perpendiculaire à la surface de la mer. Une adaptation de ces équations est nécéssaire afin de passer en trois dimensions~\cite{Gerstner-Like_Henry}.
+				Le modèle de \textit{Gerstner} est donc très utilisé en infographie afin de réaliser le rendu visuel de la mer. C'est un modèle qui est particulièrement bien adapté à la description de la surface libre d'une mer profonde, car les ondes en milieu peu profond se reflétent sur le fond, et la houle n'est plus exactement trochoïdale~\cite{Gerstner, Constantin_2001}. Ce modèle propose une modélisation en deux dimensions de la houle dans un plan perpendiculaire à la surface de la mer. Une adaptation de ces équations est nécéssaire afin de passer en trois dimensions~\cite{Gerstner-Like_Henry}.
 
-				Cette modélisation de houle trochoïdale utilise une approche lagrangienne pour définir l'équation paramétrique de la surface libre~\cite{Gerstner, Gerstner-Like_Henry}. On s'intéresse donc à une particule de fluide positionnée au repos en $p_0=(\alpha, \beta, z_0)$, avec $z_0$ la hauteur d'eau au repos dans une mer de fond $h$. Chaque vague trochoïdale $m$ est ensuite définie par son amplitude $a_m$, son nombre d'onde $k_m$, sa phase $\phi_m$ et sa pulsation $\omega_m$ et va influencer la position de cette particule au cours du temps comme suit :
+				Cette modélisation de houle trochoïdale utilise une approche lagrangienne pour définir l'équation paramétrique de la surface libre~\cite{Gerstner, Constantin_2001, Gerstner-Like_Henry}. On s'intéresse donc à une particule de fluide positionnée au repos en $p_0=(\alpha, \beta, z_0)$, avec $z_0$ la hauteur d'eau au repos dans une mer de fond $h$. Chaque vague trochoïdale $m$ est ensuite définie par son amplitude $a_m$, son nombre d'onde $k_m$, sa phase $\phi_m$ et sa pulsation $\omega_m$ et va influencer la position de cette particule au cours du temps comme suit :
 
 				\begin{eqnarray}
 					\xi(\alpha, \beta, t) & = & \alpha - \sum_{m=0}^{M} \frac{k_{x, m}}{k_m} \frac{a_m}{tanh(k_mh)}sin(\theta_m) \\ 
