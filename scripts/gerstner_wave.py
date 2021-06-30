@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
@@ -46,5 +47,10 @@ def plot_waves():
 
 
 if __name__ == "__main__":
+    args = sys.argv
+    if len(args)>1:
+        figname = args[1]
+    else :
+        figname = 'build/pgf/gerstner_wave.pgf'
     fig, axs = plot_waves()
-    plt.savefig('imgs/pgf/gerstner_waves.pgf')
+    plt.savefig(figname)

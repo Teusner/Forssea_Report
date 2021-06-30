@@ -166,13 +166,17 @@
 
 				Pour calculer la masse totale du robot, il suffit de sommer la masse de tous les composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, m_i$ représente la masse du \textit{i-ème} composant, et $m_{robot}$ la masse du robot, on a :
 
-				$$m_{robot} = \sum_{i=0}^{N}m_i$$
+				\begin{equation}
+					m_{robot} = \sum_{i=0}^{N}m_i
+				\end{equation}
 
 			\subsubsection{Vérification du centre de gravité}
 
 				Pour calculer le centre de gravité du robot, on réalise une moyenne des centres de gravités pondérée par les masses des différents composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, m_i$ représente la masse du \textit{i-ème} composant et $G_i$ représente les coordonnées de son centre de gravité dans le repère monde, et $G_{robot}$ le centre de gravité du robot, on a :
 
-				$$G_{robot} = \frac{\sum_{i=0}^{N}m_i.G_i}{\sum_{i=0}^{N}m_i}$$
+				\begin{equation}
+					G_{robot} = \frac{\sum_{i=0}^{N}m_i.G_i}{\sum_{i=0}^{N}m_i}
+				\end{equation}
 
 			\subsubsection{Vérification de la matrice d'inertie}
 
@@ -180,35 +184,49 @@
 				
 				Par cinématique directe, on peut obtenir la matrice de la transformation homogène $H_0^i$ entre les repères $R_0$ et $R_i$, qui exprime la rotation et la translation entre ces deux repères. Cette matrice est composée d'une matrice de rotation $R_{3, 3}$ et d'une matrice traduisant la translation $T_{3, 1}$ entre les deux solides.
 
-				$$H_{R_0}^{R_i} = \begin{bNiceArray}{CCC:C}[margin] &&& \\ & R_{3, 3} && T_{3, 1} \\ &&& \\ \hdottedline 0 & 0 & 0 & 1 \end{bNiceArray}$$
+				\begin{equation}
+					H_{R_0}^{R_i} = \begin{bNiceArray}{CCC:C}[margin] &&& \\ & R_{3, 3} && T_{3, 1} \\ &&& \\ \hdottedline 0 & 0 & 0 & 1 \end{bNiceArray}
+				\end{equation}
 
 				En notant $I_{i, R_0}(G_i)$ la matrice d'inertie du i-ème composant exprimée en son centre de gravité dans le repère associé au châssis du robot, on peut exprimer le changement de base du tenseur d'inertie comme suit :
 
-				$$I_{i, R_0}(G_i) = R^T.I_{i, R_i}(G_i).R$$
+				\begin{equation}
+					I_{i, R_0}(G_i) = R^T.I_{i, R_i}(G_i).R
+				\end{equation}
 
 				Puis, il faut exprimer le décalage entre l'origine du robot, et le centre de gravité du composant. En utilisant la convention des coordonnées homogènes, et en notant $d^H = \begin{bmatrix}a & b & c & 1\end{bmatrix}^T$, on a :
 
-				$$d^H = H_0^i . G_i^H$$
+				\begin{equation}
+					d^H = H_0^i . G_i^H
+				\end{equation}
 
 				Ensuite on peut déplacer ce tenseur à l'origine du repère \textit{0} à l'aide de la formule de \textit{König-Huygens} :
 
-				$$I_{i, R_0}(O) = I_{i, R_0}(G_i) + m_i.\begin{bmatrix} b^2 + c^2 & -a.b & -a.c \\ -a.b & a^2 + c^2 & -b.c \\ -a.c & -b.c & a^2 + b^2 \end{bmatrix}$$
+				\begin{equation}
+					I_{i, R_0}(O) = I_{i, R_0}(G_i) + m_i.\begin{bmatrix} b^2 + c^2 & -a.b & -a.c \\ -a.b & a^2 + c^2 & -b.c \\ -a.c & -b.c & a^2 + b^2 \end{bmatrix}
+				\end{equation}
 
 				Enfin, en possédant le tenseur d'inertie de chaque composant dans la base \textit{0} et au même point qui est l'origine du robot, on est en mesure de sommer ces inerties pour obtenir l'inertie totale du robot.
 
-				$$I_{robot, R_0}(O) = \sum_{i=0}^N I_{i, R_0}(O)$$
+				\begin{equation}
+					I_{robot, R_0}(O) = \sum_{i=0}^N I_{i, R_0}(O)
+				\end{equation}
 
 			\subsubsection{Vérification du volume}
 
 				Pour calculer le volume total du robot, il suffit de sommer le volume de tous les composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, v_i$ représente le volume du \textit{i-ème} composant, et $v_{robot}$ le volume du robot, on a :
 
-				$$v_{robot} = \sum_{i=0}^{N}v_i$$
+				\begin{equation}
+					v_{robot} = \sum_{i=0}^{N}v_i
+				\end{equation}
 
 			\subsubsection{Vérification du centre de volume}
 
 				Pour calculer le centre de volume du robot, on réalise une moyenne des centres de volume pondérée par le volume des différents composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, v_i$ représente le volume du \textit{i-ème} composant, $V_i$ représente les coordonnées du centre de volume dans le repère du robot, et $V_{robot}$ le volume du robot, on a :
 
-				$$V_{robot} = \frac{\sum_{i=0}^{N}v_i.V_i}{\sum_{i=0}^{N}v_i}$$
+				\begin{equation}
+					V_{robot} = \frac{\sum_{i=0}^{N}v_i.V_i}{\sum_{i=0}^{N}v_i}
+				\end{equation}
 
 
 		\subsection{Tests unitaires d'\argos{}}
