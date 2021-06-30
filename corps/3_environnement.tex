@@ -6,11 +6,11 @@
 
 		Dans ce chapitre, nous allons nous intéresser à la simulation de l'environnement. Elle constitue une partie importante du simulateur car elle va influencer le comportement des \gls{ROV}s dans leur milieu.  A la fin de ce chapitre, nous devrions avoir à notre disposition un environnement de simulation complet proche de l'environnement rencontré lors de missions avec les robots.
 
-		Pour ce faire, nous allons donc d'établir les différents élements de l'environnement qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Ce qui va principalement influencer le comportement des robots est le milieu marin qui va ajouter la flottabilité, les vagues, des courants marins et du vent. Ensuite, il y a l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations. Enfin la présence de structures sous-marines jouent aussi un rôle importante dans les missions des \gls{ROV}s, que ce soit par exemple des piles d'éolienne à inspecter pour le robot \argos{}, son garage, ou bien des structures sous-marines à deplacer pour \atoll{}.
+		Pour ce faire, nous allons donc d'établir les différents éléments de l'environnement qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Ce qui va principalement influencer le comportement des robots est le milieu marin qui va ajouter la flottabilité, les vagues, des courants marins et du vent. Ensuite, il y a l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations. Enfin la présence de structures sous-marines jouent aussi un rôle importante dans les missions des \gls{ROV}s, que ce soit par exemple des piles d'éolienne à inspecter pour le robot \argos{}, son garage, ou bien des structures sous-marines à déplacer pour \atoll{}.
 
 		Nous allons donc nous intéresser à la manière de simuler ces différents éléments d'environnement pour le simulateur.
 
-		% La \textsc{Table}~\ref{table:elements} présente les différents élements cités précédemment qui peuvent être simulés dans un environnement marin. Nous allons choisir les principaux car tous n'auront pas un impact significatif sur le comportement des \gls{ROV}s, comme le vent ou les vagues. 
+		% La \textsc{Table}~\ref{table:elements} présente les différents éléments cités précédemment qui peuvent être simulés dans un environnement marin. Nous allons choisir les principaux car tous n'auront pas un impact significatif sur le comportement des \gls{ROV}s, comme le vent ou les vagues. 
 
 		% \begin{table}[ht]
 		% 	\centering
@@ -33,7 +33,7 @@
 		% 		Pile d'éolienne & \cmark \\
 		% 		\hline
 		% 	\end{tabular}
-		% 	\caption{Elements pris en compte dans l'environnement de simulation}
+		% 	\caption{Eléments pris en compte dans l'environnement de simulation}
 		% 	\label{table:elements}
 		% \end{table}
 
@@ -51,7 +51,7 @@
 
 			\subsubsection{Modèle visuel de Gerstner}
 
-				Le modèle de \textit{Gerstner} est donc très utilisé en infographie afin de réaliser le rendu visuel de la mer. C'est un modèle qui est particulièrement bien adapté à la description de la surface libre d'une mer profonde, car les ondes en milieu peu profond se reflétent sur le fond, et la houle n'est plus exactement trochoïdale~\cite{Gerstner, Constantin_2001}. Ce modèle propose une modélisation en deux dimensions de la houle dans un plan perpendiculaire à la surface de la mer. Une adaptation de ces équations est nécéssaire afin de passer en trois dimensions~\cite{Gerstner-Like_Henry}.
+				Le modèle de \textit{Gerstner} est donc très utilisé en infographie afin de réaliser le rendu visuel de la mer. C'est un modèle qui est particulièrement bien adapté à la description de la surface libre d'une mer profonde, car les ondes en milieu peu profond se reflètent sur le fond, et la houle n'est plus exactement trochoïdale~\cite{Gerstner, Constantin_2001}. Ce modèle propose une modélisation en deux dimensions de la houle dans un plan perpendiculaire à la surface de la mer. Une adaptation de ces équations est nécessaire afin de passer en trois dimensions~\cite{Gerstner-Like_Henry}.
 
 				Cette modélisation de houle trochoïdale utilise une approche lagrangienne pour définir l'équation paramétrique de la surface libre~\cite{Gerstner, Constantin_2001, Gerstner-Like_Henry}. On s'intéresse donc à une particule de fluide positionnée au repos en $p_0=(\alpha, \beta, z_0)$, avec $z_0$ la hauteur d'eau au repos dans une mer de fond $h$. Chaque vague trochoïdale $m$ est ensuite définie par son amplitude $a_m$, son nombre d'onde $k_m$, sa phase $\phi_m$ et sa pulsation $\omega_m$ et va influencer la position de cette particule au cours du temps comme suit :
 
@@ -79,6 +79,29 @@
 				Ainsi les expressions de $k_{x, m}$ et $k_{y, m}$ vérifient l'\textsc{Equation}~\ref{equation:nombre_onde} et sont calculées uniquement à partir des valeurs de $k_m$ et de $h_m$.
 				
 				Ensuite l'idée générale consiste à définir une vague principale qui va former la houle qui va généralement avoir une amplitude de l'ordre du mètre, et un très petit nombre d'onde donc une très petite pulsation d'après l'\textsc{Equation}~\ref{equation:dispersion}. Puis on ajoute en fonction de la complexité de la surface libre voulue un certain nombre de vaguelettes qui vont s'additionner à la houle, qui ont généralement une très petite amplitude de l'ordre du centimètre et un nombre d'onde assez grand.
+
+				On peut comparer le produit adimensionné $a_m\cdot k_m$ à 1. La \textsc{Figure}~\ref{fig:amkm} présente le tracé pour un produit valant $0.1$ un produit égal à $1$, et un valant $1.2$. On se rend compte que jusqu'à une valeur de $1$ les vagues sont réalistes, mais qu'au delà, une boucle se forme. C'est à ces endroits que le modèle linéaire des vagues s'arrête, car la crête va en réalité s'effondrer au lieu de former une boucle, et de l'écume va s'y former~\cite{Gerstner-Like_Henry, Gerstner_Pixar}. On veillera donc à ne pas dépasser cette valeur charnière afin de rester dans le domaine linéaire dans un premier temps, mais aussi afin d'avoir une simulation réaliste.
+
+				\begin{figure}[!htb]
+					\centering
+					\inputpgf{imgs/pgf}{gerstner_waves.pgf}
+					\caption{Vagues de Gerstner pour différentes valeurs de $a_m\cdot k_m$}
+					\label{fig:amkm}
+				\end{figure}
+
+				Enfin, une amélioration proposée par A. \textsc{Fournier}~\cite{Gerstner_Pixar} est d'ajouter un terme sur la phase permettant de faire accélérer les crêtes de vagues, et de faire ralentir les creux. C'est quelque chose que l'on retrouve réellement sur les vagues, et cela permet d'orienter les vagues suivant la direction de leur déplacement. L'\textsc{Equation}~\ref{equation:pixar_phase} donne la nouvelle expression de la phase. Le terme $\Delta z$ correspond à $z-z_0$, qui est la différence entre la hauteur de la vague au point considéré et la hauteur au repos, et $\gamma_m$ est un coefficient permettant de gérer l'intensité de l'effet ajouté. Ce terme peut se comprendre comme une accélération de la vague sur les crêtes, et un ralentissement de celle-ci dans les creux. Cela se passe linéairement suivant la hauteur de la vague, et en $z_0$ aucun changement de phase n'est opéré car le terme s'annule. La \textsc{Figure}~\ref{fig:gerstner_pixar} montre comment l'ajout de ce paramètre de phase agit sur le forme de la vague.
+
+				\begin{equation}
+					\theta_m(\alpha, \beta, t) = k_{x, m} \alpha + k_{z, m} \beta - \omega_m t - \phi_m - \gamma_m \Delta z
+					\label{equation:pixar_phase}
+				\end{equation}
+
+				\begin{figure}
+					\centering
+					\inputpgf{imgs/pgf}{gerstner_pixar.pgf}
+					\caption{Forme de la vague en fonction du paramètre $\gamma_m$}
+					\label{fig:gerstner_pixar}
+				\end{figure}
 
 				On est alors en mesure d'obtenir le résultat visualisable en \textsc{Figure}~\ref{fig:Gerstner} dans \gazebo{}, obtenu à l'aide de trois vagues dont les caractéristiques sont présentées dans la \textsc{Table}~\ref{table:wave} et tracé sur une grille de 40 mètres par 40 mètres avec un pas de 1 mètre.
 
@@ -143,7 +166,7 @@
 						\label{fig:mit_frame}
 				\end{figure}
 
-				Comme pour le modèle de \textit{Gerstner}, chaque vague $m$ possède une amplitue $a_m$, un nombre d'onde $k_m$, une phase $\phi_m$ et une pulsation $\omega_m$. En notant $g$ l'accélération de pesanteur, et $H$ la hauteur de la colonne d'eau à l'endroit considéré, on a la relation de dispersion qui lie $\omega_m$ et $k_m$ :
+				Comme pour le modèle de \textit{Gerstner}, chaque vague $m$ possède une amplitude $a_m$, un nombre d'onde $k_m$, une phase $\phi_m$ et une pulsation $\omega_m$. En notant $g$ l'accélération de pesanteur, et $H$ la hauteur de la colonne d'eau à l'endroit considéré, on a la relation de dispersion qui lie $\omega_m$ et $k_m$ :
 
 				\begin{equation}
 					\omega_m^2 = k_m \cdot g \cdot tanh(k_mH)
@@ -200,7 +223,7 @@
 
 		\subsection{Courants marins}
 
-			Les courants marins constituent un élément majeur qui va perturber le comportement des robots dans l'environnement simulé. Avec une simulation suffisament précise, la simulation et le comportement réel des \gls{ROV}s deviendront très proches, notamment par l'ajout de la traînée hydrodynamique qui va s'appliquer sur les composants des robots.
+			Les courants marins constituent un élément majeur qui va perturber le comportement des robots dans l'environnement simulé. Avec une simulation suffisamment précise, la simulation et le comportement réel des \gls{ROV}s deviendront très proches, notamment par l'ajout de la traînée hydrodynamique qui va s'appliquer sur les composants des robots.
 
 			\subsubsection{Modèle constant}
 
@@ -217,7 +240,7 @@
 
 				Une autre idée serait de générer un courant pseudo-aléatoire par génération procédurale. Cette méthode de génération est largement utilisée dans le domaine des jeux-vidéos et du cinéma, et par extension, il est aussi utilisé dans le domaine de la simulation~\cite{generation_procedurale_monde, volumetric_terrain_generation}. Elle permet de générer à l'aide d'algorithme des mondes et des textures pseudo-aléatoires. Dans notre cas, il est possible d'utiliser le \textit{Bruit de Perlin}~\cite{PerlinNoise} qui est une texture procédurale afin de générer des courants. L'avantage du \textit{Bruit de Perlin} est qu'il est très peu coûteux en espace mémoire et qu'il peut générer des textures dans n'importe quelle dimensions. 
 				
-				Pour notre application nous pouvons générer une texture en deux dimensions. Cette texture forme un potentiel artificiel, et un champ de vecteur représentant le courant peut être simplement généré en prenant le gradiant de ce potentiel. On obtient le résultat présenté en \textsc{Figure}~\ref{fig:perlin_noise}. Comme avec cette méthode, chaque pixel tient compte de ses pixels voisins, on ne se retrouve pas avec des valeurs très éloignées entre deux pixels adjacents comme avec de la génération de textures purement aléatoire, et on obtient des courants réalistes.
+				Pour notre application nous pouvons générer une texture en deux dimensions. Cette texture forme un potentiel artificiel, et un champ de vecteur représentant le courant peut être simplement généré en prenant le gradient de ce potentiel. On obtient le résultat présenté en \textsc{Figure}~\ref{fig:perlin_noise}. Comme avec cette méthode, chaque pixel tient compte de ses pixels voisins, on ne se retrouve pas avec des valeurs très éloignées entre deux pixels adjacents comme avec de la génération de textures purement aléatoire, et on obtient des courants réalistes.
 
 				\begin{figure}[!htb]
 					\centering
@@ -244,17 +267,17 @@
 
 				C'est une bonne approche pour générer des courants marins de manière pseudo-aléatoire, mais il est difficile de reproduire de manière contrôlée les courants marins qu'il y aurait eu lors d'un essai en milieu naturel afin de comparer les résultats de la simulation avec le comportement des \gls{ROV}s réels.
 				
-				Il serait cependant intéressant d'utiliser ce genre d'algorithme pour de la génération procédurale de terrain. En effet, en interpretant la carte 2D comme un modèle d'élévation numérique de terrain, on serait en mesure de créer de manière pseudo-aléatoire des fonds marins pour testers les robots dans différents environnements.
+				Il serait cependant intéressant d'utiliser ce genre d'algorithme pour de la génération procédurale de terrain. En effet, en interprétant la carte 2D comme un modèle d'élévation numérique de terrain, on serait en mesure de créer de manière pseudo-aléatoire des fonds marins pour tester les robots dans différents environnements.
 
 			\subsubsection{Modèle de Navier-Stokes}
 
-				Une simulation des courants marins basée sur les équations de Navier-Stokes permet de proposer une approche intéressante à la simulation de courants marins~\cite{Garau2006current}. Ils permettent notament de générer des courants prenant en compte la présence de solides dans le milieu à explorer, comme des rochers ou des piles d'éoliennes offshores qui peuvent être intéressante pour notre application. C'est la méthode qui fournirait les résultats les plus vraisemblables et les plus proche de ce qu'on pourrait trouver en milieu naturels.
+				Une simulation des courants marins basée sur les équations de Navier-Stokes permet de proposer une approche intéressante à la simulation de courants marins~\cite{Garau2006current}. Ils permettent notamment de générer des courants prenant en compte la présence de solides dans le milieu à explorer, comme des rochers ou des piles d'éoliennes offshores qui peuvent être intéressante pour notre application. C'est la méthode qui fournirait les résultats les plus vraisemblables et les plus proche de ce qu'on pourrait trouver en milieu naturels.
 
 				En revanche les équations de Navier-Stokes sont des équations aux dérivées partielles non-linéaires~\cite{hinch2012hydrodynamique} qui sont lourdes à résoudre numériquement. Elles alourdiraient grandement la simulation afin de calculer le courant en chaque point de l'espace afin d'impacter tous les solides constituants les robots mais aussi les éléments de l'environnement comme les structures sous-marines et les ombilicaux par exemple.
 
 			\subsubsection{Choix du modèle}
 
-				Il faut maintenant choisir un modèle qui va être implémenté dans le simulateur. Pour nous aider dans ce choix, la \textsc{Table}~\ref{table:courants} reprends les principales caractéristiques des différents modèles, à savoir le caractèr non-aléatoire des courants générés et la prise en compte des structures sous-marines. Le réalisme des courants générés ainsi que la complexité d'implémentation est aussi présentée. Cette dernière représente à la fois le temps d'implémentation de la solution ainsi que la complexité d'execution de celle-ci en terme de ressources nécéssaires. Elle est représentée par le symbole \pmark (\pmark : \textit{simple}, \pmark \pmark : \textit{intermédiaire}, \pmark \pmark \pmark : \textit{complexe}).
+				Il faut maintenant choisir un modèle qui va être implémenté dans le simulateur. Pour nous aider dans ce choix, la \textsc{Table}~\ref{table:courants} reprends les principales caractéristiques des différents modèles, à savoir le caractère non-aléatoire des courants générés et la prise en compte des structures sous-marines. Le réalisme des courants générés ainsi que la complexité d'implémentation est aussi présentée. Cette dernière représente à la fois le temps d'implémentation de la solution ainsi que la complexité d'exécution de celle-ci en terme de ressources nécessaires. Elle est représentée par le symbole \pmark (\pmark : \textit{simple}, \pmark \pmark : \textit{intermédiaire}, \pmark \pmark \pmark : \textit{complexe}).
 
 				\begin{table}[ht]
 					\centering
@@ -275,7 +298,7 @@
 					\label{table:courants}
 				\end{table}
 
-				Nous pouvons aisement écarter le modèle procédural car on remarque au vu des éléments présentés sur la \textsc{Table}~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en terme de ressources pour une simulation temps réel. Notre choix se porte donc l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle macroscopique qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
+				Nous pouvons aisément écarter le modèle procédural car on remarque au vu des éléments présentés sur la \textsc{Table}~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en terme de ressources pour une simulation temps réel. Notre choix se porte donc l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle macroscopique qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
 
 		\section{Simulation d'ombilicaux}
 
@@ -329,7 +352,7 @@
 					\end{itemize}
 				\end{description}
 			
-				Ainsi on a exprimé les forces nécéssaires à la simulation de l'ombilical par éléments finis. La \textsc{Figure}~\ref{fig:modelization} montre la modélisation du problème. Les différents n\oe uds sont représentés en bleu. Pour des raisons de clarté, les différentes forces ne sont représentées que sur un seul n\oe ud mais sont bien évidemment appliquées sur tous les n\oe uds, et la représentation de l'ombilical est volontairement tronquée.
+				Ainsi on a exprimé les forces nécessaires à la simulation de l'ombilical par éléments finis. La \textsc{Figure}~\ref{fig:modelization} montre la modélisation du problème. Les différents n\oe uds sont représentés en bleu. Pour des raisons de clarté, les différentes forces ne sont représentées que sur un seul n\oe ud mais sont bien évidemment appliquées sur tous les n\oe uds, et la représentation de l'ombilical est volontairement tronquée.
 			
 				\begin{figure}[!htb]
 					\centering
@@ -373,14 +396,14 @@
 			
 				Pour initialiser l'ombilical, nous allons nous appuyer sur l'équation de la chaînette. Cette équation représente la forme que prend une corde attachée à ses deux extrémités, sachant qu'elle va chercher à minimiser son énergie potentielle [? ref ?]. L'équation de la chaînette est valable pour une corde attachée à ses extrémités en $(-x_0, y_0, z_0)$ et $(x_0, y_0, z_0)$.
 				
-				Dans notre cas, notre ombilical va pouvoir être attaché à deux extrémités aux positions $p_1 = (x_1, y_1, z_1)$ et $p_n = (x_n, y_n, z_n)$ qui peuvent être quelconque, nous allons devoir ajouter deux coefficients $c_2$ et $c_3$ à la solution de l'équation de la chaînette permettants de translater sa représentation graphique dans le plan. Ainsi la forme que va prendre notre obilical lors de l'initialisation va être régie par l'\textsc{Equation}~\ref{eq:tether}.
+				Dans notre cas, notre ombilical va pouvoir être attaché à deux extrémités aux positions $p_1 = (x_1, y_1, z_1)$ et $p_n = (x_n, y_n, z_n)$ qui peuvent être quelconque, nous allons devoir ajouter deux coefficients $c_2$ et $c_3$ à la solution de l'équation de la chaînette permettant de translater sa représentation graphique dans le plan. Ainsi la forme que va prendre notre ombilical lors de l'initialisation va être régie par l'\textsc{Equation}~\ref{eq:tether}.
 			
 				\begin{equation}
 					z = c_1\cdot cosh\left(\frac{x + c_2}{c_1}\right) + c_3
 					\label{eq:tether}
 				\end{equation}
 			
-				Il nous reste à estimer les trois paramètres $c_1$, $c_2$ et $c_3$ introduits à partir des conditions aux limites. Les contraintes sont telles que les deux extremités de l'ombilical doivent se trouver en $p_1$ et en $p_n$, et le câble doit avoir une longueur $L$. Ces trois contraintes se traduisent par le système non-linéaire de trois équations à trois inconnues présenté en \textsc{Equation}~\ref{eq:systeme} à résoudre.
+				Il nous reste à estimer les trois paramètres $c_1$, $c_2$ et $c_3$ introduits à partir des conditions aux limites. Les contraintes sont telles que les deux extrémités de l'ombilical doivent se trouver en $p_1$ et en $p_n$, et le câble doit avoir une longueur $L$. Ces trois contraintes se traduisent par le système non-linéaire de trois équations à trois inconnues présenté en \textsc{Equation}~\ref{eq:systeme} à résoudre.
 				
 				\begin{align}
 					S_1 = 
@@ -524,7 +547,7 @@
 					\label{fig:uml_class}
 				\end{figure}
 				
-				La \textit{Tether} utilise une structure de \textit{liste doublement chaînée}\footnote{structure de données liée qui consiste en un ensemble n\oe uds liés les uns aux autres par des références au n\oe uds voisins.} de \textit{TetherElement}. Chaque \textit{TetherElement} possède alors une référence vers l'élément le précédant et l'élément le suivant, comme le montre la \textsc{Figure}~\ref{fig:doubly_linked_list}. La \textit{Tether} ne possède ainsi qu'une référence vers le premier et le dernier n\oe ud de la chaîne, nommés respectivements \textit{head} et \textit{tail}. Il est ensuite possible de parcourir la chaîne de \textit{TetherElement} dans les deux sens en utilisant les références gardées par les \textit{TetherElement} eux-mêmes. 
+				La \textit{Tether} utilise une structure de \textit{liste doublement chaînée}\footnote{structure de données liée qui consiste en un ensemble n\oe uds liés les uns aux autres par des références au n\oe uds voisins.} de \textit{TetherElement}. Chaque \textit{TetherElement} possède alors une référence vers l'élément le précédant et l'élément le suivant, comme le montre la \textsc{Figure}~\ref{fig:doubly_linked_list}. La \textit{Tether} ne possède ainsi qu'une référence vers le premier et le dernier n\oe ud de la chaîne, nommés respectivement \textit{head} et \textit{tail}. Il est ensuite possible de parcourir la chaîne de \textit{TetherElement} dans les deux sens en utilisant les références gardées par les \textit{TetherElement} eux-mêmes. 
 			
 				\begin{figure}[!htb]
 					\centering
@@ -549,7 +572,7 @@
 							\node (tail) at (16,1) {\textit{tail}};
 						\end{tikzpicture}
 					}
-					\caption{Liste doublement chainée}
+					\caption{Liste doublement chaînée}
 					\label{fig:doubly_linked_list}
 				\end{figure}
 
@@ -560,7 +583,7 @@
 					\label{eq:newton}
 				\end{equation}
 
-				A ce stade, on peut appliquer l'accélération des \textit{TetherElement} aux extrémités dans les solides auxquel l'ombilical est attaché. Par exemple si l'ombilical simulé est attaché à un robot, il va induire une force à celui-ci qui va le gêner dans ses mouvements. Cette force est égale à l'opposé de la somme des forces calculées dans l'élément en extrémité d'ombilical.
+				A ce stade, on peut appliquer l'accélération des \textit{TetherElement} aux extrémités dans les solides auquels l'ombilical est attaché. Par exemple si l'ombilical simulé est attaché à un robot, il va induire une force à celui-ci qui va le gêner dans ses mouvements. Cette force est égale à l'opposé de la somme des forces calculées dans l'élément en extrémité d'ombilical.
 				
 				Ensuite, à l'aide de la méthode d'Euler on est en mesure d'obtenir une approximation de la vitesse puis de la position de chaque éléments. En notant $\overrightarrow{v}$ la vitesse et $\overrightarrow{p}$ la position d'un \textit{TetherElement}, et $h$ le pas de temps entre deux instants de calculs, on a :
 
@@ -573,7 +596,7 @@
 				On a donc actualisé la position de chaque \textit{TetherElement}. Après avoir actualisé la représentation graphique de cet élément dans \gazebo{}, on est prêt pour la prochaine itération de calcul.
 			
 			\subsection{Suivi d'angles normalisés}
-				Un problème avec la représentation numérique de l'orientation des solides est qu'elle est souvent normalisée, et les valeurs sont ainsi ramenées dans l'intervalle $[-\pi; \pi]$. On ne peut donc pas avoir l'orientation absolue, c'est à dire l'orientation d'un solide en prenant en compte les eventuels tours qu'il aurait pu faire sur lui-même. C'est le cas dans \gazebo{}, et cela pose problème pour le calcul du couple transmissible le long de l'ombilical qui utilise l'orientation absolue des \textit{TetherElements}.
+				Un problème avec la représentation numérique de l'orientation des solides est qu'elle est souvent normalisée, et les valeurs sont ainsi ramenées dans l'intervalle $[-\pi; \pi]$. On ne peut donc pas avoir l'orientation absolue, c'est à dire l'orientation d'un solide en prenant en compte les éventuels tours qu'il aurait pu faire sur lui-même. C'est le cas dans \gazebo{}, et cela pose problème pour le calcul du couple transmissible le long de l'ombilical qui utilise l'orientation absolue des \textit{TetherElements}.
 			
 				Pour résoudre ce problème, l'\textsc{Algorithme}~\ref{algo:suivi_angle} de suivi d'angles normalisés a été implémenté. Il prend en paramètres l'angle normalisé ainsi que l'angle précédemment calculé, et il retourne la valeur de l'angle absolu. L'idée de fournir l'angle précédent est de pouvoir retourner le nouvel angle qui se trouve dans le même quadrant et aussi de pouvoir suivre les sauts d'angles. Ainsi on peut suivre l'orientation absolue de solides en rotation dans l'espace, en ne fournissant que des orientations relatives ramenées dans l'intervalle $[-\pi; \pi]$, et en gardant en mémoire la précédente orientation calculée.
 				
@@ -601,7 +624,7 @@
 					\label{fig:suivi_angle}
 				\end{figure}		
 		
-		\subsection{Resultats}
+		\subsection{Résultats}
 
 		\section{Garage d'\argos{}}
 

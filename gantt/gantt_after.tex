@@ -1,0 +1,92 @@
+\documentclass{standalone}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[usenames, dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfgantt}
+
+\begin{document}
+    \begin{ganttchart}[
+            time slot format=isodate,
+            x unit=0.12cm, y unit chart=0.6cm, hgrid,
+            % Title
+            title/.append style={fill=black!10}, title label font=\tiny,
+            title/.append style={draw=none, fill=RoyalBlue!60!black},
+            title label font=\sffamily\bfseries\color{white},
+            % Group
+            group label font=\color{black}, group/.append style={fill=RoyalBlue!60!black},
+            group peaks width=1, group peaks tip position=0.5, group peaks height=0.1, group top shift = .5,
+            % Bar
+            bar/.append style={draw=none, fill=OliveGreen!75},
+            bar height=.6, bar top shift = 0.2, bar label font=\normalsize\color{black!50},
+            bar incomplete/.append style={fill=Maroon},
+            % Milestone
+            milestone height=0.6, milestone top shift=0.2, milestone left shift=-1, milestone right shift=1,
+            % Vrule
+            vrule/.append style={color=black!60},
+            % Link labels
+            link label node/.append style={anchor=east},
+        ]{2021-03-01}{2021-09-26}
+
+        % Gantt Title
+        \ganttset{%
+            calendar week text={%
+                W\currentweek
+            }%
+        }
+        
+        \gantttitlecalendar{year, month=name, week=1} \\
+        bar height=.6,bar label font=\normalsize\color{black!50},group right shift=0,
+        group top shift=.6,group height=.3,group peaks height=.2,bar incomplete/.append style={fill=Maroon}
+        \ganttset{link/.style={Black}}
+
+        \ganttgroup{\textbf{Projet de fin d'études}}{2021-03-01}{2021-09-10} \\
+            \ganttbar[name=Rapport]{Rédaction rapport}{2021-03-01}{2021-07-14} \\
+            \ganttbar[name=Relecture]{Relecture rapport}{2021-07-15}{2021-07-26} \\
+            \ganttmilestone[name=Envoi]{Envoi rapport}{2021-07-26} \\
+            \ganttlink{Rapport}{Relecture}
+            \ganttlink{Relecture}{Envoi}
+
+            \ganttbar[name=Presentation]{Présentation}{2021-07-01}{2021-08-02} \\
+            \ganttbar[name=Soutenance]{Préparation soutenance}{2021-08-23}{2021-08-31} \\
+            \ganttlink{Presentation}{Soutenance}
+            \ganttmilestone[name=PFE]{Soutenance}{2021-09-03} \\
+            \ganttlink[link mid=.98]{Relecture}{PFE}
+            \ganttlink[link mid=.8]{Soutenance}{PFE}
+
+        \ganttgroup{\textbf{Simulation environnement}}{2021-03-01}{2021-07-14} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation ombilical}{2021-03-01}{2021-04-31} \\
+                \ganttbar[]{Etude bibliographique}{2021-03-01}{2021-03-07} \\
+                \ganttbar[name=TPython]{Simulation Python}{2021-03-01}{2021-03-31} \\
+                \ganttlinkedbar[name=TPlugin]{Implémentation plugin Gazebo}{2021-04-01}{2021-04-31} \\
+
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation milieu marin}{2021-06-15}{2021-07-14} \\
+                \ganttbar[name=TBiblio]{Etude bibliographique}{2021-06-15}{2021-06-21} \\
+                \ganttbar[name=Waves]{Modèle de Vagues}{2021-06-22}{2021-06-31} \\
+                \ganttbar[name=Hydrodynamics]{Modèle Hydrodynamique}{2021-06-22}{2021-07-07} \\
+                \ganttbar[name=Current]{Modèle de Courant}{2021-07-07}{2021-07-14} \\
+
+        \ganttgroup{\textbf{Simulation robots}}{2021-05-01}{2021-08-02} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Composants}{2021-05-01}{2021-05-31} \\
+                \ganttbar[name=CDescription]{Description des composants}{2021-05-01}{2021-05-31} \\
+                \ganttbar[name=RPlugins]{Plugin Gazebo}{2021-05-08}{2021-05-31} \\
+                \ganttbar[name=RHI]{Interface logicielle}{2021-05-15}{2021-05-21} \\
+            
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Argos}{2021-05-21}{2021-06-15} \\
+                \ganttbar[name=SDFArgos]{Description du robot}{2021-05-21}{2021-05-31} \\
+                \ganttlinkedbar{Intégration des composants}{2021-06-01}{2021-06-07} \\
+                \ganttlinkedbar{Test unitaires}{2021-06-07}{2021-06-15} \\
+
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Atoll}{2021-07-07}{2021-08-02} \\
+                \ganttbar[name=SDFAtoll]{Description du robot}{2021-07-07}{2021-07-14} \\
+                \ganttlinkedbar{Intégration des composants}{2021-07-15}{2021-07-21} \\
+                \ganttlinkedbar{Test dans l'environnement}{2021-07-22}{2021-08-02}
+
+        \ganttvrule[]{Stagiaire Mécanique}{2021-03-31}
+        \ganttvrule[vrule label node/.append style={anchor=north west}]{Vacances}{2021-08-02}
+        \ganttvrule[]{}{2021-08-22}
+        
+    \end{ganttchart}
+\end{document}

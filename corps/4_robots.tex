@@ -9,7 +9,7 @@
 	\section{Simulation des composants}
 
 		\subsection{Composition des robots}
-			En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de definir et de simuler ces différents composants dans \gazebo, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler et les dépendances entre les robots et les composants. On y retrouve aussi s'ils nécéssitent l'utilisation d'un \plugin{} \gazebo{} pour décrire leur comportement et d'une \gls{HardwareInterface} pour s'interfacer avec le reste de l'implémentation logicielle.
+			En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de définir et de simuler ces différents composants dans \gazebo, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler et les dépendances entre les robots et les composants. On y retrouve aussi s'ils nécessitent l'utilisation d'un \plugin{} \gazebo{} pour décrire leur comportement et d'une \gls{HardwareInterface} pour s'interfacer avec le reste de l'implémentation logicielle.
 
 		\begin{table}[!htb]
 			\centering
@@ -18,11 +18,11 @@
 					\hline
 					Composant & \argos{} & \atoll{} & \gls{HardwareInterface} & \gazebo{} \plugin{} \\
 					\hline
-					Chassis d'\argos{} & \cmark & \xmark & \xmark & \xmark \\
+					Châssis d'\argos{} & \cmark & \xmark & \xmark & \xmark \\
 					\hline
-					Chassis d'\atoll{} & \xmark & \cmark & \xmark & \xmark \\
+					Châssis d'\atoll{} & \xmark & \cmark & \xmark & \xmark \\
 					\hline
-					Boîtier electronique & \cmark & \cmark & \xmark & \xmark \\
+					Boîtier électronique & \cmark & \cmark & \xmark & \xmark \\
 					\hline
 					Crochet de levage & \xmark & \cmark & \cmark & \cmark \\
 					\hline
@@ -46,7 +46,7 @@
 
 		\subsection{Séparation en paquets}
 
-			La convention \gls{ROS2} et \gazebo{} pour la description des robots prévoit de répartir le code dans différents paquets. Nous allons appliquer ici cette même convention pour chaque composant à simuler. Pour un composant s'appellant \textit{composant}, nous aurons les paquets suivants :
+			La convention \gls{ROS2} et \gazebo{} pour la description des robots prévoit de répartir le code dans différents paquets. Nous allons appliquer ici cette même convention pour chaque composant à simuler. Pour un composant s'appelant \textit{composant}, nous aurons les paquets suivants :
 
 			\begin{itemize}
 				\renewcommand{\labelitemi}{\textbullet}
@@ -71,7 +71,7 @@
 
 				Le \textit{Latch} est un composant propre au robot \gls{Atoll}. Ce crochet de levage permettant de transporter des structures sous-marines pouvant peser jusqu'à $1,5\ T$ est fabriqué par Forssea Robotics, et permet de positionner et de transporter des balises de positionnement acoustique sur les fonds marins.
 
-				L'architecture logicielle du \textit{Latch} est présentée en \textsc{Figure}~\ref{fig:sa_latch}. Le composant reçoit deux informations de la part de l'implémentation logicielle : s'il est alimenté via le canal de communication \textit{power} et le signal de relâchement du crochet sur le canal \textit{release}. En retour, le crochet de levage renvoit son état à l'aide d'une sonde à effet hall qui indique si le crochet est fermé ou ouvert sur le canal \textit{sensor}.
+				L'architecture logicielle du \textit{Latch} est présentée en \textsc{Figure}~\ref{fig:sa_latch}. Le composant reçoit deux informations de la part de l'implémentation logicielle : s'il est alimenté via le canal de communication \textit{power} et le signal de relâchement du crochet sur le canal \textit{release}. En retour, le crochet de levage renvoie son état à l'aide d'une sonde à effet hall qui indique si le crochet est fermé ou ouvert sur le canal \textit{sensor}.
 
 				\begin{figure}[!htb]
 					\centering
@@ -80,7 +80,7 @@
 					\label{fig:sa_latch}
 				\end{figure}
 							
-				Le \plugin{} \gazebo{} développé afin de décrire le comportement du \textit{Latch} est basé sur la machine à états finis présenté en \textsc{Figure}~\ref{fig:latch_fsm}. L'idée est de créer une liaison encastrement dynamique entre le \textit{Latch} et la structure sous-marine à transporter. La logique implémentée dans la machine à état finis permet de simuler le fait que mécaniquement le crochet s'accroche automatiquement à un point d'attache de structure sous-marine qui rentrerait dans le composant, et que l'on ne commande que le relachement de cette structure par l'ouverture du crochet.
+				Le \plugin{} \gazebo{} développé afin de décrire le comportement du \textit{Latch} est basé sur la machine à états finis présenté en \textsc{Figure}~\ref{fig:latch_fsm}. L'idée est de créer une liaison encastrement dynamique entre le \textit{Latch} et la structure sous-marine à transporter. La logique implémentée dans la machine à état finis permet de simuler le fait que mécaniquement le crochet s'accroche automatiquement à un point d'attache de structure sous-marine qui rentrerait dans le composant, et que l'on ne commande que le relâchement de cette structure par l'ouverture du crochet.
 
 				\begin{figure}[!htb]
 					\centering
@@ -101,7 +101,7 @@
 
 				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position, et l'axe se déplace avec une vitesse de rotation spécifiée.
 			
-				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées succéssivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Il n'est pas non plus possible de piloter précisement la vitesse avec laquelle il se rend à cette position incrémentée. En revanche, il est tout à fait possible de connaître précisement la position du moteur, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles, et il suffit donc de compter le nombre d'incréments commandés. Enfin, on peut commander la vitesse avec laquelle le moteur se rend à cette position, en allumant les phases à la vitesse désirée.
+				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées successivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Il n'est pas non plus possible de piloter la vitesse avec laquelle il se rend à cette position incrémentée. En revanche, il est tout à fait possible de connaître précisément la position du moteur, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles, et il suffit donc de compter le nombre d'incréments commandés. Enfin, on peut commander la vitesse avec laquelle le moteur se rend à cette position, en allumant les phases à la vitesse désirée.
 
 				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle s'il est alimenté via le canal de communication \textit{power}, ainsi que la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}. Il renvoit sa position et sa vitesse réelle récupérée dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
 
@@ -121,7 +121,7 @@
 					\label{fig:tilt_position}
 				\end{figure}
 				
-				Pour ce qui est de l'implémentation de ce comportement dans \gazebo{}, on crée un \textit{Thread} qui va s'executer en boucle avec une vitesse variable. Cette vitesse sera fonction de la vitesse de commande du \textit{Tilt} notée $\omega_c$. A chaque tour de boucle, on incrémente donc la position cible de la valeur de l'incrément $d\theta$ si la différence entre la position réelle et la position commandée est plus grande que ce même incrément, et on attends le temps $h$, avec :
+				Pour ce qui est de l'implémentation de ce comportement dans \gazebo{}, on crée un \textit{Thread} qui va s'exécuter en boucle avec une vitesse variable. Cette vitesse sera fonction de la vitesse de commande du \textit{Tilt} notée $\omega_c$. A chaque tour de boucle, on incrémente donc la position cible de la valeur de l'incrément $d\theta$ si la différence entre la position réelle et la position commandée est plus grande que ce même incrément, et on attends le temps $h$, avec :
 
 				$$h = \frac{d\theta}{\omega_c}$$
 
@@ -144,11 +144,11 @@
 		
 				Les \textit{SPE75 Thrusters} sont les propulseurs qui permettent aux robots de se déplacer et de s'orienter dans leur environnements. Ils sont composés d'un moteur permettant de mettre en mouvement des pale qui va permettre de générer une force dans la direction du propulseur.
 				
-				L'\textit{Hardware Interface} va proposer une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur qui va être transmise au robot. Elle va ensuite se charger de calculer la vitesse de rotation des pales nécéssaire à la création de cette force. Pour le composant réel, cette vitesse va être transmise au propulseur qui générer la force voulue et un couple résistant dans le sens inverse de la rotation des pâles sur le corps du propulseur qui va être transmis au robot. Pour le composant simulé, on est en mesure d'intéragir avec le simulateur afin d'appliquer des forces et des couples directement sur les objets simulés. 
+				L'\textit{Hardware Interface} va proposer une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur qui va être transmise au robot. Elle va ensuite se charger de calculer la vitesse de rotation des pales nécessaire à la création de cette force. Pour le composant réel, cette vitesse va être transmise au propulseur qui générer la force voulue et un couple résistant dans le sens inverse de la rotation des pâles sur le corps du propulseur qui va être transmis au robot. Pour le composant simulé, on est en mesure d'interagir avec le simulateur afin d'appliquer des forces et des couples directement sur les objets simulés. 
 				
 				Le calcul de la vitesse de rotation des pâles en fonction de la force demandée est réalisé grâce à une interpolation de points de mesures faits sur un banc d'essai. L'idée est de faire tourner en eau le propulseur fixé sur un capteur de force à une certaine vitesse, et de mesurer la force générée par celui-ci. Ensuite, on est capable d'interpoler les points expérimentaux logiciellement à l'aide de la librairie \gls{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} et de la fonctionnalité \textit{spline}. On peut ainsi calculer une vitesse de rotation à appliquer quel que soit la valeur de force demandée.
 				
-				L'idée retenue pour ce simulateur est d'appliquer directement la force demandée sur le corps du propulseur, car il est assez difficile et coûteux en ressources de calculs de realiser de la mécanique des fluides afin de simuler pleinement le comportement des pâles du propulseur. Il est tout de même nécéssaire de faire tourner les pâles dans le simulateur, car outre l'aspect cosmétique de voir les pales tourner quand le moteur fournit une poussée au robot, le simple fait de faire tourner ce solide ayant une certaine masse dans le simulateur va générer le couple résistant sur le corps du propulseur. Ainsi cette \textit{Hardware Interface} va communiquer au \textit{Model Plugin} la force et la vitesse de rotation des pâles calculée à appliquer sur le propulseur simulé.
+				L'idée retenue pour ce simulateur est d'appliquer directement la force demandée sur le corps du propulseur, car il est assez difficile et coûteux en ressources de calculs de réaliser de la mécanique des fluides afin de simuler pleinement le comportement des pâles du propulseur. Il est tout de même nécessaire de faire tourner les pâles dans le simulateur, car outre l'aspect cosmétique de voir les pales tourner quand le moteur fournit une poussée au robot, le simple fait de faire tourner ce solide ayant une certaine masse dans le simulateur va générer le couple résistant sur le corps du propulseur. Ainsi cette \textit{Hardware Interface} va communiquer au \textit{Model Plugin} la force et la vitesse de rotation des pâles calculée à appliquer sur le propulseur simulé.
 	
 				Le \textit{Model Plugin} va se charger d'appliquer la force et la vitesse de rotation communiquée par l'\textit{Hardware Interface}. Le \textit{plugin} est chargé pour chaque propulseur simulé et permet d'accéder finement aux paramètres de la simulation. On peut alors appliquer à chaque incrément de simulation la force demandée sur le corps du propulseur et la vitesse de rotation sur la liaison pivot entre le corps du propulseur et les pâles.
 
@@ -158,9 +158,9 @@
 
 		\subsection{Tests unitaires}
 				
-			Il est nécéssaire de vérifier si tous les composants fonctionnent correctement et ont été convenablement ajoutés dans le robot. Pour cela il est courant d'implémenter des tests unitaires., qui vont permettre de tester unitairement les différentes fonctionnalités implémentées. Il est aussi nécéssaire d'ajouter des tests liés au choix de conception que nous avons fait, c'est à dire le fait d'avoir séparé les robots en composants simulés indépendamments les uns des autres.
+			Il est nécessaire de vérifier si tous les composants fonctionnent correctement et ont été convenablement ajoutés dans le robot. Pour cela il est courant d'implémenter des tests unitaires., qui vont permettre de tester unitairement les différentes fonctionnalités implémentées. Il est aussi nécessaire d'ajouter des tests liés au choix de conception que nous avons fait, c'est à dire le fait d'avoir séparé les robots en composants simulés indépendamment les uns des autres.
 
-			En effet, nous avons crée une description des \gls{ROV}s en incluant la description des sous-composants nécéssaires. Il faut maintenant verifier que la masse du robot, la position de son centre de gravite, sa matrice d'inertie, son volume et son centre de volume correspondent bien aux paramètres des robots. Pour ce faire, nous allons interprêter le fichier de description \textit{URDF} des robot en utilisant le module python \textit{urdfpy}\footnote{\url{https://github.com/mmatl/urdfpy}} afin de vérifier ces informations.
+			En effet, nous avons crée une description des \gls{ROV}s en incluant la description des sous-composants nécessaires. Il faut maintenant vérifier que la masse du robot, la position de son centre de gravite, sa matrice d'inertie, son volume et son centre de volume correspondent bien aux paramètres des robots. Pour ce faire, nous allons interpréter le fichier de description \textit{URDF} des robot en utilisant le module python \textit{urdfpy}\footnote{\url{https://github.com/mmatl/urdfpy}} afin de vérifier ces informations.
 
 			\subsubsection{Vérification de la masse}
 
@@ -168,25 +168,25 @@
 
 				$$m_{robot} = \sum_{i=0}^{N}m_i$$
 
-			\subsection{Vérification du centre de gravité}
+			\subsubsection{Vérification du centre de gravité}
 
 				Pour calculer le centre de gravité du robot, on réalise une moyenne des centres de gravités pondérée par les masses des différents composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, m_i$ représente la masse du \textit{i-ème} composant et $G_i$ représente les coordonnées de son centre de gravité dans le repère monde, et $G_{robot}$ le centre de gravité du robot, on a :
 
 				$$G_{robot} = \frac{\sum_{i=0}^{N}m_i.G_i}{\sum_{i=0}^{N}m_i}$$
 
-			\subsection{Vérification de la matrice d'inertie}
+			\subsubsection{Vérification de la matrice d'inertie}
 
-				Pour calculer la matrice d'inertie du robot, il faut sommer les inerties du robot. Définissons le repère $R_0$ associé au chassis du robot, et le repère $R_i$ associé au composant \textit{i}. Partons de la matrice d'inertie disponibles dans la description \textit{URDF} du robot exprimées dans le repère de chaque composant et en leur centre de gravité. Notons cette matrice $I_{i, R_i}(G_i)$. 
+				Pour calculer la matrice d'inertie du robot, il faut sommer les inerties du robot. Définissons le repère $R_0$ associé au châssis du robot, et le repère $R_i$ associé au composant \textit{i}. Partons de la matrice d'inertie disponibles dans la description \textit{URDF} du robot exprimées dans le repère de chaque composant et en leur centre de gravité. Notons cette matrice $I_{i, R_i}(G_i)$. 
 				
 				Par cinématique directe, on peut obtenir la matrice de la transformation homogène $H_0^i$ entre les repères $R_0$ et $R_i$, qui exprime la rotation et la translation entre ces deux repères. Cette matrice est composée d'une matrice de rotation $R_{3, 3}$ et d'une matrice traduisant la translation $T_{3, 1}$ entre les deux solides.
 
 				$$H_{R_0}^{R_i} = \begin{bNiceArray}{CCC:C}[margin] &&& \\ & R_{3, 3} && T_{3, 1} \\ &&& \\ \hdottedline 0 & 0 & 0 & 1 \end{bNiceArray}$$
 
-				En notant $I_{i, R_0}(G_i)$ la matrice d'inertie du i-ème composant exprimée en son centre de gravité dans le repère associé au chassis du roobot, on peut exprimer le changement de base du tenseur d'inertie comme suit :
+				En notant $I_{i, R_0}(G_i)$ la matrice d'inertie du i-ème composant exprimée en son centre de gravité dans le repère associé au châssis du robot, on peut exprimer le changement de base du tenseur d'inertie comme suit :
 
 				$$I_{i, R_0}(G_i) = R^T.I_{i, R_i}(G_i).R$$
 
-				Puis, il faut exprimer le décallage entre l'origine du robot, et le centre de gravité du composant. En utilisant la convention des coordonnées homogènes, et en notant $d^H = \begin{bmatrix}a & b & c & 1\end{bmatrix}^T$, on a :
+				Puis, il faut exprimer le décalage entre l'origine du robot, et le centre de gravité du composant. En utilisant la convention des coordonnées homogènes, et en notant $d^H = \begin{bmatrix}a & b & c & 1\end{bmatrix}^T$, on a :
 
 				$$d^H = H_0^i . G_i^H$$
 
@@ -194,17 +194,17 @@
 
 				$$I_{i, R_0}(O) = I_{i, R_0}(G_i) + m_i.\begin{bmatrix} b^2 + c^2 & -a.b & -a.c \\ -a.b & a^2 + c^2 & -b.c \\ -a.c & -b.c & a^2 + b^2 \end{bmatrix}$$
 
-				Enfin, en possèdant le tenseur d'inertie de chaque composant dans la base \textit{0} et au même point qui est l'origine du robot, on est en mesure de sommer ces inerties pour obtenir l'inertie totale du robot.
+				Enfin, en possédant le tenseur d'inertie de chaque composant dans la base \textit{0} et au même point qui est l'origine du robot, on est en mesure de sommer ces inerties pour obtenir l'inertie totale du robot.
 
 				$$I_{robot, R_0}(O) = \sum_{i=0}^N I_{i, R_0}(O)$$
 
-			\subsection{Vérification du volume}
+			\subsubsection{Vérification du volume}
 
 				Pour calculer le volume total du robot, il suffit de sommer le volume de tous les composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, v_i$ représente le volume du \textit{i-ème} composant, et $v_{robot}$ le volume du robot, on a :
 
 				$$v_{robot} = \sum_{i=0}^{N}v_i$$
 
-			\subsection{Vérification du centre de volume}
+			\subsubsection{Vérification du centre de volume}
 
 				Pour calculer le centre de volume du robot, on réalise une moyenne des centres de volume pondérée par le volume des différents composants. En considérant que le robot possède \textit{N} composants, et que $\forall i \in \llbracket 1; N \rrbracket, v_i$ représente le volume du \textit{i-ème} composant, $V_i$ représente les coordonnées du centre de volume dans le repère du robot, et $V_{robot}$ le volume du robot, on a :
 
@@ -271,4 +271,4 @@
 
 	\section{Conclusion}
 	
-		En conclusion, nous avons divisé le travail de simulation des robots en simulant les composants uns à uns, afin de simplifier les développements et de mettre en commun un maximum de code entre les \gls{ROV}s. Pour la plupart des composants, un \plugin{} \gazebo{} a été nécéssaire afin de décrire leur comportement dans l'environnement de simulation, et de pouvoir contrôler les robots avec le reste de l'implémentation logicielle. Enfin, nous nous sommes assurés que la simulation en composants donnait bien des paramètres mécaniques corrects pour les robots simulés par rapport au robot réel, afin d'avoir une simulation des robots ayant un comportement proche des \gls{ROV}s en conditions réelles.
+		En conclusion, nous avons divisé le travail de simulation des robots en simulant les composants uns à uns, afin de simplifier les développements et de mettre en commun un maximum de code entre les \gls{ROV}s. Pour la plupart des composants, un \plugin{} \gazebo{} a été nécessaire afin de décrire leur comportement dans l'environnement de simulation, et de pouvoir contrôler les robots avec le reste de l'implémentation logicielle. Enfin, nous nous sommes assurés que la simulation en composants donnait bien des paramètres mécaniques corrects pour les robots simulés par rapport au robot réel, afin d'avoir une simulation des robots ayant un comportement proche des \gls{ROV}s en conditions réelles.
