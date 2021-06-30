@@ -106,34 +106,34 @@
 				On est alors en mesure d'obtenir le résultat visualisable en \textsc{Figure}~\ref{fig:Gerstner} dans \gazebo{}, obtenu à l'aide de trois vagues dont les caractéristiques sont présentées dans la \textsc{Table}~\ref{table:wave} et tracé sur une grille de 40 mètres par 40 mètres avec un pas de 1 mètre.
 
 				\begin{figure}[!htb]
-					\begin{minipage}[c]{0.45\textwidth}
+					\begin{minipage}[c]{0.4\textwidth}
 						\centering
 						\includegraphics[width=\textwidth]{imgs/gerstner.jpg}
 						\caption{Vagues de \textit{Gerstner} dans \gazebo{}}
 						\label{fig:Gerstner}
 					\end{minipage} \hfill
-					\begin{minipage}[c]{0.55\textwidth}
+					\begin{minipage}[c]{0.58\textwidth}
 						\begin{adjustbox}{max width=\textwidth}
-							\begin{tabular}{c c c c c}
+							\begin{tabular}{c c c c c c}
 								\toprule
-								\textbf{Vague} & $a_m$ ($m$) & $k_m$ ($rad.m^{-1}$) & $\phi_m$ ($rad$) & $h_m$ ($rad$) \\
+								\textbf{Vague} & $a_m$ ($m$) & $k_m$ ($rad.m^{-1}$) & $\phi_m$ ($rad$) & $h_m$ ($rad$) & $\gamma_m (rad.m^{-1})$ \\
 								\midrule
-								Vague 1 & 1.2 & 0.06 & 0 & 0 \\
-								Vague 2 & 0.6 & 0.1 & 0 & 0.8 \\
-								Vague 3 & 0.2 & 1 & 0 & -0.3 \\
+								Vague 1 & 1.2 & 0.06 & 0 & 0 & 0.5\\
+								Vague 2 & 0.6 & 0.1 & 0 & 0.8 & 0.3\\
+								Vague 3 & 0.2 & 1 & 0 & -0.3 & 0\\
 								\bottomrule
 							\end{tabular}
 						\end{adjustbox}
-						\caption{Carctéristiques des vagues}
+						\caption{Caractéristiques des vagues simulées}
 						\label{table:wave}
 					\end{minipage}
 				\end{figure}
 
-				Cependant, si ce modèle suffit à représenter la surface libre de la mer, il ne fournit pas la dynamique du milieu marin et l'impact qu'il va voir sur les \gls{ROV}s. C'est pourquoi il va falloir établir ces équations afin de pouvoir pleinement simuler le milieu marin.
+				Cependant, si ce modèle suffit à représenter la surface libre de la mer, il ne fournit pas la dynamique du milieu marin et l'impact qu'il va voir sur les \gls{ROV}s. C'est pourquoi il va falloir établir les équations de vitesse des particules et de pression afin de pouvoir pleinement simuler le milieu marin.
 				
 			\subsubsection{Modèle dynamique du MIT}
 
-				Le \textit{Massachusetts Institute of Technology} (\textsc{MIT}) a formalisé la modélisation d'un environnement marin dans le cadre linéaire~\cite{MIT_Waves}. Cette modélisation utilise les mêmes équations pour décrire la surface libre de l'eau, mais fournit aussi les équations de pression et de vitesse des particules en tout point du fluide. Cela permet d'agrémenter notre simulation de la dynamique qui nous manquait jusqu'à présent.
+				Le \textit{Massachusetts Institute of Technology} (\textsc{MIT}) a formalisé la modélisation d'un environnement marin dans le cadre linéaire~\cite{dean1991water, MIT_Waves}. Cette modélisation utilise les mêmes équations pour décrire la surface libre de l'eau, mais fournit aussi les équations de pression et de vitesse des particules en tout point du fluide. Cela permet d'agrémenter notre simulation de la dynamique qui nous manquait jusqu'à présent.
 
 				Sans perdre de généralité, on cadre l'étude sur une vagues dans le plan $(0, \overrightarrow{x}, \overrightarrow{z})$, avec $\overrightarrow{z}$ orienté vers le haut comme représenté sur la \textsc{Figure}~\ref{fig:mit_frame}. On pourra éventuellement par la suite introduire un paramètre de cap permettant de décrire une vague ne se dirigeant pas suivant l'axe $\overrightarrow{x}$. Par superposition, on pourra aussi par la suite ajouter par la suite autant de vagues que voulue, puisque l'on reste dans le domaine linéaire. On considère l'eau comme un fluide incompressible et que la surface libre est soumise à la pression atmosphérique $P_a$.
 
@@ -503,7 +503,7 @@
 					\label{fig:tether_plot}
 				\end{figure}
 				
-				Pour résoudre ce système et trouver une approximation numérique pour $c_1$, $c_2$ et $c_3$, on utilise un solveur numérique. Lors de l'implémentation pour le simulateur de cette étape d'initialisation, la librairie \gls{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} est utilisée. Une fois les paramètres déterminés, on est en mesure de déterminer la position initiale de chaque n\oe ud dans le repère de l'ombilical. Il faut enfin projeter ces positions dans le repère du monde afin de pouvoir correctement initialiser chaque n\oe uds, comme présenté sur la \textsc{Figure}~\ref{fig:tether_plot}
+				Pour résoudre ce système et trouver une approximation numérique pour $c_1$, $c_2$ et $c_3$, on utilise un solveur numérique. Lors de l'implémentation pour le simulateur de cette étape d'initialisation, la librairie \textit{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} est utilisée. Une fois les paramètres déterminés, on est en mesure de déterminer la position initiale de chaque n\oe ud dans le repère de l'ombilical. Il faut enfin projeter ces positions dans le repère du monde afin de pouvoir correctement initialiser chaque n\oe uds, comme présenté sur la \textsc{Figure}~\ref{fig:tether_plot}
 			
 			\subsection{Implémentation}
 				L'implémentation d'un \plugin{} \gazebo{} permet de simuler le comportement de l'ombilical dans l'environnement de simulation. Ce \plugin{} est basé sur l'instanciation d'objets de type \textit{Tether} et \textit{TetherElement}. L'objet \textit{Tether} possède les paramètres de simulation de l'ombilical, tandis que l'objet \textit{TetherElement} représente un tronçon de cet ombilical. Un diagramme de classe est présenté en \textsc{Figure}~\ref{fig:uml_class} et montre les différents attributs et méthodes associées à chaque classe.
