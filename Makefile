@@ -17,7 +17,7 @@ IMAGES_BUILD_DIR = $(BUILD_DIR)/$(PGF_DIR)
 TEX_SRCS := $(wildcard */*.tex)
 
 # Images
-IMAGES_PGF = $(IMAGES_BUILD_DIR)/gerstner_wave.pgf $(IMAGES_BUILD_DIR)/gerstner_pixar.pgf
+IMAGES_PGF = $(IMAGES_BUILD_DIR)/gerstner_wave.pgf $(IMAGES_BUILD_DIR)/gerstner_pixar.pgf $(IMAGES_BUILD_DIR)/courant_constant.pgf $(IMAGES_BUILD_DIR)/noise_courant.pgf $(IMAGES_BUILD_DIR)/noise_perlin.pgf $(IMAGES_BUILD_DIR)/noise_random.pgf
 
 # Gantt
 GANTT_PDF = $(GANTT_BUILD_DIR)/gantt_before.pdf $(GANTT_BUILD_DIR)/gantt_after.pdf

@@ -53,4 +53,4 @@ if __name__ == "__main__":
     else :
         figname = 'build/pgf/gerstner_wave.pgf'
     fig, axs = plot_waves()
-    plt.savefig(figname)
+    plt.savefig(figname, format='pgf')
