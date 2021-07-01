@@ -38,7 +38,7 @@
 % graphicx avec la bonne option, le chemin des images 
 % et les types d'images valides
 \RequirePackage[pdftex]{graphicx}
-\graphicspath{{pdfs/}{pngs/}{imgs/}{build/gantt/}}
+\graphicspath{{pdfs/}{pngs/}{imgs/}{build/gantt/}{build/imgs/}}
 \DeclareGraphicsExtensions{.pdf,.png,.mps}
 \RequirePackage{array}
 \RequirePackage{colortbl}

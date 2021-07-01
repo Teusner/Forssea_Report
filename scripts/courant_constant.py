@@ -3,16 +3,6 @@ import numpy as np
 from perlin_noise import PerlinNoise
 import matplotlib.pyplot as plt
 
-import matplotlib
-
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
-
 x, y = 100, 100
 width = 1.9
 heigth = 1.9
@@ -36,6 +26,6 @@ if __name__ == "__main__":
     if len(args)>1:
         figname = args[1]
     else :
-        figname = 'build/pgf/constant.pgf'
+        figname = 'build/imgs/constant.pdf'
     fig = figure_constant()
-    plt.savefig(figname, format='pgf')
+    plt.savefig(figname, format="pdf")

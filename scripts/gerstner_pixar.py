@@ -1,15 +1,6 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib
-
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
 
 width, height = 4.5, 3
 
@@ -52,6 +43,6 @@ if __name__ == "__main__":
     if len(args)>1:
         figname = args[1]
     else :
-        figname = 'build/pgf/gerstner_pixar.pgf'
+        figname = 'build/imgs/gerstner_pixar.pdf'
     fig, axs = plot_waves()
-    plt.savefig(figname, format='pgf')
+    plt.savefig(figname, format="pdf")

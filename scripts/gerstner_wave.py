@@ -1,15 +1,6 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib
-
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
 
 width, height = 4.5, 3
 
@@ -40,6 +31,7 @@ def plot_waves():
         axs[i].text(1.7, 0, r"$a_mk_m=${}".format(a_m[i]*k_m[i]), fontsize=9)
         axs[i].grid(True)
         axs[i].set_ylabel(r"z (en $m$)")
+        # axs[i].fill_between(xi, yi, color="teal", alpha=0.5)
     fig.set_size_inches(w=width, h=height)
     plt.xlabel(r"x (en $m$)")
     plt.tight_layout()
@@ -51,6 +43,6 @@ if __name__ == "__main__":
     if len(args)>1:
         figname = args[1]
     else :
-        figname = 'build/pgf/gerstner_wave.pgf'
+        figname = 'build/imgs/gerstner_wave.pdf'
     fig, axs = plot_waves()
-    plt.savefig(figname, format='pgf')
+    plt.savefig(figname, format="pdf")
