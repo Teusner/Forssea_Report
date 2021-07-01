@@ -31,7 +31,7 @@ def plot_waves():
         axs[i].text(1.7, 0, r"$a_mk_m=${}".format(a_m[i]*k_m[i]), fontsize=9)
         axs[i].grid(True)
         axs[i].set_ylabel(r"z (en $m$)")
-        # axs[i].fill_between(xi, yi, color="teal", alpha=0.5)
+        axs[i].fill_between(xi, yi, -1.2*a_m[i]*np.ones(yi.shape), color="teal", alpha=0.5)
     fig.set_size_inches(w=width, h=height)
     plt.xlabel(r"x (en $m$)")
     plt.tight_layout()

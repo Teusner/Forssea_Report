@@ -78,6 +78,6 @@ if __name__ == "__main__":
     if len(args)>1:
         figname = args[1]
     else :
-        figname = 'build/imgs/rosace_locale.pdf'
+        figname = 'build/imgs/rosace_local.pdf'
     fig, ax = figure_rosace()
     plt.savefig(figname, format="pdf")

@@ -40,6 +40,7 @@
 \RequirePackage[pdftex]{graphicx}
 \graphicspath{{pdfs/}{pngs/}{imgs/}{build/gantt/}{build/imgs/}}
 \DeclareGraphicsExtensions{.pdf,.png,.mps}
+\usepackage{svg}
 \RequirePackage{array}
 \RequirePackage{colortbl}
 \RequirePackage{adjustbox}

@@ -59,14 +59,14 @@ ensta: $(ENSTA_BUILD_DIR)/report_ensta.pdf
 
 $(ENSTA_BUILD_DIR)/report_ensta.pdf: report_ensta.tex ${TEX_SRCS} gantt images diagrams
 	$(dir_guard)
-	latexmk -pdf -output-directory=$(ENSTA_BUILD_DIR) $<
+	latexmk -pdf -shell-escape -output-directory=$(ENSTA_BUILD_DIR) $<
 
 # Angers report recipe
 angers: $(ANGERS_BUILD_DIR)/report_angers.pdf
 
 $(ANGERS_BUILD_DIR)/report_angers.pdf: report_angers.tex ${TEX_SRCS} gantt images diagrams
 	$(dir_guard)
-	latexmk -pdf -output-directory=$(ANGERS_BUILD_DIR) $<
+	latexmk -pdf -shell-escape -output-directory=$(ANGERS_BUILD_DIR) $<
 
 # Clean recipe
 clean:
