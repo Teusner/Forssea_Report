@@ -98,7 +98,7 @@
 
 				\begin{figure}
 					\centering
-					\includegraphics{gerstner_pixar.pdf}
+					\includegraphics{build/imgs/gerstner_pixar.pdf}
 					\caption{Forme de la vague en fonction du paramètre $\gamma_m$}
 					\label{fig:gerstner_pixar}
 				\end{figure}
@@ -221,6 +221,16 @@
 
 		\subsection{Flottabilité}
 
+		\subsection{Forces induites à un solide}
+			
+			Les forces de Morison et de Froude-Krylov sont peut coûteuses à calculer et permettent d'appliquer les forces que subit les objets immergés. Elles possèdent cependant quelques limitations~\cite{sarpkaya2010wave} :
+
+			\begin{itemize}[noitemsep]
+				\item[\textbullet] L'accélération du fluide doit être relativement uniforme autour de la structure. Dans notre cas, cela implique que la longueur d'onde des vague doit être grande devant la longueur caractéristique du robot ou de la structure considérée. Comme les robots ont une longueur caractéristique de l'ordre du mètre, on doit respecter $\forall m, \lambda_m \gg 1 m$. \\
+				\item[\textbullet] L'écoulement doit être unidirectionnel. Cela implique que les vagues doivent globalement rester dans la même direction. C'est un phénomène observable en milieu marin à condition que l'étude reste relativement courte dans le temps. Cela implique aussi que l'écoulement doit rester laminaire, d'abord afin de pouvoir rester dans le domaine linéaire de la description des vagues, mais aussi pour éviter les turbulences et donc que l'expression des forces proposée ne suffise plus. \\
+				\item[\textbullet] Les forces proposées sont basées sur des expressions asymptotiques des forces d'inerties et de traînée. Elles sont donc justes en régime permanent, mais elles changent significativement en régime transitoire et les forces ne décrivent plus exactement les forces qui s'appliquent sur un corps. Aucune précaution ne peut être prise dans notre cas, mais il faudra garder à l'esprit que pendant le régime transitoire de l'accélération du robot les forces appliquées ne seront pas exactement celles que le robot réel subit.
+			\end{itemize}
+
 		\subsection{Courants marins}
 
 			Les courants marins constituent un élément majeur qui va perturber le comportement des robots dans l'environnement simulé. Avec une simulation suffisamment précise, la simulation et le comportement réel des \gls{ROV}s deviendront très proches, notamment par l'ajout de la traînée hydrodynamique qui va s'appliquer sur les composants des robots.
@@ -231,7 +241,7 @@
 
 				\begin{figure}[!htb]
 					\centering
-					\input{build/imgs/courant_constant.pdf}
+					\includegraphics{build/imgs/courant_constant.pdf}
 					\caption{Modèle de courant constant}
 					\label{fig:constant}
 				\end{figure}
@@ -246,19 +256,19 @@
 					\centering
 					\begin{subfigure}[b]{0.32\textwidth}
 						\centering
-						\includegraphics{noise_random.pdf}
+						\includegraphics{build/imgs/noise_random.pdf}
 						\caption{Bruit aléatoire}
 					\end{subfigure}
 					\hfill
 					\begin{subfigure}[b]{0.32\textwidth}
 						\centering
-						\includegraphics{noise_perlin.pdf}
+						\includegraphics{build/imgs/noise_perlin.pdf}
 						\caption{Bruit de Perlin}
 					\end{subfigure}
 					\hfill
 					\begin{subfigure}[b]{0.32\textwidth}
 						\centering
-						\includegraphics{noise_courant.pdf}
+						\includegraphics{build/imgs/noise_courant.pdf}
 						\caption{Courant généré}
 					\end{subfigure}
 					\caption{Comparaison bruit aléatoire et bruit de Perlin}
