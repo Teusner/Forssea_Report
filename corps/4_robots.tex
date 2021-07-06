@@ -69,7 +69,23 @@
 
 			\subsubsection{Latch}
 
-				Le \textit{Latch} est un composant propre au robot \textit{Atoll}. Ce crochet de levage permettant de transporter des structures sous-marines pouvant peser jusqu'à $1,5\ T$ est fabriqué par Forssea Robotics, et permet de positionner et de transporter des balises de positionnement acoustique sur les fonds marins.
+				Le \textit{Latch} est un composant propre au robot \textit{Atoll}. Ce crochet de levage permettant de transporter des structures sous-marines pouvant peser jusqu'à $1,5\ T$ est fabriqué par Forssea Robotics, et permet de d'installer et de déplacer des balises de positionnement acoustique sur les fonds marins. La \textsc{Figure}~\ref{fig:latch_photo} présente ce composant monté sur \atoll{} qui porte une structure sous-marine avec une balise de positionnement acoustique.
+
+				\begin{figure}[!htb]
+					\centering
+					\begin{subfigure}[b]{0.43\textwidth}
+						\centering
+						\includegraphics[width=0.99\textwidth]{imgs/latch_unlatched.png}
+						\caption{Latch monté sur \atoll{} et crochet}
+					\end{subfigure}
+					\begin{subfigure}[b]{0.38\textwidth}
+						\centering
+						\includegraphics[width=\textwidth]{imgs/latch_latched.png}
+						\caption{Latch et structure sous-marine}
+					\end{subfigure}
+					\caption{Latch développé par \forssea{}}
+					\label{fig:latch_photo}
+				\end{figure}
 
 				L'architecture logicielle du \textit{Latch} est présentée en \textsc{Figure}~\ref{fig:sa_latch}. Le composant reçoit deux informations de la part de l'implémentation logicielle : s'il est alimenté via le canal de communication \textit{power} et le signal de relâchement du crochet sur le canal \textit{release}. En retour, le crochet de levage renvoie son état à l'aide d'une sonde à effet hall qui indique si le crochet est fermé ou ouvert sur le canal \textit{sensor}.
 
@@ -101,7 +117,7 @@
 
 				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position, et l'axe se déplace avec une vitesse de rotation spécifiée.
 			
-				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées successivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Il n'est pas non plus possible de piloter la vitesse avec laquelle il se rend à cette position incrémentée. En revanche, il est tout à fait possible de connaître précisément la position du moteur, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles, et il suffit donc de compter le nombre d'incréments commandés. Enfin, on peut commander la vitesse avec laquelle le moteur se rend à cette position, en allumant les phases à la vitesse désirée.
+				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées successivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Ainsi, il est possible de connaître précisément la position du moteur, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles, et il suffit donc de compter le nombre d'incréments commandés. Enfin, on peut commander la vitesse avec laquelle le moteur se rend à cette position, en allumant les phases à la vitesse désirée.
 
 				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle s'il est alimenté via le canal de communication \textit{power}, ainsi que la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}. Il renvoit sa position et sa vitesse réelle récupérée dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
 
@@ -144,9 +160,9 @@
 		
 				Les \textit{SPE75 Thrusters} sont les propulseurs qui permettent aux robots de se déplacer et de s'orienter dans leur environnements. Ils sont composés d'un moteur permettant de mettre en mouvement des pale qui va permettre de générer une force dans la direction du propulseur.
 				
-				L'\textit{Hardware Interface} va proposer une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur qui va être transmise au robot. Elle va ensuite se charger de calculer la vitesse de rotation des pales nécessaire à la création de cette force. Pour le composant réel, cette vitesse va être transmise au propulseur qui générer la force voulue et un couple résistant dans le sens inverse de la rotation des pâles sur le corps du propulseur qui va être transmis au robot. Pour le composant simulé, on est en mesure d'interagir avec le simulateur afin d'appliquer des forces et des couples directement sur les objets simulés. 
+				L'\textit{Hardware Interface} va proposer une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur qui va être transmise au robot. Elle va ensuite se charger de calculer la vitesse de rotation des pales nécessaire à la création de cette force. Pour le composant réel, cette vitesse va être transmise au propulseur qui génère la force voulue et un couple résistant dans le sens inverse de la rotation des pâles sur le corps du propulseur qui va être transmis au robot. Pour le composant simulé, on est en mesure d'interagir avec le simulateur afin d'appliquer des forces et des couples directement sur les objets simulés. 
 				
-				Le calcul de la vitesse de rotation des pâles en fonction de la force demandée est réalisé grâce à une interpolation de points de mesures faits sur un banc d'essai. L'idée est de faire tourner en eau le propulseur fixé sur un capteur de force à une certaine vitesse, et de mesurer la force générée par celui-ci. Ensuite, on est capable d'interpoler les points expérimentaux logiciellement à l'aide de la librairie \textit{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} et de la fonctionnalité \textit{spline}. On peut ainsi calculer une vitesse de rotation à appliquer quel que soit la valeur de force demandée.
+				Le calcul de la vitesse de rotation des pâles en fonction de la force demandée est réalisé grâce à une interpolation de points de mesures faits sur un banc d'essai. L'idée est de faire tourner en eau le propulseur fixé sur un capteur de force à une certaine vitesse, et de mesurer la force générée par celui-ci. Ensuite, on est capable d'interpoler les points expérimentaux logiciellement à l'aide de la librairie \textit{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} et de la fonctionnalité \textit{spline}. On peut ainsi calculer une vitesse de rotation à appliquer quelle que soit la valeur de force demandée.
 				
 				L'idée retenue pour ce simulateur est d'appliquer directement la force demandée sur le corps du propulseur, car il est assez difficile et coûteux en ressources de calculs de réaliser de la mécanique des fluides afin de simuler pleinement le comportement des pâles du propulseur. Il est tout de même nécessaire de faire tourner les pâles dans le simulateur, car outre l'aspect cosmétique de voir les pales tourner quand le moteur fournit une poussée au robot, le simple fait de faire tourner ce solide ayant une certaine masse dans le simulateur va générer le couple résistant sur le corps du propulseur. Ainsi cette \textit{Hardware Interface} va communiquer au \textit{Model Plugin} la force et la vitesse de rotation des pâles calculée à appliquer sur le propulseur simulé.
 	
