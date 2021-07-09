@@ -47,16 +47,25 @@
 
 				Dans un premier temps, nous allons nous intéresser à la modélisation de la surface libre de la mer, c'est à dire qu'il nous faut trouver un formalisme permettant de simuler la surface de l'environnement marin, à l'interface entre l'air et l'eau.
 
-				Un modèle établi il y a plus de deux cents par \textit{Gerstner}~\cite{Gerstner} propose une modélisation trochoïdale de la houle. Cette modélisation permet de décrire la forme de la surface libre de l'eau. Cependant elle n'est vraie qu'en eaux profondes, et cette description se concentre sur des vagues dans un plan en deux dimensions $(0, \overrightarrow{x}, \overrightarrow{z})$, avec x orienté dans le sens de propagation de la vague, et z orienté vers le haut. Dans le cas plus général, il est possible d'étendre ce modèle à une environnement en trois dimensions~\cite{Constantin_2001, Gerstner-Like_Henry}, qui est aussi connu sous le nom d'\textit{Airy Wave}, et même à un modèle en eaux peu profondes ou semi-profondes~\cite{dean1991water}.
+				Les premières modélisations de la mer étaient des champs de hauteur, c'est à dire que pour chaque $(x, y)$ dans le plan de la mer, on y associait au maximum un $z$. Cette modélisation peut aux premiers abords suffire, et elle a d'ailleurs été utilisée pour réaliser les premiers rendus informatiques de mer~\cite{scha80, max81}, comme celui présenté sur la \textsc{Figure}~\ref{fig:carlas_island}. Mais on se rend compte qu'en réalité un champs de hauteur ne suffit pas à décrire la surface libre de la mer. En effet, pour décrire une mer comme celle présentée en \textsc{Figure}~\ref{fig:hokusai}, il faut établir l'équation paramétrique de la surface libre, car pour un même couple $(x, y)$ il est possible d'avoir plusieurs $z$ associés si les vagues roulent les unes sur les autres.
 
-				Cette modélisation présente l'avantage d'être linéaire. Cela permet d'utiliser le principe de superposition pour additionner plusieurs vagues d'amplitudes et de longueur d'onde différentes afin de constituer un environnement marin réaliste. Il faut cependant s'assurer que les vagues ne déferlent pas afin de ne pas entrer dans le domaine non-linéaire, comme présenté sur la \textsc{Figure}~\ref{fig:hokusai} représentant un tsunami avec des vagues déferlantes. D'après l'échelle de \textit{Beaufort}~\cite{beaufort}, le modèle de vagues linéaire semble acceptable jusqu'à \textit{mer 3}, car au delà des moutons blancs apparaissent à la surface de la mer, et les vagues commencent à déferler.
-
-				\begin{figure}
+				\begin{figure}[!htb]
 					\centering
-					\includegraphics[width=0.8\textwidth]{imgs/tsunami_hokusai.jpg}
-					\caption{La grande vague de Kanagawa, Katsushika Hokusai, 1830~\cite{hokusai_1830}}
-					\label{fig:hokusai}
+					\begin{subfigure}[t]{0.48\textwidth}
+						\includegraphics[width=\textwidth]{imgs/tsunami_hokusai.jpg}
+						\caption{La grande vague de Kanagawa, Katsushika Hokusai, 1830~\cite{hokusai_1830}}
+						\label{fig:hokusai}
+					\end{subfigure}
+					\begin{subfigure}[t]{0.5\textwidth}
+						\includegraphics[width=\textwidth]{imgs/carlas_island.png}
+						\caption{Carla's Island, Max Nelson L., 1981~\cite{max81}}
+						\label{fig:carlas_island}
+					\end{subfigure}
+					\caption{Représentation de la surface libre de la mer}
+					\label{fig:representation_mer}
 				\end{figure}
+
+				Un modèle établi il y a plus de deux cents par \textit{Gerstner}~\cite{Gerstner} propose une modélisation trochoïdale de la houle. Cette modélisation permet de décrire la forme de la surface libre de l'eau. Cependant elle n'est vraie qu'en eaux profondes, et cette description se concentre sur des vagues dans un plan en deux dimensions $(0, \overrightarrow{x}, \overrightarrow{z})$, avec x orienté dans le sens de propagation de la vague, et z orienté vers le haut. Dans le cas plus général, il est possible d'étendre ce modèle à une environnement en trois dimensions~\cite{Constantin_2001, Gerstner-Like_Henry}, qui est aussi connu sous le nom d'\textit{Airy Wave}, et même à un modèle en eaux peu profondes ou semi-profondes~\cite{dean1991water}. Cette modélisation présente l'avantage d'être linéaire. Il faut cependant s'assurer que les vagues ne déferlent pas afin de ne pas entrer dans le domaine non-linéaire, comme présenté sur la \textsc{Figure}~\ref{fig:hokusai} représentant un tsunami avec des vagues déferlantes. D'après l'échelle de \textit{Beaufort}~\cite{beaufort}, le modèle de vagues linéaire semble acceptable jusqu'à \textit{mer 3}, car au delà des moutons blancs apparaissent à la surface de la mer, et les vagues commencent à déferler.
 
 			\subsubsection{Formalisme}
 
@@ -92,34 +101,34 @@
 				\end{figure}
 
 
-				Cette modélisation de houle trochoïdale utilise une approche lagrangienne pour définir l'équation paramétrique de la surface libre~\cite{Gerstner, Constantin_2001, Gerstner-Like_Henry, dean1991water}. On s'intéresse donc à une particule de fluide positionnée au repos en $p_0=(\alpha, \beta, z_0)$, avec $z_0$ la hauteur d'eau au repos dans une mer de fond $h$. Chaque vague trochoïdale $m$ est ensuite définie par son amplitude $a_m$, son nombre d'onde $k_m$, sa phase $\phi_m$ et sa pulsation $\omega_m$ et va influencer la position de cette particule au cours du temps comme suit :
+				Cette modélisation de houle trochoïdale utilise une approche lagrangienne pour définir l'équation paramétrique de la surface libre~\cite{Gerstner, Constantin_2001, Gerstner-Like_Henry, dean1991water}. On s'intéresse donc à une particule de fluide positionnée au repos en $p_0=(\alpha, \beta, 0)$, au dessus d'une colonne d'eau de hauteur $H$. Chaque vague trochoïdale $m$ est ensuite définie par son amplitude $a_m$, son nombre d'onde $k_m$, sa phase $\phi_m$ et sa pulsation $\omega_m$ et va influencer la position de cette particule au cours du temps comme suit :
 
 				\begin{eqnarray}
-					\xi(\alpha, \beta, t) & = & \alpha - \sum_{m=0}^{M} \frac{k_{x, m}}{k_m} \frac{a_m}{tanh(k_mh)}sin(\theta_m) \\ 
-					\zeta(\alpha, \beta, t) & = & \beta - \sum_{m=0}^{M} \frac{k_{y, m}}{k_m} \frac{a_m}{tanh(k_mh)}sin(\theta_m) \\ 
-					\eta(\alpha, \beta, t) & = & z_0 - \sum_{m=0}^{M} a_m cos(\theta_m) \\ 
-					\theta_m(\alpha, \beta, t) & = & k_{x, m} \alpha + k_{z, m} \beta - \omega_m t - \phi_m
+					\xi(\alpha, \beta, t) & = & \alpha - \sum_{m=0}^{M} \frac{k_{x, m}}{k_m} \cdot \frac{a_m}{tanh(k_m H)} \cdot sin(\theta_m) \label{eqn:xi}\\ 
+					\zeta(\alpha, \beta, t) & = & \beta - \sum_{m=0}^{M} \frac{k_{y, m}}{k_m} \cdot \frac{a_m}{tanh(k_m H)} \cdot sin(\theta_m) \label{eqn:zeta}\\ 
+					\eta(\alpha, \beta, t) & = & - \sum_{m=0}^{M} a_m \cdot cos(\theta_m) \label{eqn:eta}\\ 
+					\theta_m(\alpha, \beta, t) & = & k_{x, m} \alpha + k_{z, m} \beta - \omega_m t - \phi_m \label{eqn:theta}
 				\end{eqnarray}
 
 				On a alors défini l'équation paramétrique de la surface libre de l'eau $x = \xi(\alpha, \beta, t)$, $y = \zeta(\alpha, \beta, t)$, et $z = \eta(\alpha, \beta, t)$. La relation de dispersion relie la pulsation $\omega_m$ de chaque signal au nombre d'onde $k_m$, et $k_{x, m}$ et $k_{y, m}$ sont les composantes du vecteur nombre d'ondes dans le plan de la mer tel que  :
 				
 				\begin{eqnarray}
-					\omega_m^2 & = & g \cdot k_m \cdot tanh(k_m h) \label{equation:dispersion} \\
+					\omega_m^2 & = & g \cdot k_m \cdot tanh(k_m H) \label{equation:dispersion} \\
 					k_m & = & \sqrt{k_{x, m}^2 + k_{y, m}^2} \label{equation:nombre_onde}
 				\end{eqnarray}
 
 				Dès lors, il est possible de définir $k_{x, m}$ et $k_{y, m}$ en introduisant le cap de la vague $h_m$ par rapport au repère présenté en \textsc{Figure}~\ref{fig:repere} :
 
 				\begin{eqnarray}
-					k_{x, m} & = & cos(h_m) k_m \\
-					k_{y, m} & = & sin(h_m) k_m \\
+					k_{x, m} & = & cos(h_m) \cdot k_m \\
+					k_{y, m} & = & sin(h_m) \cdot k_m \\
 				\end{eqnarray}
 
 				Ainsi les expressions de $k_{x, m}$ et $k_{y, m}$ vérifient l'\textsc{Equation}~\ref{equation:nombre_onde} et sont calculées uniquement à partir des valeurs de $k_m$ et de $h_m$.
 				
 				% Ensuite l'idée générale consiste à définir une vague principale qui va former la houle qui va généralement avoir une amplitude de l'ordre du mètre, et un très petit nombre d'onde donc une très petite pulsation d'après l'\textsc{Equation}~\ref{equation:dispersion}. Puis on ajoute en fonction de la complexité de la surface libre voulue un certain nombre de vaguelettes qui vont s'additionner à la houle, qui ont généralement une très petite amplitude de l'ordre du centimètre et un nombre d'onde assez grand.
 
-				La forme de la vague est définie par les différents paramètres de la vague. On peut par exemple s'intéresser au produit adimensionné $a_m\cdot k_m$. La \textsc{Figure}~\ref{fig:amkm} présente le tracé pour un produit valant $0.1$ un produit égal à $1$, et un valant $1.2$. On se rend compte que jusqu'à une valeur de $1$ les vagues sont réalistes, mais qu'au delà, une boucle se forme. C'est à ces endroits que le modèle linéaire des vagues s'arrête, car la crête va en réalité s'effondrer au lieu de former une boucle, la vague va déferler et de l'écume va s'y former~\cite{Gerstner-Like_Henry, Gerstner_Pixar}. On veillera donc à ne pas dépasser cette valeur charnière afin de rester dans le domaine linéaire, mais aussi afin d'avoir une simulation réaliste.
+				La forme de la vague est définie par les différents paramètres de la vague. On peut par exemple s'intéresser au produit adimensionné $a_m\cdot k_m$. La \textsc{Figure}~\ref{fig:amkm} présente le profil d'une vague pour un produit valant $0.1$ un autre égal à $1$, et un dernier valant $1.2$. On se rend compte que jusqu'à une valeur de $1$ les vagues sont réalistes, mais qu'au delà, une boucle se forme. C'est à ces endroits que le modèle linéaire des vagues s'arrête, car la crête va en réalité s'effondrer au lieu de former une boucle, la vague va déferler et de l'écume va s'y former~\cite{Gerstner-Like_Henry, Gerstner_Pixar}. On veillera donc à ne pas dépasser cette valeur charnière afin de rester dans le domaine linéaire, mais aussi afin d'avoir une simulation réaliste.
 
 				\begin{figure}[!htb]
 					\centering
@@ -128,10 +137,10 @@
 					\label{fig:amkm}
 				\end{figure}
 
-				Enfin, une amélioration proposée par A. \textsc{Fournier}~\cite{Gerstner_Pixar} est d'ajouter un terme sur la phase permettant de faire accélérer les crêtes de vagues, et de faire ralentir les creux. C'est quelque chose que l'on retrouve réellement sur les vagues, et cela permet d'orienter les vagues suivant la direction de leur déplacement. L'\textsc{Equation}~\ref{equation:pixar_phase} donne la nouvelle expression de la phase. Le terme $\Delta z$ correspond à $z-z_0$, qui est la différence entre la hauteur de la vague au point considéré et la hauteur au repos, et $\gamma_m$ est un coefficient permettant de gérer l'intensité de l'effet ajouté. L'effet est réparti linéairement suivant la hauteur de la vague, et en $z_0$ aucun changement de phase n'est opéré car le terme $\Delta z$ s'annule. La \textsc{Figure}~\ref{fig:gerstner_pixar} montre comment l'ajout de ce paramètre de phase agit sur le forme de la vague.
+				Enfin, une amélioration proposée par A. \textsc{Fournier}~\cite{Gerstner_Pixar} est d'ajouter un terme sur la phase permettant de faire accélérer les crêtes de vagues, et de faire ralentir les creux. C'est quelque chose que l'on retrouve réellement sur les vagues, et cela permet d'orienter les vagues suivant la direction de leur déplacement. L'\textsc{Equation}~\ref{equation:pixar_phase} donne la nouvelle expression de la phase. Le terme ajouté introduit un paramètre $\gamma_m$ permettant de gérer l'intensité de l'effet ajouté, et $z$ qui est la hauteur de la particule considérée. L'effet est réparti linéairement suivant la hauteur de la vague, et en $z=0$ aucun changement de phase n'est opéré car le terme s'annule. La \textsc{Figure}~\ref{fig:gerstner_pixar} montre comment l'ajout de ce paramètre de phase agit sur le forme de la vague.
 
 				\begin{equation}
-					\theta_m(\alpha, \beta, t) = k_{x, m} \alpha + k_{z, m} \beta - \omega_m t - \phi_m - \gamma_m \Delta z
+					\theta_m(\alpha, \beta, t) = k_{x, m} \alpha + k_{z, m} \beta - \omega_m t - \phi_m - \gamma_m z
 					\label{equation:pixar_phase}
 				\end{equation}
 
@@ -142,16 +151,83 @@
 					\label{fig:gerstner_pixar}
 				\end{figure}
 
-				On est alors en mesure d'obtenir le résultat visualisable en \textsc{Figure}~\ref{fig:Gerstner} dans \gazebo{}, obtenu à l'aide de trois vagues dont les caractéristiques sont présentées dans la \textsc{Table}~\ref{table:wave} et tracé sur une grille de 40 mètres par 40 mètres avec un pas de 1 mètre.
+				
+
+				Cependant, si ce modèle suffit à représenter la surface libre de la mer, il ne fournit pas la dynamique du milieu marin et l'impact qu'il va voir sur les \gls{ROV}s. C'est pourquoi il va falloir établir les équations de vitesse des particules et de pression afin de pouvoir pleinement simuler le milieu marin.
+				
+			\subsubsection{Dynamique du milieu}
+
+				Après avoir défini la forme de la surface libre de la mer, il faut désormais établir les équations du mouvements des particules de fluides dans l'eau~\cite{dean1991water, MIT_Waves}. Il faut notamment définir leur position notée $(x, y, z)$, leur vitesse notée $(u, v, w)$, et établir l'équation de pression notée $p$. La hauteur $z$ étant prise par rapport au repère présenté en \textsc{Figure}~\ref{fig:repere}, cette valeur est souvent négative, sauf quand une vague élève localement le niveau de l'eau au dessus du niveau nul.
+
+				En continuant à utiliser le formalisme précédemment introduit, on est en mesure d'étendre les \textsc{Equations}~\ref{eqn:xi} à \ref{eqn:eta} à tous points de l'espace immergés en s'aidant des références bibliographiques~\cite{dean1991water, MIT_Wave} :
+
+				\begin{eqnarray}
+					\xi(\alpha, \beta, z, t) & = & \alpha - \sum_{m=0}^{M} a_m \cdot cos(h_m) \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m) \\
+					\zeta(\alpha, \beta, z, t) & = & \beta - \sum_{m=0}^{M} a_m \cdot sin(h_m) \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m) \\
+					\eta(\alpha, \beta, z, t) & = & z - \sum_{m=0}^{M} \frac{a_m}{k_m} \cdot \frac{cosh(k(z+H))}{sinh(kh)} \cdot cos(\theta_m)
+				\end{eqnarray}
+
+				Puis, on peut établir les équations de vitesse des particules de la même manière, en dérivant temporellement les équations de positions :
+		
+				\begin{eqnarray}
+					u(\alpha, \beta, z, t) & = & - \sum_{m=0}^{M} a_m \cdot \omega_m \cdot cos(h_m) \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot cos(\theta_m) \\
+					v(\alpha, \beta, z, t) & = & - \sum_{m=0}^{M} a_m \cdot \omega_m \cdot sin(h_m) \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot cos(\theta_m) \\
+					w(\alpha, \beta, z, t) & = & \sum_{m=0}^{M} a_m \cdot \omega_m \cdot \frac{sinh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m)
+				\end{eqnarray}
+
+				Enfin, il nous reste à établir l'équation de pression :
+
+				\begin{equation}
+					p(\alpha, \beta, z, t) = \rho \sum_{m=0}^{M} \frac{a_m\omega_m^2}{k} \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot cos(\theta_m) - \rho g z
+				\end{equation}
+
+				Ces équations prennent en compte l'impact significatif de la hauteur de la colonne d'eau dans le cas où les vagues sont présentes dans un milieu de faible profondeur. De plus, il est intéressant de remarquer que l'impact des vagues sur la dynamique des particules diminue quand la profondeur augmente, comme le montre la \textsc{Figure}~\ref{fig:speed_pressure_depth}. Cet effet se trouve dans les termes en cosinus et sinus hyperboliques qui décroissent très vite vers 0 quand on s'approche du fond, et qui valent 1 en $z=0$.
 
 				\begin{figure}[!htb]
-					\begin{minipage}[c]{0.4\textwidth}
+					\centering
+					\includegraphics[]{build/imgs/gerstner_velocity_pressure_depth.pdf}
+					\caption{Evolution de la vitesse des particules et de la pression en fonction de la profondeur à $t=0$, $\alpha=0$ et $\beta=0$, pour une vague d'amplitude $a_m=1\ m$ et de nombre d'onde $k_m = 1\ rad.m^{-1}$}
+					\label{fig:speed_pressure_depth}
+				\end{figure}
+
+			\subsubsection{Simplification en eaux profondes}
+			\label{sec:simplification_eaux_profondes}
+			
+				Finalement, on peut simplifier le modèle précédent, en remarquant que la hauteur de la colonne d'eau dans notre cas est très grande devant la hauteur caractéristiques de nos vagues, donc :
+
+				\begin{equation}\frac{cosh(k_m(z+H))}{sinh(k_mH)} \approx e^{kz} \label{eqn:simplification_eaux_profondes}\end{equation}
+
+				Comme $z$ est négatif sous la surface de l'eau, ce terme est une exponentielle décroissante qui va atténuer fortement l'effet des vagues au fond, et avoir un effet plus conséquent sur les premiers mètres d'eau. On peut montrer que la distance caractéristique d'atténuation est de l'ordre d'une demi longueur d'onde. En effet, en notant $\lambda_m$ la longueur d'onde de la vague, on a $k_m = \tfrac{2\pi}{\lambda_m}$, et en évaluant l'expression en $z = - \tfrac{\lambda_m}{2}$, $e^{-\tfrac{k_m\lambda_m}{2}} = e^{-\pi} \approx 0,05$. Cela signifie que $95 \%$ de l'effet des vagues est dissipé sur une demi longueur d'onde de profondeur. Avec cette simplification, les équations précédentes se simplifient comme suit :
+			
+				\begin{eqnarray}
+					\omega_m^2 & = & k_mg \\
+					p(x, z, t) & = & \rho g a_m e^{k_mz}cos(\omega_mt - k_mx + \phi_m) - \rho g z\\
+					u(x, z, t) & = & a_m \omega_m e^{kz}cos(\omega_mt -k_mx + \phi_m) \\
+					w(x, z, t) & = & - a_m \omega_m e^{kz}sin(\omega_mt -k_mx + \phi_m) \\
+					\xi(x, z, t) & = & a_m \omega_m e^{kz}sin(\omega_mt -k_mx + \phi_m) \\
+					\eta(x, z, t) & = & a_m \omega_m e^{kz}cos(\omega_mt -k_mx + \phi_m)
+				\end{eqnarray}
+
+			\subsubsection{Choix du spectre de vagues}
+
+				L'avantage de cette modélisation linéaire des vagues est qu'il est possible d'additionner des vagues de caractéristiques différentes en utilisant le principe de superposition. Ainsi on peut définir un environnement marin réaliste en ajoutant l'effet de plusieurs vagues sur les particules de fluides.
+
+				Pour une optimisation en terme de calculs, il est possible de prendre des nombres d'ondes et donc des pulsations multiples les unes des autres~\cite{tessendorf2001simulating}. Il est aussi possible de choisir des nombres d'ondes tombant sur la grille qui va servir de support pour réaliser le rendu de la surface libre~\cite{tessendorf2001simulating}. Cela permet d'avoir un phénomène périodique qui permet de pré-calculer sur une période tous les paramètres dynamiques de l'environnement, et ainsi de baisser la charge de calculs lors de la simulation. Pour notre cas cela ne sera pas nécessaire, d'abord car la charge de calculs demandée ne ralentit pas la simulation, mais aussi car nous ne voulons pas forcément nous limiter à un phénomène de vagues périodiques.
+			
+			\subsubsection{Implémentation de la solution}
+
+				Cette modélisation a menée à l'implémentation d'une classe contenant tous les paramètres des vagues de l'environnement. Elle permet de réaliser tous les calculs nécessaires à la simulation visuelle et dynamique du milieu marin modélisé. Cette classe est ensuite instanciée par un \textit{plugin} \gazebo{} de type \textit{WorldPlugin} qui s'applique donc sur le monde simulé, et qui a pour rôle de publier les paramètres du monde marin sur le réseau de communication \textit{ignition transport}, mais aussi de répondre aux requêtes envoyées par d'autres plugins sur la dynamique de l'eau à une certaine position passée en paramètre. 
+				
+				Pour réaliser le rendu visuel de la mer, on peut créer une grille de particules de fluides pour laquelle on va pouvoir réaliser le rendu de la position au cours du temps. A chaque instant, on actualise la position de chaque particule de fluide et on trace à nouveau la grille. On est alors en mesure d'obtenir le résultat visualisable en \textsc{Figure}~\ref{fig:Gerstner} dans \gazebo{}, obtenu à l'aide de trois vagues dont les caractéristiques sont présentées dans la \textsc{Table}~\ref{table:wave} et tracé sur une grille de 40 mètres par 40 mètres avec un pas de 1 mètre. Les paramètres des vagues ainsi que de la grille de rendu sont passées en paramètre au \plugin{} implémenté afin de pouvoir rapidement plonger les \gls{ROV}s dans des milieux ayant des dynamiques différentes.
+
+				\begin{figure}[!htb]
+					\begin{minipage}[c]{0.45\textwidth}
 						\centering
 						\includegraphics[width=\textwidth]{imgs/gerstner.jpg}
-						\caption{Vagues de \textit{Gerstner} dans \gazebo{}}
+						\caption{Vagues dans \gazebo{}}
 						\label{fig:Gerstner}
 					\end{minipage} \hfill
-					\begin{minipage}[c]{0.58\textwidth}
+					\begin{minipage}[c]{0.54\textwidth}
 						\begin{adjustbox}{max width=\textwidth}
 							\begin{tabular}{c c c c c c}
 								\toprule
@@ -168,82 +244,53 @@
 					\end{minipage}
 				\end{figure}
 
-				Cependant, si ce modèle suffit à représenter la surface libre de la mer, il ne fournit pas la dynamique du milieu marin et l'impact qu'il va voir sur les \gls{ROV}s. C'est pourquoi il va falloir établir les équations de vitesse des particules et de pression afin de pouvoir pleinement simuler le milieu marin.
-				
-			\subsubsection{Dynamique du milieu}
-
-				Le \textit{Massachusetts Institute of Technology} (\textsc{MIT}) a formalisé la modélisation d'un environnement marin dans le cadre linéaire~\cite{dean1991water, MIT_Waves}. Cette modélisation utilise les mêmes équations pour décrire la surface libre de l'eau, mais fournit aussi les équations de pression et de vitesse des particules en tout point du fluide. Cela permet d'agrémenter notre simulation de la dynamique qui nous manquait jusqu'à présent.
-
-				Sans perdre de généralité, on cadre l'étude sur une vagues dans le plan $(0, \overrightarrow{x}, \overrightarrow{z})$, avec $\overrightarrow{z}$ orienté vers le haut comme représenté sur la \textsc{Figure}~\ref{fig:mit_frame}. On pourra éventuellement par la suite introduire un paramètre de cap permettant de décrire une vague ne se dirigeant pas suivant l'axe $\overrightarrow{x}$. Par superposition, on pourra aussi par la suite ajouter par la suite autant de vagues que voulue, puisque l'on reste dans le domaine linéaire. On considère l'eau comme un fluide incompressible et que la surface libre est soumise à la pression atmosphérique $P_a$.
-
-				
-
-				Comme pour le modèle de \textit{Gerstner}, chaque vague $m$ possède une amplitude $a_m$, un nombre d'onde $k_m$, une phase $\phi_m$ et une pulsation $\omega_m$. En notant $g$ l'accélération de pesanteur, et $H$ la hauteur de la colonne d'eau à l'endroit considéré, on a la relation de dispersion qui lie $\omega_m$ et $k_m$ :
-
-				\begin{equation}
-					\omega_m^2 = k_m \cdot g \cdot tanh(k_mH)
-				\end{equation}
-
-				En notant $x$ et $z$ les coordonnées d'un point de l'espace dans le repère considéré, $u$ et $w$ leur vitesse et $p$ la pression, on a :
-
-				\begin{eqnarray}
-					u(x, z, t) & = & a_m \omega_m \frac{cosh(k_m(z+H))}{sinh(kH)} cos(\omega_m t -k_mx + \phi_m) \\
-					w(x, z, t) & = & -a_m \omega_m \frac{sinh(k_m(z+H))}{sinh(kH)} sin(\omega_m t -k_mx + \phi_m) \\
-					p(x, z, t) & = & \rho\frac{a_m\omega_m^2}{k} \frac{cosh(k_m(z+H))}{sinh(k_mH)} cos(\omega_m t -k_mx + \phi_m) - \rho g z
-				\end{eqnarray}
-
-				En notant $\xi$ la trajectoire des particules suivant l'axe $\overrightarrow{x}$ et $\eta$ celle suivant l'axe $\overrightarrow{z}$, on a :
-
-				\begin{eqnarray}
-					\xi(x, z, t) & = & x + a \frac{cosh(k_m(z+H))}{sinh(k_mH)} sin(\omega_m t -k_mx + \phi_m) \\
-					\eta(x, z, t) & = & z + \frac{a_m}{k_m} \frac{cosh(k(z+H))}{sinh(kh)} cos(\omega_m t -k_mx + \phi_m)
-				\end{eqnarray}
-
-				Puis nous allons introduire le cap de la vague, qui va permettre d'orienter la vague autrement que suivant l'axe $\overrightarrow{x}$. En notant $h$ son cap, on a :
-
-				\begin{eqnarray}
-					x & = & cos(h) \xi(x, y, t) \\
-					y & = & sin(h) \xi(x, y, t) \\
-					u & = & cos(h) u(x, y, t) \\
-					v & = & sin(h) u(x, y, t)
-				\end{eqnarray}
-
-			\subsubsection{Simplification en eaux profondes}
-			
-				Finalement, on peut simplifier le modèle précédent, en remarquant que la hauteur de la colonne d'eau dans notre cas est très grande devant la hauteur caractéristiques de nos vagues, donc :
-
-				$$\frac{cosh(k_m(z+H))}{sinh(k_mH)} \approx e^{kz}$$
-
-				Comme $z$ est négatif sous la surface de l'eau, ce terme est une exponentielle décroissante qui va atténuer fortement l'effet des vagues au fond, et avoir un effet plus conséquent sur les premiers mètres d'eau. On peut montrer que la distance caractéristique d'atténuation est de l'ordre d'une demi longueur d'onde. En effet, en notant $\lambda_m$ la longueur d'onde de la vague, on a $k_m = \tfrac{2\pi}{\lambda_m}$, et en évaluant l'expression en $z = - \tfrac{\lambda_m}{2}$, $e^{-\tfrac{k_m\lambda_m}{2}} = e^{-\pi} \approx 0,05$. Cela signifie que $95 \%$ de l'effet des vagues est dissipé sur une demi longueur d'onde de profondeur. Avec cette simplification, les équations précédentes se simplifient comme suit :
-			
-				\begin{eqnarray}
-					\omega_m^2 & = & k_mg \\
-					p(x, z, t) & = & \rho g a_m e^{k_mz}cos(\omega_mt - k_mx + \phi_m) - \rho g z\\
-					u(x, z, t) & = & a_m \omega_m e^{kz}cos(\omega_mt -k_mx + \phi_m) \\
-					w(x, z, t) & = & - a_m \omega_m e^{kz}sin(\omega_mt -k_mx + \phi_m) \\
-					\xi(x, z, t) & = & a_m \omega_m e^{kz}sin(\omega_mt -k_mx + \phi_m) \\
-					\eta(x, z, t) & = & a_m \omega_m e^{kz}cos(\omega_mt -k_mx + \phi_m)
-				\end{eqnarray}
-
-			\subsubsection{Choix du spectre de vagues}
-				
-				
-
 		\subsection{Flottabilité}
 
-		\subsection{Forces induites à un solide}
-			
-			Les forces de Morison et de Froude-Krylov sont peut coûteuses à calculer et permettent d'appliquer les forces que subit les objets immergés. Elles possèdent cependant quelques limitations~\cite{sarpkaya2010wave} :
+		\subsection{Forces induites par le milieu}
 
-			\begin{itemize}[noitemsep]
-				\item[\textbullet] L'accélération du fluide doit être relativement uniforme autour de la structure. Dans notre cas, cela implique que la longueur d'onde des vague doit être grande devant la longueur caractéristique du robot ou de la structure considérée. Comme les robots ont une longueur caractéristique de l'ordre du mètre, on doit respecter $\forall m, \lambda_m \gg 1 m$. \\
-				\item[\textbullet] L'écoulement doit être unidirectionnel. Cela implique que les vagues doivent globalement rester dans la même direction. C'est un phénomène observable en milieu marin à condition que l'étude reste relativement courte dans le temps. Cela implique aussi que l'écoulement doit rester laminaire, d'abord afin de pouvoir rester dans le domaine linéaire de la description des vagues, mais aussi pour éviter les turbulences et donc que l'expression des forces proposée ne suffise plus. \\
-				\item[\textbullet] Les forces proposées sont basées sur des expressions asymptotiques des forces d'inerties et de traînée. Elles sont donc justes en régime permanent, mais elles changent significativement en régime transitoire et les forces ne décrivent plus exactement les forces qui s'appliquent sur un corps. Aucune précaution ne peut être prise dans notre cas, mais il faudra garder à l'esprit que pendant le régime transitoire de l'accélération du robot les forces appliquées ne seront pas exactement celles que le robot réel subit.
-			\end{itemize}
+			\subsubsection{Introduction}
+			
+				Les forces qui s'appliquent sur un solide immergé dans un fluide en mouvement sont les forces de Morison et de Froude-Krylov. Elles permettent d'appliquer les forces que subit les objets immergés. Elles possèdent cependant quelques limitations~\cite{sarpkaya2010wave} :
+
+				\begin{itemize}[noitemsep]
+					\item[\textbullet] L'accélération du fluide doit être relativement uniforme autour de la structure. Dans notre cas, cela implique que la longueur d'onde des vague doit être grande devant la longueur caractéristique du robot ou de la structure considérée. Comme les robots ont une longueur caractéristique de l'ordre du mètre, on doit respecter $\forall m, \lambda_m \gg 1 m$. \\
+					\item[\textbullet] L'écoulement doit être unidirectionnel. Cela implique que les vagues doivent globalement rester dans la même direction. C'est un phénomène observable en milieu marin à condition que l'étude reste relativement courte dans le temps. Cela implique aussi que l'écoulement doit rester laminaire, d'abord afin de pouvoir rester dans le domaine linéaire de la description des vagues, mais aussi pour éviter les turbulences et donc que l'expression des forces proposée ne suffise plus. \\
+					\item[\textbullet] Les forces proposées sont basées sur des expressions asymptotiques des forces d'inerties et de traînée. Elles sont donc justes en régime permanent, mais elles changent significativement en régime transitoire et les forces ne décrivent plus exactement les forces qui s'appliquent sur un corps. Aucune précaution ne peut être prise dans notre cas, mais il faudra garder à l'esprit que pendant le régime transitoire de l'accélération du robot les forces appliquées ne seront pas exactement celles que le robot réel subit.
+				\end{itemize}
+
+			\subsubsection{Force de Froude-Krylov}
+
+				La force de \textit{Froude-Krylov} est la force qui va 
+
+				\begin{equation}
+					F_{fk} = \rho \cdot V \cdot \dot{u}
+				\end{equation}
+
+			\subsubsection{Force de masse hydrodynamique}
+
+				La force de masse hydrodynamique est la force qui va faire converger l'accélération du solide vers l'accélération du fluide en prenant en compte la masse ajoutée de fluide, qui est la masse de fluide qui va être mise en mouvement par le solide et qui va donc le ralentir.
+
+				\begin{equation}
+					F_{hm} = \rho \cdot V \cdot C_a \cdot (\dot{u} - \dot{v})
+				\end{equation}
+
+			\subsubsection{Force de traînée hydrodynamique}
+
+				La force de traînée hydrodynamique est la force qui va s'opposer au déplacement du solide dans le fluide. Cette force est une force non-conservative qui est indispensable à la stabilité de la simulation, car elle va supprimer les éventuelles oscillations induites par les méthodes d'intégration numériques utilisées par le simulateur. Cette force est en outre très importante dans le cas d'une simulation dans un fluide ayant une grande masse volumique, comme l'eau dans notre cas.
+
+				\begin{equation}
+					F_{hm} = \frac{1}{2} \cdot \rho \cdot C_d \cdot A \cdot (u - v) \cdot |u - v|
+				\end{equation}
+
+			\subsubsection{Ajout des forces aux solides}
+
+				Un \plugin{} a été développé pour \gazebo{} afin d'appliquer ces forces à chaque objet auquel on souhaite y ajouter la dynamique du milieu. Ce plugin communique avec le \plugin{} implémenté pour l'environnement afin de récupérer la masse volumique du milieu ainsi que l'accélération et la vitesse du fluide à la position du centre de volume des \gls{ROV}s. Le plugin va ensuite calculer à chaque itération la somme des forces induites par le milieu et va les ajouter à la simulation du solide via l'\textit{API}\footnote{Application Programming Interface : Interface de Programmation} \gazebo{}. Le moteur physique va ensuite se charger d'ajouter ces forces aux autres forces qui s'appliquent déjà au solide comme le poids, puis d'intégrer l'accélération du solide pour en obtenir sa vitesse et sa position.
 
 		\subsection{Courants marins}
 
-			Les courants marins constituent un élément majeur qui va perturber le comportement des robots dans l'environnement simulé. Avec une simulation suffisamment précise, la simulation et le comportement réel des \gls{ROV}s deviendront très proches, notamment par l'ajout de la traînée hydrodynamique qui va s'appliquer sur les composants des robots.
+			\subsubsection{Introduction}
+
+				Les courants marins constituent un élément majeur qui va perturber le comportement des robots dans l'environnement simulé. Avec une simulation suffisamment précise, la simulation et le comportement réel des \gls{ROV}s deviendront très proches, notamment par l'ajout de la traînée hydrodynamique qui va s'appliquer sur les composants des robots.
 
 			\subsubsection{Modèle constant}
 
@@ -525,7 +572,12 @@
 				
 				Pour résoudre ce système et trouver une approximation numérique pour $c_1$, $c_2$ et $c_3$, on utilise un solveur numérique. Lors de l'implémentation pour le simulateur de cette étape d'initialisation, la librairie \textit{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} est utilisée. Une fois les paramètres déterminés, on est en mesure de déterminer la position initiale de chaque n\oe ud dans le repère de l'ombilical. Il faut enfin projeter ces positions dans le repère du monde afin de pouvoir correctement initialiser chaque n\oe uds, comme présenté sur la \textsc{Figure}~\ref{fig:tether_plot}
 			
+			\subsection{Couple transmissible}
+
+				L'ombilical est capable de transmettre un couple longitudinal capable de traverser le câble et de se transmettre d'un bout à l'autre. Pour simuler ce couple, il va falloir ajouter une variable au vecteur d'état de chaque \textit{TetherElement}. Cette variable va contenir l'angle du n\oe ud.
+
 			\subsection{Implémentation}
+
 				L'implémentation d'un \plugin{} \gazebo{} permet de simuler le comportement de l'ombilical dans l'environnement de simulation. Ce \plugin{} est basé sur l'instanciation d'objets de type \textit{Tether} et \textit{TetherElement}. L'objet \textit{Tether} possède les paramètres de simulation de l'ombilical, tandis que l'objet \textit{TetherElement} représente un tronçon de cet ombilical. Un diagramme de classe est présenté en \textsc{Figure}~\ref{fig:uml_class} et montre les différents attributs et méthodes associées à chaque classe.
 
 				\begin{figure}[!htb]
