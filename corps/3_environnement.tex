@@ -159,7 +159,7 @@
 
 				Après avoir défini la forme de la surface libre de la mer, il faut désormais établir les équations du mouvements des particules de fluides dans l'eau~\cite{dean1991water, MIT_Waves}. Il faut notamment définir leur position notée $(x, y, z)$, leur vitesse notée $(u, v, w)$, et établir l'équation de pression notée $p$. La hauteur $z$ étant prise par rapport au repère présenté en \textsc{Figure}~\ref{fig:repere}, cette valeur est souvent négative, sauf quand une vague élève localement le niveau de l'eau au dessus du niveau nul.
 
-				En continuant à utiliser le formalisme précédemment introduit, on est en mesure d'étendre les \textsc{Equations}~\ref{eqn:xi} à \ref{eqn:eta} à tous points de l'espace immergés en s'aidant des références bibliographiques~\cite{dean1991water, MIT_Wave} :
+				En continuant à utiliser le formalisme précédemment introduit, on est en mesure d'étendre les \textsc{Equations}~\ref{eqn:xi} à \ref{eqn:eta} à tous points de l'espace immergés en s'aidant des références bibliographiques~\cite{dean1991water, MIT_Waves} :
 
 				\begin{eqnarray}
 					\xi(\alpha, \beta, z, t) & = & \alpha - \sum_{m=0}^{M} a_m \cdot cos(h_m) \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m) \\
@@ -200,7 +200,7 @@
 				Comme $z$ est négatif sous la surface de l'eau, ce terme est une exponentielle décroissante qui va atténuer fortement l'effet des vagues au fond, et avoir un effet plus conséquent sur les premiers mètres d'eau. On peut montrer que la distance caractéristique d'atténuation est de l'ordre d'une demi longueur d'onde. En effet, en notant $\lambda_m$ la longueur d'onde de la vague, on a $k_m = \tfrac{2\pi}{\lambda_m}$, et en évaluant l'expression en $z = - \tfrac{\lambda_m}{2}$, $e^{-\tfrac{k_m\lambda_m}{2}} = e^{-\pi} \approx 0,05$. Cela signifie que $95 \%$ de l'effet des vagues est dissipé sur une demi longueur d'onde de profondeur. Avec cette simplification, les équations précédentes se simplifient comme suit :
 			
 				\begin{eqnarray}
-					\omega_m^2 & = & k_mg \\
+					\omega_m^2 & = & k_mg \label{equation:deep_dispersion}\\
 					p(x, z, t) & = & \rho g a_m e^{k_mz}cos(\omega_mt - k_mx + \phi_m) - \rho g z\\
 					u(x, z, t) & = & a_m \omega_m e^{kz}cos(\omega_mt -k_mx + \phi_m) \\
 					w(x, z, t) & = & - a_m \omega_m e^{kz}sin(\omega_mt -k_mx + \phi_m) \\
