@@ -159,6 +159,13 @@
 			\subsubsection{SPE75 Thrusters}
 		
 				Les \textit{SPE75 Thrusters} sont les propulseurs qui permettent aux robots de se déplacer et de s'orienter dans leur environnements. Ils sont composés d'un moteur permettant de mettre en mouvement des pale qui va permettre de générer une force dans la direction du propulseur.
+
+				\begin{figure}[!htb]
+					\centering
+					\includegraphics[width=0.6\textwidth]{imgs/spe75_thrusters.png}
+					\caption{Trois propulseurs montés sur \atoll{}}
+					\label{fig:thrusters}
+				\end{figure}
 				
 				L'\textit{Hardware Interface} va proposer une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur qui va être transmise au robot. Elle va ensuite se charger de calculer la vitesse de rotation des pales nécessaire à la création de cette force. Pour le composant réel, cette vitesse va être transmise au propulseur qui génère la force voulue et un couple résistant dans le sens inverse de la rotation des pâles sur le corps du propulseur qui va être transmis au robot. Pour le composant simulé, on est en mesure d'interagir avec le simulateur afin d'appliquer des forces et des couples directement sur les objets simulés. 
 				
