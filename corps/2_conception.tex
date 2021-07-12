@@ -132,20 +132,20 @@
 
         \subsection{ROS2 Control}
 
-            Pour respecter la fonction contrainte \textbf{FC2}, le simulateur doit s'interfacer avec le reste de l'implémentation logicielle, il est donc nécessaire de définir une architecture logicielle permettant de communiquer à la fois avec les \gls{ROV}s réels et simulés. \gls{ROS2Control}~\cite{ros_control} est un framework permettant de faire communiquer des contrôleurs et des drivers ensemble. Le principal avantage est qu'il est temps-réel, c'est-à-dire que les données des capteurs sont accessible instantanément par les contrôleurs, les actionneurs ont aussi instantanément accès aux commandes, et enfin on peut changer de manière consistante de contrôleur, sans temps mort durant lesquels le robot ne serait pas commandé.
+            Pour respecter la fonction contrainte \textbf{FC2}, le simulateur doit s'interfacer avec le reste de l'implémentation logicielle, il est donc nécessaire de définir une architecture logicielle permettant de communiquer à la fois avec les \gls{ROV}s réels et simulés. \textit{ROS2 Control}~\cite{ros_control} est un framework permettant de faire communiquer des contrôleurs et des drivers ensemble. Le principal avantage est qu'il est temps-réel, c'est-à-dire que les données des capteurs sont accessible instantanément par les contrôleurs, les actionneurs ont aussi instantanément accès aux commandes, et enfin on peut changer de manière consistante de contrôleur, sans temps mort durant lesquels le robot ne serait pas commandé.
 
             \begin{figure}[!htb]
                 \centering
                 \includegraphics{build/diagrams/ros2_control.pdf}
-                \caption{Architecture logicielle avec \gls{ROS2Control}}
+                \caption{Architecture logicielle avec \textit{ROS2 Control}}
                 \label{fig:ros2_control}
             \end{figure}
 
-            La \textsc{Figure}~\ref{fig:ros2_control} nous montre l'architecture logicielle de \gls{ROS2Control}. Ce framework va instancier un \textit{Controller Manager} qui va s'occuper de charger les contrôleurs qui seront utilisés dans le robot, des \textit{Hardware Interface} qui sont les interfaces qui vont communiquer avec les composants et un \textit{Ressource Manager} qui va faire transiter les données entre les contrôleurs et les composants. L'\textit{Hardware Interface} peut avoir pour rôle de communiquer avec les composants réels, où avec les composants simulés. L'idée est de créer une \textit{Hardware Interface} pour la simulation proposant les mêmes interfaces que celle implémentée pour les composants réels. Ainsi on peut utiliser les mêmes algorithmes de contrôle de manière totalement transparente pour commander le robot réel ou le simulateur et la fonction contrainte \textbf{FC2} est remplie.
+            La \textsc{Figure}~\ref{fig:ros2_control} nous montre l'architecture logicielle de \textit{ROS2 Control}. Ce framework va instancier un \textit{Controller Manager} qui va s'occuper de charger les contrôleurs qui seront utilisés dans le robot, des \textit{Hardware Interface} qui sont les interfaces qui vont communiquer avec les composants et un \textit{Ressource Manager} qui va faire transiter les données entre les contrôleurs et les composants. L'\textit{Hardware Interface} peut avoir pour rôle de communiquer avec les composants réels, où avec les composants simulés. L'idée est de créer une \textit{Hardware Interface} pour la simulation proposant les mêmes interfaces que celle implémentée pour les composants réels. Ainsi on peut utiliser les mêmes algorithmes de contrôle de manière totalement transparente pour commander le robot réel ou le simulateur et la fonction contrainte \textbf{FC2} est remplie.
 
         \subsection{Architecture Logicielle}
 
-            En rassemblant ce qui a pu être présenté dans cette chapitre, on peut proposer l'architecture logicielle présentée sur la \textsc{Figure}~\ref{fig:architecture_logicielle} pour ce simulateur.
+            En rassemblant ce qui a pu être présenté dans ce chapitre, on peut proposer l'architecture logicielle présentée sur la \textsc{Figure}~\ref{fig:architecture_logicielle} pour ce simulateur.
             
             Ce système nécessite donc dans un premier la description pour \gazebo{} d'un monde de simulation sous-marin ainsi que la description des \gls{ROV}s dans un premier temps afin de pouvoir simuler les robots. Puis vient l'implémentation de \textit{plugins} \gazebo{} et d'\textit{Hardware Interface} pour interagir et contrôler ces robots, qui communique ensemble par via les librairies \textit{ignition}.
             

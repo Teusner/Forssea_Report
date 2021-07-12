@@ -271,7 +271,7 @@
 				La poussée d'Archimède est une force générée par le volume fluide déplacé par un corps immergé dans ce fluide. Elle s'applique donc à tout solide qui sera immergé. En notant $V$ le volume du solide, $\rho$ la masse volumique du fluide considéré et $g$ l'accélération de pesanteur, on a :
 
 				\begin{equation}
-					\overrightarrow{\Pi_A} = - \rho \cdot V_i \cdot g
+					\overrightarrow{\Pi_A} = - \rho \cdot V_i \cdot \overrightarrow{g}
 				\end{equation}
 
 			\subsubsection{Force de Froude-Krylov}
@@ -279,7 +279,7 @@
 				La force de \textit{Froude-Krylov} est la force générée par le champ de pression des vagues sur la surface mouillée du solide.
 
 				\begin{equation}
-					F_{fk} = \rho \cdot V_i \cdot \dot{u}
+					\overrightarrow{F_{fk}} = \rho \cdot V_i \cdot \overrightarrow{\dot{u}}
 				\end{equation}
 
 			\subsubsection{Force de masse hydrodynamique}
@@ -287,7 +287,7 @@
 				La force de masse hydrodynamique est la force qui va faire converger l'accélération du solide vers l'accélération du fluide en prenant en compte la masse ajoutée de fluide, qui est la masse de fluide qui va être mise en mouvement par le solide et qui va donc le ralentir.
 
 				\begin{equation}
-					F_{hm} = \rho \cdot V_i \cdot C_a \cdot (\dot{u} - \dot{v})
+					\overrightarrow{F_{hm}} = \rho \cdot V_i \cdot C_a \cdot (\overrightarrow{\dot{u}} - \overrightarrow{\dot{v}})
 				\end{equation}
 
 			\subsubsection{Force de traînée hydrodynamique}
@@ -295,7 +295,7 @@
 				La force de traînée hydrodynamique est la force qui va s'opposer au déplacement du solide dans le fluide. Cette force est une force non-conservative qui est indispensable à la stabilité de la simulation, car elle va supprimer les éventuelles oscillations induites par les méthodes d'intégration numériques utilisées par le simulateur. Cette force est en outre très importante dans le cas d'une simulation dans un fluide ayant une grande masse volumique, comme l'eau dans notre cas.
 
 				\begin{equation}
-					F_{hm} = \frac{1}{2} \cdot \rho \cdot C_d \cdot A \cdot (u - v) \cdot |u - v|
+					\overrightarrow{F_{hm}} = \frac{1}{2} \cdot \rho \cdot C_d \cdot A \cdot |u - v| \cdot (\overrightarrow{u} - \overrightarrow{v})
 				\end{equation}
 
 				Puis, en supposant que la sphère est immergée jusqu'à une hauteur $h$, on est en mesure d'exprimer le volume immergé 
