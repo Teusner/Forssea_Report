@@ -43,7 +43,7 @@ def plot_waves():
 
 
     fig.set_size_inches(w=width, h=height)
-    plt.xlabel(r"z (en $m$)")
+    plt.xlabel(r"profondeur (en $m$)")
     plt.tight_layout()
     return fig, axs
 
