@@ -33,6 +33,7 @@ def plot_waves():
         axs[i].grid(True)
         axs[i].set_ylabel(r"z (en $m$)")
         axs[i].fill_between(xi, yi, -1.2*a_m*np.ones(yi.shape), color="teal", alpha=0.5)
+        axs[i].set_xlim(np.min(xi), np.max(xi))
     fig.set_size_inches(w=width, h=height)
     plt.xlabel(r"x (en $m$)")
     plt.tight_layout()
