@@ -115,7 +115,14 @@
 		
 			\subsubsection{SS309 Tilt}
 
-				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position et l'axe se déplace avec une vitesse de rotation spécifiée.
+				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position et l'axe se déplace avec une vitesse de rotation spécifiée. La \textsc{Figure}~\ref{fig:ss309_tilt} présente le composant monté sur \argos{} avec la nacelle peremttant de d'orienter la caméra d'observation.
+
+				\begin{figure}[!htb]
+					\centering
+					\includegraphics[width=0.6\textwidth]{imgs/ss309_tilt.png}
+					\caption{SS309 tilt de \textit{Sidus Solutions} et nacelle pour \textit{Obscam}}
+					\label{fig:ss309_tilt}
+				\end{figure}
 			
 				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées successivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Ainsi, il est possible de connaître précisément la position du moteur, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles, et il suffit donc de compter le nombre d'incréments commandés. Enfin, on peut commander la vitesse avec laquelle le moteur se rend à cette position, en allumant les phases à la vitesse désirée.
 

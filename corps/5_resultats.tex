@@ -4,7 +4,7 @@
 	
 	\section{Introduction}
 
-		Nous avons désormais implémenté tous les éléments de notre simulateur, et nous allons donc pouvoir à présent tester le bon fonctionnement de notre système au complet afin d'analyser les résultats produits. Cela va nous permettre de tester que toutes les implémentations logicielles s'interfacent bien toutes ensemble et que le simulateur a un comportement physique correct.
+		Nous avons désormais implémenté tous les éléments de notre simulateur, et nous allons donc pouvoir à présent tester le bon fonctionnement de notre système complet. Cela va nous permettre de tester que les différentes briques logicielles s'interfacent bien toutes ensemble et que le simulateur a un comportement physique correct.
 		
 		Dans un premier temps, nous allons vérifier que le système respecte les exigences présentées dans le \textsc{Chapitre}~\ref{chapitre:systeme}, ainsi que le comportement des robots et de l'environnement développés dans les \textsc{Chapitre}~\ref{chapitre:environnement} et \textsc{Chapitre}~\ref{chapitre:robots}.
 
@@ -14,7 +14,25 @@
 
 		\subsection{Visualisation des robots}
 
-			\gls{ROS2} propose un outil qui permet de visualiser les robots et les données fournies par les capteurs, c'est le logiciel \textit{RViz2}. Il est systématique de retrouver dans les packages de description de robots pour \gls{ROS2} de retrouver un fichier de configuration permettant de visualiser le robot dans \textit{RViz2}, et c'est pourquoi c'est une fonctionnalité 
+			\gls{ROS2} propose \textit{RViz2} qui est un outil qui permettant de visualiser les robots et les données fournies par les capteurs. Il est systématique de retrouver dans les packages de description de robots pour \gls{ROS2} un fichier de configuration permettant de visualiser le robot dans \textit{RViz2}. Pour notre simulateur, cela correspond à la fonction contrainte \textbf{FC3}.
+
+			\begin{figure}
+				\centering
+				\begin{subfigure}[t]{0.45\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{imgs/argos_rviz.png}
+					\caption{\argos{} dans \textit{RViz2}}
+					\label{fig:argos_rviz}
+				\end{subfigure}
+				\begin{subfigure}[t]{0.45\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{imgs/argos_rviz.png}
+					\caption{\atoll{} dans \textit{RViz2}}
+					\label{fig:argos_rviz}
+				\end{subfigure}
+				\caption{Visualisation des robots dans \textit{RViz2}}
+				\label{fig:rviz2_robots}
+			\end{figure}
 
 		\subsection{Invocation des robots dans l'environnement de simulation}
 
@@ -26,10 +44,25 @@
 
 		Ecarts (statique/dynamique) lors d'essais en bassins ou réels
 
-		\begin{figure}
-			\includegraphics{build/imgs/rosace_local.pdf}
-			\caption{Rosace réalisée par Argos}
-			\label{fig:rosace_argos}
-		\end{figure}
+		\subsection{Rosace d'\argos{}}
+
+			\argos{} a réalisé durant un essai des aller-retours avec une rotation de 3 degrés à chaque fois qu'il faisait demi-tour. Nous avons placé le robot à 10 mètres sous la surface afin de ne pas être impacté ni par les vagues ni par l'ombilical. Le mouvement dans le repère du monde ressemble globalement à des aller-retours entre deux points, mais si on trace la trajectoire dans le repère d'\argos{} on obtient une rosace. Cet essai a permis de tester le mouvement du robot dans son plan transverse suivant une multitude d'angles de déplacement par pas de 3 degrés et sur un espace restreint dans le repère du monde.
+
+			\begin{figure}[!htb]
+				\centering
+				\begin{subfigure}[t]{0.48\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{build/imgs/rosace_global.pdf}
+					\caption{Dans le repère du monde}
+				\end{subfigure}
+				\hfill
+				\begin{subfigure}[t]{0.48\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{build/imgs/rosace_local.pdf}
+					\caption{Dans le repère d'\argos{}}
+				\end{subfigure}
+				\caption{Rosace réalisée par Argos}
+				\label{fig:rosace_argos}
+			\end{figure}
 
 	\section{Conclusion}

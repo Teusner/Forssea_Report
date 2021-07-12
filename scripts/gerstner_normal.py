@@ -1,6 +1,8 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.rcParams.update({'font.size': 9})
 
 width, height = 7, 3
 

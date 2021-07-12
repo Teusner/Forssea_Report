@@ -450,7 +450,7 @@
 							\label{eq:pid}
 						\end{equation}
 						
-						Dans cette expression, $\overrightarrow{u}$ est le vecteur unitaire orienté du n\oe ud courant vers le n\oe ud voisin, $e$ est l'erreur de positionnement du n\oe ud, $\dot e$ est la dérivée de cette erreur et $\int_{0}^te(\tau) \cdot d\tau$ est l'intégrale de cette erreur. La dérivée et l'intégrale de cette erreur sont estimées numériquement en utilisant respectivement la méthode d'Euler et la méthode des rectangle. On trouve les expressions de $\overrightarrow{u}$ et $e(t)$ pour deux éléments en position $\mathbf{p_c}$ et $\mathbf{p_p}$ tel que $||\mathbf{p_c} - \mathbf{p_p}|| \neq 0$ :
+						Dans cette expression, $\overrightarrow{u}$ est le vecteur unitaire orienté du n\oe ud courant vers le n\oe ud voisin, $e$ est l'erreur de positionnement du n\oe ud, $\dot e$ est la dérivée de cette erreur et $\int_{0}^te(\tau) \cdot d\tau$ est l'intégrale de cette erreur. La dérivée et l'intégrale de cette erreur sont estimées numériquement en utilisant respectivement la méthode d'Euler et la méthode des rectangles. On trouve les expressions de $\overrightarrow{u}$ et $e(t)$ pour deux éléments en position $\mathbf{p_c}$ et $\mathbf{p_p}$ tel que $||\mathbf{p_c} - \mathbf{p_p}|| \neq 0$ :
 
 						\begin{equation}
 							\overrightarrow{u} = \frac{\mathbf{p_c} - \mathbf{p_p}}{||\mathbf{p_c} - \mathbf{p_p}||} \qquad e(t) = \frac{||\mathbf{p_c} - \mathbf{p_p}|| - l}{||\mathbf{p_c} - \mathbf{p_p}||}
@@ -616,7 +616,43 @@
 			
 			\subsection{Couple transmissible}
 
-				L'ombilical est capable de transmettre un couple longitudinal capable de traverser le câble et de se transmettre d'un bout à l'autre. Pour simuler ce couple, il va falloir ajouter une variable au vecteur d'état de chaque \textit{TetherElement}. Cette variable va contenir l'angle du n\oe ud.
+				L'ombilical est capable de transmettre un couple longitudinal capable de traverser le câble et de se transmettre d'un bout à l'autre. Pour simuler ce couple, il va falloir ajouter une variable au vecteur d'état de chaque \textit{TetherElement}. Cette variable va contenir l'angle de chaque n\oe ud. Ensuite, un couple va être appliqué à chaque n\oe ud en fonction de son angle et de celui de son précédent voisin. Encore une fois, nous n'avons pas d'expression analytique pour ce couple, mais nous allons proposer un modèle comportemental permettant d'avoir un comportement physiquement acceptable.
+
+				Le couple proposé peut être simplement un couple proportionnel à la différence d'angles entre l'élément courant et son élément précédent. Ici nous n'avons pas besoin de rejeter une erreur statique à l'aide d'un intégrateur dans la mesure où un ombilical réel peut encaisser un certain nombre de tours sur lui-même sans qu'il ne cherche à vouloir se dérouler complètement. Ainsi, en notant $K_c$ le coefficient permettant de gérer l'intensité de ce couple, $\theta_n$ l'angle de l'élément courant et $\theta_{n-1}$ l'angle de l'élément précédant, le couple ajouté au modèle s'exprime comme :
+
+				\begin{equation}
+					C = K_c \cdot (\theta_n - \theta_{n - 1})
+				\end{equation}
+
+				Le réglage de $K_c$ dépendra directement des caractéristiques mécaniques de l'ombilical et permettra de simuler des câbles avec plus ou moins de raideur vis-à-vis d'un couple transmissible le long de l'ombilical.
+				
+				Cependant, un problème survient avec la représentation numérique de l'orientation des solides. Celle-ci est souvent normalisée et les valeurs sont ainsi ramenées dans l'intervalle $[-\pi; \pi]$. On ne peut donc pas avoir l'orientation absolue, c’est-à-dire l'orientation d'un solide en prenant en compte les éventuels tours qu'il aurait pu faire sur lui-même et c'est le cas dans \gazebo{}.
+			
+				Pour résoudre ce problème, l'\textsc{Algorithme}~\ref{algo:suivi_angle} de suivi d'angles normalisés a été implémenté. Il prend en paramètres l'angle normalisé ainsi que l'angle précédemment calculé, et il retourne la valeur de l'angle absolu. En fournissant l'angle précédent on peut retourner le nouvel angle qui se trouve dans le même quadrant et ainsi de pouvoir suivre les sauts d'angles. On peut donc suivre l'orientation absolue de solides en rotation dans l'espace, en ne fournissant que des orientations relatives ramenées dans l'intervalle $[-\pi; \pi]$, et en gardant en mémoire la précédente orientation calculée.
+				
+				\begin{algorithm}[!htb]
+					\SetKwInOut{Input}{Entrées}
+					\SetKwInOut{Output}{Sorties}
+					\Entree{$angle\_normalise$, $angle\_absolu$}
+					\Sortie{$angle\_absolu$}
+					\Deb{
+						$offset \leftarrow (angle\_absolu - angle\_normalise + \pi ) \pmod{2\pi}$ \\
+						$angle\_absolu \leftarrow angle\_normalise + 2\pi \cdot offset$ \\
+					}
+					\Retour{$angle\_absolu$}
+			
+					\caption{Suivi d'angle} 
+					\label{algo:suivi_angle}
+				\end{algorithm}
+			
+				La \textsc{Figure}~\ref{fig:suivi_angle} présente les résultats de l'\textsc{Algorithme}~\ref{algo:suivi_angle} avec un angle variant dans l'intervalle $[-3\pi; 3\pi]$. On voit sur la première sous-figure l'angle réel et l'angle ramené dans l'intervalle $[-\pi; \pi]$ avec la présence de saut d'angles. Avec cette méthode, on est capable de suivre l'évolution de l'angle et de supprimer ces sauts afin de retrouver l'angle absolu visible dans la deuxième sous-figure et calculé uniquement à partir de la connaissance de l'angle normalisé. Cet algorithme ne marche en revanche que pour une variation d'angle continue, car en cas de saut brusque d'angle les tours ajoutés ne seront pas pris en compte.
+			
+				\begin{figure}[!htb]
+					\centering
+					\includegraphics[]{build/imgs/absolute_orientation_tracking.pdf}
+					\caption{Suivi d'angle}
+					\label{fig:suivi_angle}
+				\end{figure}		
 
 			\subsection{Implémentation}
 
@@ -709,35 +745,6 @@
 
 				On a donc actualisé la position de chaque \textit{TetherElement}. Après avoir actualisé la représentation graphique de cet élément dans \gazebo{}, on est prêt pour la prochaine itération de calcul.
 			
-			\subsection{Suivi d'angles normalisés}
-				Un problème avec la représentation numérique de l'orientation des solides est qu'elle est souvent normalisée, et les valeurs sont ainsi ramenées dans l'intervalle $[-\pi; \pi]$. On ne peut donc pas avoir l'orientation absolue, c’est-à-dire l'orientation d'un solide en prenant en compte les éventuels tours qu'il aurait pu faire sur lui-même. C'est le cas dans \gazebo{}, et cela pose problème pour le calcul du couple transmissible le long de l'ombilical qui utilise l'orientation absolue des \textit{TetherElements}.
-			
-				Pour résoudre ce problème, l'\textsc{Algorithme}~\ref{algo:suivi_angle} de suivi d'angles normalisés a été implémenté. Il prend en paramètres l'angle normalisé ainsi que l'angle précédemment calculé, et il retourne la valeur de l'angle absolu. L'idée de fournir l'angle précédent est de pouvoir retourner le nouvel angle qui se trouve dans le même quadrant et aussi de pouvoir suivre les sauts d'angles. Ainsi on peut suivre l'orientation absolue de solides en rotation dans l'espace, en ne fournissant que des orientations relatives ramenées dans l'intervalle $[-\pi; \pi]$, et en gardant en mémoire la précédente orientation calculée.
-				
-				\begin{algorithm}[!htb]
-					\SetKwInOut{Input}{Entrées}
-					\SetKwInOut{Output}{Sorties}
-					\Entree{$angle\_normalise$, $angle\_absolu$}
-					\Sortie{$angle\_absolu$}
-					\Deb{
-						$offset \leftarrow (angle\_absolu - angle\_normalise + \pi ) \pmod{2\pi}$ \\
-						$angle\_absolu \leftarrow angle\_normalise + 2\pi \cdot offset$ \\
-					}
-					\Retour{$angle\_absolu$}
-			
-					\caption{Suivi d'angle} 
-					\label{algo:suivi_angle}
-				\end{algorithm}
-			
-				La \textsc{Figure}~\ref{fig:suivi_angle} présente les résultats de l'\textsc{Algorithme}~\ref{algo:suivi_angle} avec un angle variant dans l'intervalle $[-3\pi; 3\pi]$. On voit sur la première sous-figure l'angle réel et l'angle ramené dans l'intervalle $[-\pi; \pi]$ avec la présence de saut d'angles. Avec cette méthode, on est capable de suivre l'évolution de l'angle et de supprimer ces sauts afin de retrouver l'angle absolu visible dans la deuxième sous-figure et calculé uniquement à partir de la connaissance de l'angle normalisé. Cet algorithme ne marche en revanche que pour une variation d'angle continue, car en cas de saut brusque d'angle les tours ajoutés ne seront pas pris en compte.
-			
-				\begin{figure}[!htb]
-					\centering
-					\includegraphics[width=0.5\textwidth]{suivi_angle.png}
-					\caption{Suivi d'angle}
-					\label{fig:suivi_angle}
-				\end{figure}		
-		
 		\subsection{Résultats}
 
 		\section{Garage d'\argos{}}

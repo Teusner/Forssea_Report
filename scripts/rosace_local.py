@@ -10,6 +10,9 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 from matplotlib.colors import ListedColormap, BoundaryNorm
 
+import matplotlib
+matplotlib.rcParams.update({'font.size': 12})
+
 from scipy.interpolate import interp1d
 
 
