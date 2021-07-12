@@ -4,7 +4,7 @@
 	
 	\section{Introduction}
 
-		L'environnement dans lequel doivent évoluer les robots à été défini dans le \textsc{Chapitre}~\ref{chapitre:environnement}. Il est maintenant temps de simuler les \gls{ROV}s. Pour ce faire, nous allons devoir décrire les paramètres mécaniques des robots \argos{} et \atoll{}, et décrire le comportement de leurs capteurs et actionneurs à simuler. A la fin de cette partie nous devrions être en mesure de pleinement simuler les robots dans leur environnement, et le simulateur complet devrait ainsi respecter toutes les exigences présentées dans le \textsc{Chapitre}~\ref{chapitre:systeme}.
+		L'environnement dans lequel doivent évoluer les robots à été défini dans le \textsc{Chapitre}~\ref{chapitre:environnement}. Il est maintenant temps de simuler les \gls{ROV}s. Pour ce faire, nous allons devoir décrire les paramètres mécaniques des robots \argos{} et \atoll{}, et décrire le comportement de leurs capteurs et actionneurs à simuler. A la fin de cette partie nous devrions être en mesure de pleinement simuler les robots dans leur environnement et le simulateur complet devrait ainsi respecter toutes les exigences présentées dans le \textsc{Chapitre}~\ref{chapitre:systeme}.
 
 	\section{Simulation des composants}
 
@@ -115,11 +115,11 @@
 		
 			\subsubsection{SS309 Tilt}
 
-				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position, et l'axe se déplace avec une vitesse de rotation spécifiée.
+				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position et l'axe se déplace avec une vitesse de rotation spécifiée.
 			
 				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées successivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Ainsi, il est possible de connaître précisément la position du moteur, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles, et il suffit donc de compter le nombre d'incréments commandés. Enfin, on peut commander la vitesse avec laquelle le moteur se rend à cette position, en allumant les phases à la vitesse désirée.
 
-				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle s'il est alimenté via le canal de communication \textit{power}, ainsi que la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}. Il renvoit sa position et sa vitesse réelle récupérée dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
+				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle s'il est alimenté via le canal de communication \textit{power}, ainsi que la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}. Il renvoie sa position et sa vitesse réelle récupérée dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
 
 				\begin{figure}[!htb]
 					\centering
@@ -158,7 +158,7 @@
 
 			\subsubsection{SPE75 Thrusters}
 		
-				Les \textit{SPE75 Thrusters} sont les propulseurs qui permettent aux robots de se déplacer et de s'orienter dans leur environnements. Ils sont composés d'un moteur permettant de mettre en mouvement des pale qui va permettre de générer une force dans la direction du propulseur.
+				Les \textit{SPE75 Thrusters} sont les propulseurs qui permettent aux robots de se déplacer et de s'orienter dans leur environnement. Ils sont composés d'un moteur permettant de mettre en mouvement des pales qui va permettre de générer une force dans la direction du propulseur.
 
 				\begin{figure}[!htb]
 					\centering
@@ -181,9 +181,9 @@
 
 		\subsection{Tests unitaires}
 				
-			Il est nécessaire de vérifier si tous les composants fonctionnent correctement et ont été convenablement ajoutés dans le robot. Pour cela il est courant d'implémenter des tests unitaires., qui vont permettre de tester unitairement les différentes fonctionnalités implémentées. Il est aussi nécessaire d'ajouter des tests liés au choix de conception que nous avons fait, c'est à dire le fait d'avoir séparé les robots en composants simulés indépendamment les uns des autres.
+			Il est nécessaire de vérifier si tous les composants fonctionnent correctement et ont été convenablement ajoutés dans le robot. Pour cela il est courant d'implémenter des tests unitaires., qui vont permettre de tester unitairement les différentes fonctionnalités implémentées. Il est aussi nécessaire d'ajouter des tests liés au choix de conception que nous avons fait, c’est-à-dire le fait d'avoir séparé les robots en composants simulés indépendamment les uns des autres.
 
-			En effet, nous avons crée une description des \gls{ROV}s en incluant la description des sous-composants nécessaires. Il faut maintenant vérifier que la masse du robot, la position de son centre de gravite, sa matrice d'inertie, son volume et son centre de volume correspondent bien aux paramètres des robots. Pour ce faire, nous allons interpréter le fichier de description \textit{URDF} des robot en utilisant le module python \textit{urdfpy}\footnote{\url{https://github.com/mmatl/urdfpy}} afin de vérifier ces informations.
+			En effet, nous avons créé une description des \gls{ROV}s en incluant la description des sous-composants nécessaires. Il faut maintenant vérifier que la masse du robot, la position de son centre de gravité, sa matrice d'inertie, son volume et son centre de volume correspondent bien aux paramètres des robots. Pour ce faire, nous allons interpréter le fichier de description \textit{URDF} des robots en utilisant le module python \textit{urdfpy}\footnote{\url{https://github.com/mmatl/urdfpy}} afin de vérifier ces informations.
 
 			\subsubsection{Vérification de la masse}
 
@@ -203,7 +203,7 @@
 
 			\subsubsection{Vérification de la matrice d'inertie}
 
-				Pour calculer la matrice d'inertie du robot, il faut sommer les inerties du robot. Définissons le repère $R_0$ associé au châssis du robot, et le repère $R_i$ associé au composant \textit{i}. Partons de la matrice d'inertie disponibles dans la description \textit{URDF} du robot exprimées dans le repère de chaque composant et en leur centre de gravité. Notons cette matrice $I_{i, R_i}(G_i)$. 
+				Pour calculer la matrice d'inertie du robot, il faut sommer les inerties du robot. Définissons le repère $R_0$ associé au châssis du robot et le repère $R_i$ associé au composant \textit{i}. Partons de la matrice d'inertie disponible dans la description \textit{URDF} du robot exprimées dans le repère de chaque composant et en leur centre de gravité. Notons cette matrice $I_{i, R_i}(G_i)$. 
 				
 				Par cinématique directe, on peut obtenir la matrice de la transformation homogène $H_0^i$ entre les repères $R_0$ et $R_i$, qui exprime la rotation et la translation entre ces deux repères. Cette matrice est composée d'une matrice de rotation $R_{3, 3}$ et d'une matrice traduisant la translation $T_{3, 1}$ entre les deux solides.
 
@@ -217,7 +217,7 @@
 					I_{i, R_0}(G_i) = R^T.I_{i, R_i}(G_i).R
 				\end{equation}
 
-				Puis, il faut exprimer le décalage entre l'origine du robot, et le centre de gravité du composant. En utilisant la convention des coordonnées homogènes, et en notant $d^H = \begin{bmatrix}a & b & c & 1\end{bmatrix}^T$, on a :
+				Puis, il faut exprimer le décalage entre l'origine du robot et le centre de gravité du composant. En utilisant la convention des coordonnées homogènes, et en notant $d^H = \begin{bmatrix}a & b & c & 1\end{bmatrix}^T$, on a :
 
 				\begin{equation}
 					d^H = H_0^i . G_i^H
@@ -254,7 +254,7 @@
 
 		\subsection{Tests unitaires d'\argos{}}
 
-			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\argos{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques. La \textsc{Table}~\ref{table:argos_unittest} présente les écarts entre le robot réel et la description réalisée à l'aide des composants. On y retrouve ainsi les résultat des tests unitaires pour \argos{}.
+			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\argos{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques. La \textsc{Table}~\ref{table:argos_unittest} présente les écarts entre le robot réel et la description réalisée à l'aide des composants. On y retrouve ainsi les résultats des tests unitaires pour \argos{}.
 			
 			\begin{table}[!htb]
 				\centering
@@ -279,11 +279,11 @@
 				\label{table:argos_unittest}
 			\end{table}
 
-			On voit que tous les valeurs des écarts entre le robot réel et la description \textit{URDF} sont inférieures aux marges d'erreurs acceptables pour \argos{}, ce qui signifie que les tests unitaires sont bien validés pour ce robot.
+			On voit que toutes les valeurs des écarts entre le robot réel et la description \textit{URDF} sont inférieures aux marges d'erreurs acceptables pour \argos{}, ce qui signifie que les tests unitaires sont bien validés pour ce robot.
 
 		\subsection{Tests unitaires d'\atoll{}}
 
-			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\atoll{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques. La \textsc{Table}~\ref{table:atoll_unittest} présente les écarts entre le robot réel et la description réalisée à l'aide des composants. On y retrouve ainsi les résultat des tests unitaires pour \atoll{}.
+			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\atoll{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques. La \textsc{Table}~\ref{table:atoll_unittest} présente les écarts entre le robot réel et la description réalisée à l'aide des composants. On y retrouve ainsi les résultats des tests unitaires pour \atoll{}.
 			
 			\begin{table}[!htb]
 				\centering
