@@ -405,6 +405,14 @@
 
 			\subsection{Etat de l'art}
 
+				La simulation de câble en temps réel est un domaine qui présente des encore des lacunes. En effet, formaliser le mouvement de tels objets implique l'utilisation d'équation différentielle aux dérivées partielles non-linéaires et le mouvement des solides attachés aux extrémités du câble sont dynamiquement dépendants~\cite{blintsov_development_2017}.
+
+				Les solutions proposées dans la littérature pour simuler la physique d'un câble est de procéder par éléments finis~\cite{bender_simulation_methods} pour calculer la position de chaque élément au cours du temps. L'idée est de discrétiser le câble en $n$ éléments reliés les uns aux autres et de faire le bilan des forces qui s'appliquent à chaque élément pour simuler correctement le comportement du câble~\cite{ellis_modeling, blintsov_development_2017,marshall,ganoni_unreal, koenemann_modeling_2017, prabhakar_dynamics_2005}. Nous allons utiliser cette méthode afin de simuler l'ombilical qui relie les \gls{ROV}s au bateau ou à d'autres structures sous-marines.
+
+				Le problème introduit par cette méthode de simulation est qu'on ne connait pas les forces que va induire un élément à ses voisins. Il est possible de proposer une expression analytique de cette force en utilisant la mécanique des milieux continus~\cite{koenemann_modeling_2017, prabhakar_dynamics_2005}, mais il est aussi possible de proposer un modèle comportemental de cette force basé sur l'utilisation d'un correcteur proportionnel sur l'erreur de distance entre deux éléments adjacents~\cite{ellis_modeling,ganoni_unreal,blintsov_development_2017}.
+
+				Nous allons proposer ici un modèle comportemental de cette force et nous allons voir dans quelle mesure cette modélisation est physiquement acceptable. Cette solution va aller plus loin que celle proposée par les autres références~\cite{ganoni_unreal,blintsov_development_2017} dans la mesure où l'on va proposer un correcteur proportionnel-intégral-dérivé afin d'obtenir un résultat satisfaisant.
+
 			\subsection{Formalisme}
 
 				Supposons que nous voulons simuler un ombilical de longueur $L$. On va alors le diviser en un nombre fini de n\oe uds $n$ connectés par des liens. Ces liens doivent donc avoir une longueur $l=\frac{L}{n-1}$.
@@ -435,7 +443,7 @@
 							\label{eq:drag}
 						\end{equation}
 						
-						\item[\textbullet] \textbf{Force inter-éléments $\overrightarrow{F_p}$ et $\overrightarrow{F_s}$} : Il est difficile de trouver une forme analytique pour décrire cette force. Nous avons toutefois trouver un moyen de l'exprimer. C'est pourquoi nous allons utiliser ici un modèle comportemental de ces forces. Nous savons que chaque n\oe ud doit se trouver à une distance $l$ de ses voisins. En notant $p_{p}$ la position du n\oe ud précédent et $p_{c}$ la position du n\oe ud considéré, en introduisant les trois coefficients $K_p$, $K_d$ et $K_i$ qui vont nous permettre de régler la dynamique du système, on est en mesure de proposer le modèle de force comportemental suivant :
+						\item[\textbullet] \textbf{Force inter-éléments $\overrightarrow{F_p}$ et $\overrightarrow{F_s}$} : Il est difficile de trouver une forme analytique pour décrire cette force. Nous allons ici proposer un modèle comportemental pour ces forces. Nous savons que chaque n\oe ud doit se trouver à une distance $l$ de ses voisins. En notant $p_{p}$ la position du n\oe ud précédent et $p_{c}$ la position du n\oe ud considéré, en introduisant les trois coefficients $K_p$, $K_d$ et $K_i$ qui vont nous permettre de régler la dynamique du système, on est en mesure de proposer le modèle de force comportemental suivant :
 						
 						\begin{equation}
 							\overrightarrow{F} = - \left(K_p \cdot e(t) + K_d \cdot \dot e(t) + K_i \cdot \int_{0}^te(\tau) \cdot d\tau \right) \cdot \overrightarrow{u}
