@@ -15,6 +15,21 @@
 			tanh(k_m H) \xrightarrow[H \rightarrow + \infty]{} 1
 		\end{eqnarray}
 
+	\section{Calcul du volume d'une calotte sphérique}
+
+		Nous allons justifier l'\textsc{Equation}~\ref{eqn:v_immerge} qui donne le volume d'une calotte sphérique afin de déterminer le volume immergé d'une sphère. L'idée est d'obtenir le volume par intégration en remarquant que le volume est engendré par la rotation du triangle curviligne O $(0, 0)$ H $(h, 0)$ M $(h, f(h))$, comme le montre la \textsc{Figure}~\ref{fig:calotte_sphérique}, on a :
+
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=0.4\textwidth]{imgs/calotte_spherique.pdf}
+			\caption{Calotte sphérique, Ag2gaeh, 2015, \url{https://fr.wikipedia.org/wiki/Calotte_sphérique}}
+			\label{fig:calotte_spherique}
+		\end{figure}
+
+		\begin{equation}
+			V_i = \pi \int_0^h f^2(x).dx = \pi \int_0^h (2rx - x^2).dx = \pi \left[(rx^2 - \frac{x^3}{3})\right]_0^h = \pi h^2 \frac{3r - h}{3}
+		\end{equation}
+
 	\clearpage
 
 	\begin{figure}[H]
