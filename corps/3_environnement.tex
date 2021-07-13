@@ -189,9 +189,9 @@
 			\subsubsection{Simplification en eaux profondes}
 			\label{sec:simplification_eaux_profondes}
 			
-				Finalement, on peut simplifier le modèle précédent, en remarquant que la hauteur de la colonne d'eau dans notre cas est très grande devant la hauteur caractéristique de nos vagues, donc :
+				Finalement, on peut simplifier le modèle précédent, en remarquant que la hauteur de la colonne d'eau dans notre cas est très grande devant la longueur d'onde caractéristique de nos vagues. Une explication plus détaillée de la simplification est disponible en \textsc{Annexe}~\ref{annexe:deep_water}. On tire de cette simplification pour une hauteur de colonne d'eau très grande devant la longueur d'onde des vagues :
 
-				\begin{equation}\frac{cosh(k_m(z+H))}{sinh(k_mH)} \approx e^{kz} \label{eqn:simplification_eaux_profondes}\end{equation}
+				\begin{equation}\frac{cosh(k_m(z+H))}{sinh(k_mH)} \approx e^{k_mz} \label{eqn:simplification_eaux_profondes}\end{equation}
 
 				Comme $z$ est négatif sous la surface de l'eau, ce terme est une exponentielle décroissante qui va atténuer fortement l'effet des vagues au fond et avoir un effet plus conséquent sur les premiers mètres d'eau. On peut montrer que la distance caractéristique d'atténuation est de l'ordre d'une demi-longueur d'onde. En effet, en notant $\lambda_m$ la longueur d'onde de la vague, on a $k_m = \tfrac{2\pi}{\lambda_m}$, et en évaluant l'expression en $z = - \tfrac{\lambda_m}{2}$, $e^{-\tfrac{k_m\lambda_m}{2}} = e^{-\pi} \approx 0,05$. Cela signifie que $95 \%$ de l'effet des vagues est dissipé sur une demi-longueur d'onde de profondeur. Avec cette simplification, les équations de position se simplifient comme suit :
 			
@@ -308,7 +308,7 @@
 					r = \sqrt[3]{\frac{3 V}{4 \pi}}
 				\end{equation}
 
-				Le volume immergé et donc le volume de la calotte sphérique est calculable par intégration :
+				Le volume immergé et donc le volume de la calotte sphérique est calculable par intégration et le calcul est détaillé en \textsc{Annexe}~\ref{annexe:calotte_spherique} :
 
 				\begin{equation}
 					V_i = \pi h^2\frac{3r-h}{3} \label{eqn:v_immerge}
