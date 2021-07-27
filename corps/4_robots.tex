@@ -54,7 +54,7 @@
 				\begin{itemize}[noitemsep]
 					\item Description URDF comportant les couches visuelles, inertielles et de collision
 					\item Maillages 3D permettant de représenter visuellement le composant
-					\item Fichier de configuration pour visualiser le composant dans RViz2
+					\item Fichier de configuration pour visualiser le composant dans \textit{RViz2}
 				\end{itemize}
 				\item \textbf{composant\_gazebo} :
 				\begin{itemize}[noitemsep]
@@ -104,14 +104,6 @@
 					\caption{Machine à états du \textit{Latch}}
 					\label{fig:latch_fsm}
 				\end{figure}
-
-				On obtient alors le composant simulable dans l'environnement de simulation \gazebo{} et visualisable dans \rviz{} comme on peut le voir sur la \textsc{Figure}~\ref{fig:latch_gazebo_rviz}.
-
-				\begin{figure}[!htb]
-					\centering
-					\caption{Simulation du Latch}
-					\label{fig:latch_gazebo_rviz}
-				\end{figure}
 		
 			\subsubsection{SS309 Tilt}
 
@@ -124,13 +116,13 @@
 					\label{fig:ss309_tilt}
 				\end{figure}
 			
-				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées successivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Ainsi, il est possible de connaître précisément la position du moteur, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles, et il suffit donc de compter le nombre d'incréments commandés. Enfin, on peut commander la vitesse avec laquelle le moteur se rend à cette position, en allumant les phases à la vitesse désirée.
+				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées successivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Ainsi, il est possible de connaître précisément la position du moteur en comptant le nombre d'incréments commandés, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles et la vitesse avec laquelle le moteur se rend à cette position est commandée en allumant les phases à la vitesse désirée.
 
 				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle s'il est alimenté via le canal de communication \textit{power}, ainsi que la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}. Il renvoie sa position et sa vitesse réelle récupérée dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
 
 				\begin{figure}[!htb]
 					\centering
-					\includegraphics[]{build/diagrams/sa_tilt.pdf}
+					\includegraphics[width=0.8\textwidth]{build/diagrams/sa_tilt.pdf}
 					\caption{Architecture logicielle de la nacelle de caméra}
 					\label{fig:sa_tilt}
 				\end{figure}
@@ -144,9 +136,7 @@
 					\label{fig:tilt_position}
 				\end{figure}
 				
-				Pour ce qui est de l'implémentation de ce comportement dans \gazebo{}, on crée un \textit{Thread} qui va s'exécuter en boucle avec une vitesse variable. Cette vitesse sera fonction de la vitesse de commande du \textit{Tilt} notée $\omega_c$. A chaque tour de boucle, on incrémente donc la position cible de la valeur de l'incrément $d\theta$ si la différence entre la position réelle et la position commandée est plus grande que ce même incrément, et on attends le temps $h$, avec :
-
-				$$h = \frac{d\theta}{\omega_c}$$
+				Pour ce qui est de l'implémentation de ce comportement dans \gazebo{}, on crée un \textit{Thread} qui va s'exécuter en boucle avec une vitesse variable. Cette vitesse sera fonction de la vitesse de commande du \textit{Tilt} notée $\omega_c$. A chaque tour de boucle, on incrémente donc la position cible de la valeur de l'incrément $d\theta$ si la différence entre la position réelle et la position commandée est plus grande que ce même incrément, et on attends le temps $h$ tel que $d\theta = h \omega_c$.
 
 				\begin{algorithm}[!htb]
 					\caption{Algorithme de simulation d'un moteur pas-à-pas}
@@ -165,26 +155,33 @@
 
 			\subsubsection{SPE75 Thrusters}
 		
-				Les \textit{SPE75 Thrusters} sont les propulseurs qui permettent aux robots de se déplacer et de s'orienter dans leur environnement. Ils sont composés d'un moteur permettant de mettre en mouvement des pales qui va permettre de générer une force dans la direction du propulseur.
+				Les \textit{SPE75 Thrusters} sont les propulseurs commercialisés par \textit{Sub-Atlantic} qui permettent aux robots de se déplacer et de s'orienter dans leur environnement. Ils sont composés d'un moteur permettant de mettre en mouvement des pâles qui vont générer une force dans la direction du propulseur. La \textsc{Figure}~\ref{fig:thrusters} représente trois propulseurs montés avec des orientations différentes sur \atoll{}, ce qui lui permet de se déplacer dans toutes les directions.
 
 				\begin{figure}[!htb]
 					\centering
-					\includegraphics[width=0.6\textwidth]{imgs/spe75_thrusters.png}
+					\includegraphics[width=0.5\textwidth]{imgs/spe75_thrusters.png}
 					\caption{Trois propulseurs montés sur \atoll{}}
 					\label{fig:thrusters}
 				\end{figure}
+
+				\begin{figure}[!htb]
+					\centering
+					\includegraphics[width=0.8\textwidth]{build/diagrams/sa_thruster.pdf}
+					\caption{Architecture logicielle du propulseur}
+					\label{fig:sa_thruster}
+				\end{figure}
 				
-				L'\textit{Hardware Interface} va proposer une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur qui va être transmise au robot. Elle va ensuite se charger de calculer la vitesse de rotation des pales nécessaire à la création de cette force. Pour le composant réel, cette vitesse va être transmise au propulseur qui génère la force voulue et un couple résistant dans le sens inverse de la rotation des pâles sur le corps du propulseur qui va être transmis au robot. Pour le composant simulé, on est en mesure d'interagir avec le simulateur afin d'appliquer des forces et des couples directement sur les objets simulés. 
+				L'\textit{Hardware Interface} propose une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur au robot. Elle calcule ensuite la vitesse de rotation des pâles nécessaire à la création de cette force. \gazebo{} étant un simulateur dont la physique des solides est implémentée, le simple fait de faire tourner les pâles va générer des forces et des couples résistant sur le robot. Il ne reste donc qu'à appliquer les forces de poussée commandées qui ne sont pas implémentées dans le moteur physique.
 				
-				Le calcul de la vitesse de rotation des pâles en fonction de la force demandée est réalisé grâce à une interpolation de points de mesures faits sur un banc d'essai. L'idée est de faire tourner en eau le propulseur fixé sur un capteur de force à une certaine vitesse, et de mesurer la force générée par celui-ci. Ensuite, on est capable d'interpoler les points expérimentaux logiciellement à l'aide de la librairie \textit{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} et de la fonctionnalité \textit{spline}. On peut ainsi calculer une vitesse de rotation à appliquer quelle que soit la valeur de force demandée.
-				
-				L'idée retenue pour ce simulateur est d'appliquer directement la force demandée sur le corps du propulseur, car il est assez difficile et coûteux en ressources de calculs de réaliser de la mécanique des fluides afin de simuler pleinement le comportement des pâles du propulseur. Il est tout de même nécessaire de faire tourner les pâles dans le simulateur, car outre l'aspect cosmétique de voir les pales tourner quand le moteur fournit une poussée au robot, le simple fait de faire tourner ce solide ayant une certaine masse dans le simulateur va générer le couple résistant sur le corps du propulseur. Ainsi cette \textit{Hardware Interface} va communiquer au \textit{Model Plugin} la force et la vitesse de rotation des pâles calculée à appliquer sur le propulseur simulé.
+				Le calcul de la vitesse de rotation des pâles en fonction de la force demandée est réalisé grâce à une interpolation de points de mesures faits sur un banc d'essai. L'idée est de faire tourner en eau le propulseur fixé sur un capteur de force à différentes vitesses constantes, et de mesurer les forces générées. Ensuite, en interpolant les points expérimentaux à l'aide de la librairie \textit{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} et de la fonctionnalité \textit{spline}, on peut calculer une vitesse de rotation à appliquer en fonction de la force demandée.
 	
-				Le \textit{Model Plugin} va se charger d'appliquer la force et la vitesse de rotation communiquée par l'\textit{Hardware Interface}. Le \textit{plugin} est chargé pour chaque propulseur simulé et permet d'accéder finement aux paramètres de la simulation. On peut alors appliquer à chaque incrément de simulation la force demandée sur le corps du propulseur et la vitesse de rotation sur la liaison pivot entre le corps du propulseur et les pâles.
+				Le \textit{Model Plugin} va se charger d'appliquer la force sur le propulseur et la vitesse de rotation aux pâles communiquée par l'\textit{Hardware Interface} à chaque pas de temps.
 
 	\section{Simulation des robots}
 
 		\subsection{Description du robot}
+
+			Pour décrire les robots, il ne reste plus qu'à créer un fichier de description \textit{URDF} qui inclue autant de composants que nécessaires et les place correctement les uns par rapport aux autres.
 
 		\subsection{Tests unitaires}
 				

@@ -19,10 +19,10 @@ DIAGRAMS_BUILD_DIR = $(BUILD_DIR)/$(DIAGRAMS_DIR)
 TEX_SRCS := $(wildcard */*.tex)
 
 # Images
-IMAGES_PDF = $(IMAGES_BUILD_DIR)/gerstner_wave.pdf $(IMAGES_BUILD_DIR)/gerstner_pixar.pdf $(IMAGES_BUILD_DIR)/courant_constant.pdf $(IMAGES_BUILD_DIR)/noise_courant.pdf $(IMAGES_BUILD_DIR)/noise_perlin.pdf $(IMAGES_BUILD_DIR)/noise_random.pdf $(IMAGES_BUILD_DIR)/rosace_local.pdf $(IMAGES_BUILD_DIR)/rosace_global.pdf $(IMAGES_BUILD_DIR)/gerstner_velocity_pressure_depth.pdf $(IMAGES_BUILD_DIR)/absolute_orientation_tracking.pdf
+IMAGES_PDF = $(IMAGES_BUILD_DIR)/gerstner_wave.pdf $(IMAGES_BUILD_DIR)/gerstner_pixar.pdf $(IMAGES_BUILD_DIR)/courant_constant.pdf $(IMAGES_BUILD_DIR)/noise_courant.pdf $(IMAGES_BUILD_DIR)/noise_perlin.pdf $(IMAGES_BUILD_DIR)/noise_random.pdf $(IMAGES_BUILD_DIR)/rosace_local.pdf $(IMAGES_BUILD_DIR)/rosace_local_simulation.pdf $(IMAGES_BUILD_DIR)/rosace_global.pdf $(IMAGES_BUILD_DIR)/gerstner_velocity_pressure_depth.pdf $(IMAGES_BUILD_DIR)/absolute_orientation_tracking.pdf
 
 # Diagrams
-DIAGRAMS_PDF = $(DIAGRAMS_BUILD_DIR)/sa_latch.pdf $(DIAGRAMS_BUILD_DIR)/sa_tilt.pdf $(DIAGRAMS_BUILD_DIR)/architecture_logicielle.pdf $(DIAGRAMS_BUILD_DIR)/latch_fsm.pdf $(DIAGRAMS_BUILD_DIR)/ros2_control.pdf
+DIAGRAMS_PDF = $(DIAGRAMS_BUILD_DIR)/sa_latch.pdf $(DIAGRAMS_BUILD_DIR)/sa_tilt.pdf $(DIAGRAMS_BUILD_DIR)/sa_thruster.pdf $(DIAGRAMS_BUILD_DIR)/architecture_logicielle.pdf $(DIAGRAMS_BUILD_DIR)/latch_fsm.pdf $(DIAGRAMS_BUILD_DIR)/ros2_control.pdf
 
 # Gantt
 GANTT_PDF = $(GANTT_BUILD_DIR)/gantt_before.pdf $(GANTT_BUILD_DIR)/gantt_after.pdf

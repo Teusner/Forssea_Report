@@ -4,6 +4,8 @@
 % Utiliser le style rapport.cls
 \documentclass{rapport}
 
+\makeatletter\@twosidefalse\@mparswitchfalse\makeatother
+
 % Report Title Page
 \title{Modélisation et simulation d'un environnement sous-marin pour Forssea Robotics}
 \author{Quentin \textsc{Brateau} \\ \texttt{quentin.brateau@ensta-bretagne.org}}
@@ -40,7 +42,6 @@
 
 	% Abstract
 	\pagestyle{plain}
-	\cleardoublepage
 
 	\section*{Résumé}
 	\input{resume}
@@ -53,8 +54,8 @@
 	\section*{Keywords}
 	\input{keywords}
 	\selectlanguage{french}
-	\input{remerciements}
 	\clearpage
+	\input{remerciements}
 
 	% Table of content
 	\tableofcontents

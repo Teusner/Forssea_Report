@@ -6,11 +6,13 @@
 
 		\subsection{Présentation de l'entreprise}
 
-			\forssea{} est une jeune entreprise innovante en matière de robotique sous-marine. Elle propose des solutions industrielles à l'exploration de ce milieu particulièrement hostile à l'homme. Ils excellent principalement dans quatre domaines : la robotique autonome, l'ingénierie des \textit{Remotely Operated Vehicles} (\gls{ROV}s), la vision sous-marine et l'intelligence artificielle. Cette expertise leur vaut de travailler aux côtés de nombreux partenaires, comme le groupe Total, Thales, iXblue, DeepOcean, et bien d'autres, mais aussi avec des centres de recherches comme l'\gls{ENSTAB}\footnote{\url{https://forssea-robotics.fr/index.php/about}}.
+			\forssea{} est une jeune entreprise innovante en matière de robotique sous-marine. Elle propose des solutions industrielles à l'exploration de ce milieu particulièrement hostile à l'Homme. Cette start-up possède des locaux à Paris où travaillent principalement les développeurs informatiques et à Sète où se trouvent principalement les ateliers de conception mécanique, grâce à leur proximité avec la mer et l'espace disponible afin d'avoir des moyens d'essais. Ils excellent principalement dans quatre domaines : la robotique autonome, l'ingénierie des \textit{Remotely Operated Vehicles} (\gls{ROV}s), la vision sous-marine et l'intelligence artificielle. Cette expertise leur vaut de travailler aux côtés de nombreux partenaires, comme le groupe Total, Thales, iXblue, DeepOcean, et bien d'autres, mais aussi avec des centres de recherches comme l'\gls{ENSTAB}\footnote{\url{https://forssea-robotics.fr/index.php/about}}.
 
 		\subsection{Présentation des produits}
 
-			\forssea{} commercialise deux \gls{ROV}s\footnote{\url{https://forssea-robotics.fr/index.php/products/rovs}}, \argos{} et \atoll{}, visibles sur la \textsc{Figure}~\ref{fig:ROVs}. \argos{} est un robot d'intervention léger intelligent permettant d'embarquer une charge utile pesant jusqu'à $30\ kg$, tandis qu'\atoll{} est un robot de levage autonome qui peut porter jusqu'à $1500\ kg$. Il permet de déplacer et de positionner des structures sur les fonds marin, comme des balises \textit{Long Baseline} utilisées dans la localisation sous-marine~\cite{milne1983underwater}. Une structure portant une balise \textit{Long Baseline} est aussi visible sur la \textsc{Figure}~\ref{fig:ROVs}.
+			\forssea{} concoit et fabrique ajourd'hui deux \gls{ROV}s\footnote{\url{https://forssea-robotics.fr/index.php/products/rovs}}, \argos{} et \atoll{}. Ces robots sont destinés à être utilisés par des entreprises ou des laboratoires de recherche qui réalisent des opérations de levées hydrographiques et qui ont besoin d'embarquer des capteurs sous l'eau, ou bien à des entreprises qui ont besoin d'inspecter leur matériel installé en mer. C'est par exemple le cas de l'entreprise Total qui est à la fois intéressée par l'inspection visuelle de leurs \textit{pipelines} de pétroles, mais aussi pour l'installation de structures \textit{offshore} comme des éoliennes.
+			
+			\argos{} est un robot d'intervention léger intelligent permettant d'embarquer une charge utile pesant jusqu'à $30\ kg$. Il est visible sur la \textsc{Figure}~\ref{fig:argos} et permet principalement de remplir des tâches d'inspections visuelles ou pour des opérations de levées hydrographiques. \atoll{} est quant à lui un robot de levage autonome qui peut porter jusqu'à $1500\ kg$. Il est présenté sur la \textsc{Figure}~\ref{fig:atoll} et il est employé pour déplacer et de positionner des structures sur les fonds marins, comme des balises \textit{Long Baseline} utilisées dans la localisation sous-marine~\cite{milne1983underwater}. Une structure portant une balise \textit{Long Baseline} est présentée sur la \textsc{Figure}~\ref{fig:frame_lbl}.
 
 			\begin{figure}[!htb]
 				\centering
@@ -18,34 +20,64 @@
 					\centering
 					\includegraphics[width=\textwidth]{imgs/argos.png}
 					\caption{\argos{}}
+					\label{fig:argos}
 				\end{subfigure}
 				\hfill
 				\begin{subfigure}[t]{0.3\textwidth}
 					\centering
 					\includegraphics[width=\textwidth]{imgs/atoll.png}
 					\caption{\atoll{}}
+					\label{fig:atoll}
 				\end{subfigure}
 				\hfill
 				\begin{subfigure}[t]{0.3\textwidth}
 					\centering
 					\includegraphics[width=\textwidth]{imgs/frame.png}
 					\caption{Structure sous-marine et balise}
+					\label{fig:frame_lbl}
 				\end{subfigure}
 				\caption{\gls{ROV}s proposés par \forssea{} et structure sous-marine}
 				\label{fig:ROVs}
 			\end{figure}
 
-			Ils proposent aussi plusieurs solutions de captations visuelles\footnote{\url{https://forssea-robotics.fr/index.php/products/cameras}}. Il y a la \textit{Navcam} qui est une caméra embarquant des algorithmes de traitement permettant de réaliser du positionnement visuel et l'\textit{Obscam} qui est une caméra d'observation.
+			Ils proposent aussi plusieurs capteurs de vision\footnote{\url{https://forssea-robotics.fr/index.php/products/cameras}} qui sont à la fois utilisées dans les robots conçus par \forssea{} mais aussi commercialisées. Il y a principalement la \textit{Navcam} présentée en \textsc{Figure}~\ref{fig:navcam}. C'est une caméra embarquant des algorithmes de traitement permettant de réaliser du positionnement visuel de structures à l'aide de marqueurs nommés \textit{ArUco} visibles sur la \textsc{Figure}~\ref{fig:aruco}\footnote{Image et bibliothèque disponible à l'adresse : \url{https://www.uco.es/investiga/grupos/ava/node/26}}. Ils commercialisent et utilisent aussi pour leur application robotique l'\textit{Obscam} qui est une caméra d'observation et qui est présentée en \textsc{Figure}~\ref{fig:obscam}.
+
+			\begin{figure}[!htb]
+				\centering
+				\begin{subfigure}[t]{0.33\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{imgs/navcam.png}
+					\caption{\textit{Navcam}}
+					\label{fig:navcam}
+				\end{subfigure}
+				\hfill
+				\begin{subfigure}[t]{0.33\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{imgs/obscam.png}
+					\caption{\textit{Obscam}}
+					\label{fig:obscam}
+				\end{subfigure}
+				\hfill
+				\begin{subfigure}[t]{0.25\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{imgs/aruco.png}
+					\caption{Marqueur \textit{ArUco}}
+					\label{fig:aruco}
+				\end{subfigure}
+				\hfill
+				\caption{Caméras proposées par \forssea{} et marqueur \textit{ArUco}}
+				\label{fig:Cameras}
+			\end{figure}
 
 	\section[Projet de fin d'études]{Présentation du projet de fin d'études}
 
 		\subsection{Cadre professionnel}
 
-			Ce projet de fin d'étude s'inscrit dans le cadre d'un contrat de professionnalisation réalisé chez Forssea Robotics, entre octobre 2020 et octobre 2021. Il m'a permis d'effectuer un premier pas dans le monde industriel tout en finissant ma formation à l'\gls{ENSTAB}. J'ai donc pu avoir à ma charge un sujet plus complet étant donnée la durée de ce stage, mais j'ai aussi pu avoir plus de responsabilités dans la gestion de ce projet, dans la mesure ou j'ai intégré l'équipe robotique de \forssea{} pendant une année complète dont six mois à temps plein.
+			Ce projet de fin d'étude s'inscrit dans le cadre d'un contrat de professionnalisation réalisé chez Forssea Robotics, entre octobre 2020 et octobre 2021. Il m'a permis d'effectuer un premier pas dans le monde industriel tout en finissant ma formation à l'\gls{ENSTAB}. J'ai donc pu avoir à ma charge un sujet plus complet étant donnée la durée de ce stage, mais j'ai aussi pu avoir plus de responsabilités dans la gestion de ce projet, dans la mesure où j'ai intégré l'équipe robotique de \forssea{} pendant une année complète dont six mois à temps plein.
 
 		\subsection{Présentation du sujet}
 
-			Dans les phases de développements de ses \gls{ROV}s, \forssea{} doit faire face à de nombreuses problématiques, dont celle de tester les algorithmes implémentés sur les \gls{ROV}s. Pour cela l'entreprise réalise régulièrement des tests et conditions réelles, mais ce sont des essais coûteux et qui prennent beaucoup de temps à planifier et à organiser. Afin de réduire le nombre d'essais nécessaires, il serait préférable de développer un moyen de test rapide et fiable des robots dans leur environnement. Cela permettrait d'améliorer les performances des robots tout en diminuant les coûts et les temps de développements.
+			Dans les phases de développements de ses \gls{ROV}s, \forssea{} doit faire face à de nombreuses problématiques, dont celle de tester les algorithmes implémentés sur les \gls{ROV}s. Pour cela, l'entreprise réalise régulièrement des tests et conditions réelles, mais ce sont des essais coûteux et qui prennent beaucoup de temps à planifier et à organiser. Afin de réduire le nombre d'essais nécessaires, il serait préférable de développer un moyen de test rapide et fiable des robots dans leur environnement. Cela permettrait d'améliorer les performances des robots tout en diminuant les coûts et les temps de développements.
 
 		\subsection{Objectifs du projet}
 
