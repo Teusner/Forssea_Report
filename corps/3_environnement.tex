@@ -6,7 +6,7 @@
 
 		Dans ce chapitre, nous allons nous intéresser à la simulation de l'environnement. Elle constitue une partie importante du simulateur car elle va influencer le comportement des \gls{ROV}s dans leur milieu.  A la fin de ce chapitre, nous devrions avoir à notre disposition un environnement de simulation complet proche de l'environnement rencontré lors de missions avec les robots.
 
-		Pour ce faire, nous allons donc d'établir les différents éléments de l'environnement qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Ce qui va principalement influencer le comportement des robots est le milieu marin qui va ajouter la flottabilité, les vagues, des courants marins et du vent. Ensuite, il y a l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations. Enfin la présence de structures sous-marines jouent aussi un rôle importante dans les missions des \gls{ROV}s, que ce soit par exemple des piles d'éolienne à inspecter pour le robot \argos{}, son garage, ou bien des structures sous-marines à déplacer pour \atoll{}. Nous allons donc nous intéresser à la manière de simuler ces différents éléments d'environnement pour le simulateur.
+		Pour ce faire, nous allons donc d'établir les différents éléments de l'environnement qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Ce qui va principalement influencer le comportement des robots est le milieu marin qui va ajouter la flottabilité, les vagues, des courants marins et du vent. Ensuite, il y a l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations. \color{red}Enfin la présence de structures sous-marines jouent aussi un rôle importante dans les missions des \gls{ROV}s, que ce soit par exemple des piles d'éolienne à inspecter pour le robot \argos{}, son garage, ou bien des structures sous-marines à déplacer pour \atoll{}. Nous allons donc nous intéresser à la manière de simuler ces différents éléments d'environnement pour le simulateur.\color{black}
 
 		% La \textsc{Table}~\ref{table:elements} présente les différents éléments cités précédemment qui peuvent être simulés dans un environnement marin. Nous allons choisir les principaux car tous n'auront pas un impact significatif sur le comportement des \gls{ROV}s, comme le vent ou les vagues. 
 
@@ -204,15 +204,15 @@
 				Les équations de vitesse des particules de fluides se simplifient comme suit :
 
 				\begin{eqnarray}
-					u(\alpha, \beta, z, t) & = & cos(h_m) \sum_{m=0}^M a_m \omega_m e^{k_mz} cos(\theta_m) \\
-					u(\alpha, \beta, z, t) & = & sin(h_m) \sum_{m=0}^M a_m \omega_m e^{k_mz} cos(\theta_m) \\
-					w(\alpha, \beta, z, t) & = & - \sum_{m=0}^M a_m \omega_m e^{k_mz} sin(\theta_m) \\
+					u(\alpha, \beta, z, t) & = & cos(h_m) \sum_{m=0}^M a_m \cdot \omega_m \cdot e^{k_mz} \cdot cos(\theta_m) \\
+					u(\alpha, \beta, z, t) & = & sin(h_m) \sum_{m=0}^M a_m \cdot \omega_m \cdot e^{k_mz} \cdot cos(\theta_m) \\
+					w(\alpha, \beta, z, t) & = & - \sum_{m=0}^M a_m \cdot \omega_m \cdot e^{k_mz} \cdot sin(\theta_m) \\
 				\end{eqnarray}
 
 				Pour l'équation de pression au sein du milieu et l'équation de dispersion qui lie la pulsation de la vague à son nombre d'onde, elles se simplifient comme suit :
 
 				\begin{eqnarray}
-					p(\alpha, \beta, z, t) & = & \rho g \sum_{m=0}^M a_m e^{k_mz} cos(\theta_m) - \rho g z\\
+					p(\alpha, \beta, z, t) & = & \rho g \sum_{m=0}^M a_m \cdot e^{k_mz} \cdot cos(\theta_m) - \rho g z\\
 					\omega_m^2 & = & k_m g \label{equation:deep_dispersion}
 				\end{eqnarray}
 
@@ -399,7 +399,7 @@
 					\label{table:courants}
 				\end{table}
 
-				Nous pouvons aisément écarter le modèle procédural car on remarque au vu des éléments présentés sur la \textsc{Table}~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en termes de ressources pour une simulation temps réel. Notre choix se porte donc l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle macroscopique qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
+				Nous pouvons aisément écarter le modèle procédural car on remarque au vu des éléments présentés sur la \textsc{Table}~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en termes de ressources pour une simulation temps réel. Notre choix se porte donc l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle locale de nos essais qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
 
 		\section{Simulation d'ombilicaux}
 
@@ -453,7 +453,7 @@
 						Dans cette expression, $\overrightarrow{u}$ est le vecteur unitaire orienté du n\oe ud courant vers le n\oe ud voisin, $e$ est l'erreur de positionnement du n\oe ud, $\dot e$ est la dérivée de cette erreur et $\int_{0}^te(\tau) \cdot d\tau$ est l'intégrale de cette erreur. La dérivée et l'intégrale de cette erreur sont estimées numériquement en utilisant respectivement la méthode d'Euler et la méthode des rectangles. On trouve les expressions de $\overrightarrow{u}$ et $e(t)$ pour deux éléments en position $\mathbf{p_c}$ et $\mathbf{p_p}$ tel que $||\mathbf{p_c} - \mathbf{p_p}|| \neq 0$ :
 
 						\begin{equation}
-							\overrightarrow{u} = \frac{\mathbf{p_c} - \mathbf{p_p}}{||\mathbf{p_c} - \mathbf{p_p}||} \qquad e(t) = \frac{||\mathbf{p_c} - \mathbf{p_p}|| - l}{||\mathbf{p_c} - \mathbf{p_p}||}
+							\overrightarrow{u} = \frac{\overrightarrow{p_c} - \overrightarrow{p_p}}{||\overrightarrow{p_c} - \overrightarrow{p_p}||} \qquad e(t) = \frac{||\overrightarrow{p_c} - \overrightarrow{p_p}|| - l}{||\overrightarrow{p_c} - \overrightarrow{p_p}||}
 							\label{eq:behavioral}
 						\end{equation}
 						
@@ -503,7 +503,7 @@
 			\subsection{Initialisation}
 				L'initialisation des différents n\oe uds de l'ombilical est une étape importante, car les coefficients du modèle comportemental sont réglés pour avoir un comportement cohérent lorsque la position du câble a convergée. Si l'initialisation est aléatoire, le temps du régime transitoire peut être long et la simulation peut ne pas être consistante. De plus il faut impérativement que deux n\oe uds adjacents n'aient pas la même position, sinon l'expression de $\overrightarrow{u}$ dans l'\textsc{Equation}~\ref{eq:behavioral} n'est plus valable, car le dénominateur n'annule.
 			
-				Pour initialiser l'ombilical, nous allons nous appuyer sur l'équation de la chaînette. Cette équation représente la forme que prend une corde attachée à ses deux extrémités, sachant qu'elle va chercher à minimiser son énergie potentielle [? ref ?]. L'équation de la chaînette est valable pour une corde attachée à ses extrémités en $(-x_0, y_0, z_0)$ et $(x_0, y_0, z_0)$.
+				Pour initialiser l'ombilical, nous allons nous appuyer sur l'équation de la chaînette. Cette équation représente la forme que prend une corde attachée à ses deux extrémités, sachant qu'elle va chercher à minimiser son énergie potentielle. L'équation de la chaînette est valable pour une corde attachée à ses extrémités en $(-x_0, y_0, z_0)$ et $(x_0, y_0, z_0)$.
 				
 				Dans notre cas, notre ombilical va pouvoir être attaché à deux extrémités aux positions $p_1 = (x_1, y_1, z_1)$ et $p_n = (x_n, y_n, z_n)$ qui peuvent être quelconque, nous allons devoir ajouter deux coefficients $c_2$ et $c_3$ à la solution de l'équation de la chaînette permettant de translater sa représentation graphique dans le plan. Ainsi la forme que va prendre notre ombilical lors de l'initialisation va être régie par l'\textsc{Equation}~\ref{eq:tether}.
 			
@@ -746,8 +746,32 @@
 				On a donc actualisé la position de chaque \textit{TetherElement}. Après avoir actualisé la représentation graphique de cet élément dans \gazebo{}, on est prêt pour la prochaine itération de calcul.
 			
 		\subsection{Résultats}
+			
+			Le résultat de l'implémentation de l'ombilical est visible sur la \textsc{Figure}~\ref{fig:tether} dans l'environnement de simulation \gazebo{}. 
+			
+			\begin{figure}[!htb]
+				\centering
+				\includegraphics[width=0.8\textwidth]{imgs/tether_gazebo.png}
+				\caption{Tether simulée avec 10 n\oe uds entre deux cubes}
+				\label{fig:tether}
+			\end{figure}
+			
+			L'ombilical est attaché à ses extrémités à deux cubes flottants et il prend bien une forme de chaînette afin de minimiser son énergie potentielle. Si l'on cherche à éloigner les cubes l'un de l'autre, l'ombilical va avoir tendence à les ramener du fait du poids qui s'applique sur lui, et une rotation d'un cube va avoir tendance à faire tourner l'autre sur lui-même du fait du couple transmissible le long de l'ombilical. Enfin, il est possible de dérouler l'ombilical en ajoutant des \textit{TetherElement} entre le premier et le deuxième n\oe ud, et de l'enrouler en supprimant le deuxième n\oe ud (car le premier est celui qui est fixé au cube). L'ombilical va réguler sa longueur avec les n\oe uds supplémentaires ou manquants et cela aura pour effet de pouvoir contôler la longueur de l'ombilical dans l'environnement de simulation.
 
-		\section{Garage d'\argos{}}
+			En traçant la distance entre chaque n\oe uds au cours du temps, on obtient la \textsc{Figure}~\ref{fig:length}. On se rend compte que le comportement de l'ombilical est consistant et que la longueur de chaque lien converge très vite vers la longueur consigne. Ainsi l'ombilical prends très vite la longueur consigne. 
+			
+			En traçant l'erreur relative de longueur de l'ombilical par rapport à la longueur consigne au cours du temps, on obtient la \textsc{Figure}~\ref{fig:error_length}. On voit sur cette figure que lors de l'initialisation, l'ombilical va s'étendre un peu avant de converger vers sa longueur consigne avec des légères oscillations. On remarque que l'initialisation à l'aide de l'équation de la chaînette a bien marché dans la mesure où l'erreur relative initiale de longueur est de $0 \%$. On peut expliquer le pic d'erreur relative par le fait que les n\oe uds sont soumis à une forte perturbation liée au poids, alors que la partie intégrale et dérivée du modèle comportemental des forces n'entre pas encore en jeu du fait de l'initialisation récente, mais qu'ils finissent bien par faire converger le système.
 
-		\section{Structures sous-marines}
-		
+			\begin{figure}[!htb]
+				\begin{subfigure}[t]{0.45\textwidth}
+					\scalebox{0.8}{\input{imgs/length.pgf}}
+					\caption{Longueur des liens entre les n\oe uds au cours du temps}
+					\label{fig:length_link}
+				\end{subfigure}
+				\hfill
+				\begin{subfigure}[t]{0.45\textwidth}
+					\scalebox{0.8}{\input{imgs/error_length.pgf}}
+					\caption{Erreur relative de longueur de l'ombilical par rapport à la longueur consigne}
+					\label{fig:error_length}
+				\end{subfigure}
+			\end{figure}

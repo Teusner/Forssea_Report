@@ -17,16 +17,16 @@ from scipy.interpolate import interp1d
 
 
 def figure_rosace():
-    # b = bagreader("scripts/rosace_simulation.bag")
+    # b = bagreader("scripts/rosace_simulation_final.bag")
 
     # setpoint = b.message_by_topic('/setpoint')
     # robot_state = b.message_by_topic("/robot_state")
 
-    setpoint = "scripts/rosace_simulation/setpoint.csv"
+    setpoint = "scripts/rosace_simulation_final/setpoint.csv"
     df_setpoint = pd.read_csv(setpoint)
     P = [df_setpoint['Time'].to_numpy(), df_setpoint['p.x'].to_numpy(), df_setpoint['p.y'].to_numpy(), df_setpoint['p.z'].to_numpy(), df_setpoint['e.z'].to_numpy()]
 
-    t_h = 0.75*df_setpoint['Time'].to_numpy()
+    t_h = 3/5*df_setpoint['Time'].to_numpy()
     h = df_setpoint['e.z'].to_numpy()
     f = interp1d(t_h, h, kind="previous", fill_value="extrapolate")
 
@@ -42,17 +42,17 @@ def figure_rosace():
         Ts.append(np.array([[np.cos(h[i]), -np.sin(h[i])], [np.sin(h[i]), np.cos(h[i])]]) @ T[:, i])
     Ts = np.asarray(Ts)
 
-    odometry = "scripts/rosace_simulation/robot_state.csv"
+    odometry = "scripts/rosace_simulation_final/robot_state.csv"
     df_odometry = pd.read_csv(odometry)
-    tr = 0.75*df_odometry['Time'].to_numpy()[::10]
-    Xr = 0.85*df_odometry['p.x'].to_numpy()[np.newaxis, ::10] + x0 + 0.7
-    Yr = 0.85*df_odometry['p.y'].to_numpy()[np.newaxis, ::10] + y0 - 0.2
+    tr = 3/5*df_odometry['Time'].to_numpy()[::10]
+    Xr = df_odometry['p.x'].to_numpy()[np.newaxis, ::10] + x0
+    Yr = df_odometry['p.y'].to_numpy()[np.newaxis, ::10] + y0
 
     Tr = np.vstack((Xr, Yr))
 
     Trobot = []
     for i in range(Tr.shape[1]):
-        hr = 1.4*f(tr[i])
+        hr = f(tr[i])
         Trobot.append(np.array([[np.cos(hr), -np.sin(hr)], [np.sin(hr), np.cos(hr)]]) @ Tr[:, i])
     Trobot = np.asarray(Trobot)
 
@@ -86,7 +86,7 @@ if __name__ == "__main__":
     if len(args)>1:
         figname = args[1]
     else :
-        figname = 'build/imgs/rosace_local_simulation.pdf'
+        figname = 'build/imgs/rosace_local_simulation_2.pdf'
     fig, ax = figure_rosace()
     # plt.show()
     plt.savefig(figname, format="pdf")

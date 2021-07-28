@@ -1,0 +1,101 @@
+% chercher des documents LaTeX dans styles, corps et bib
+\makeatletter\def\input@path{{styles/}{corps/}}\makeatother
+
+% Utiliser le style rapport.cls
+\documentclass{rapport}
+
+% Report Title Page
+\title{Modélisation et simulation d'un environnement sous-marin pour Forssea Robotics}
+\author{Quentin \textsc{Brateau} \\ \texttt{quentin.brateau@ensta-bretagne.org}}
+\date{\today}
+\doctype{Rapport de PFE}
+\promo{FISE 2021}
+
+% ENSTA Bretagne
+\logoLaboratoire{\includegraphics[width=3.4cm]{logo_ENSTA_Bretagne_Vertical_CMJN}}
+\laboratoire{\begin{center} \textsc{Ensta} Bretagne\\2, rue François Verny\\29806 \textsc{Brest} cedex\\ \textsc{France}\\ Tel +33 (0)2 98 34 88 00 \\ \url{www.ensta-bretagne.fr} \end{center}}
+\encadrantLaboratoire{Encadrant école \\Pr. Luc \textsc{Jaulin} \\\texttt{luc.jaulin@ensta-bretagne.fr}}
+
+% Forssea Robotics
+\logoEntreprise{\includegraphics[width=3.8cm]{imgs/logo_forssea.png}}
+\entreprise{\begin{center} \textsc{Forssea Robotics} \\130, rue de Lourmel\\ 75015 \textsc{Paris}\\ \textsc{France}\\ \url{www.forssea-robotics.fr/} \end{center}}
+\encadrantEntreprise{Encadrant entreprise \\Alaa \textsc{El Jawad} \\\texttt{alaa@forssea-robotics.fr}}
+
+\hypersetup{
+	pdftitle={Rapport de PFE},
+	pdfauthor={Quentin Brateau},
+	pdfkeywords={Robotique, Simulation, ROV, Gazebo, ROS2},
+	bookmarksnumbered,
+	pdfstartview={FitH},
+	breaklinks=true
+}
+
+% Glossary creating
+\makeglossaries
+
+\begin{document}
+	\frontmatter
+	\input{acronymes}
+	\maketitle
+
+	% Abstract
+	\pagestyle{plain}
+	\cleardoublepage
+
+	\section*{Résumé}
+	\input{resume}
+	\section*{Mots clés}
+	\input{mots_cles}
+
+	\selectlanguage{english}
+	\section*{Abstract}
+	\input{abstract}
+	\section*{Keywords}
+	\input{keywords}
+	\selectlanguage{french}
+	\input{remerciements}
+	\clearpage
+
+	% Table of content
+	\tableofcontents
+
+	% Main Matter
+	\mainmatter
+	\pagestyle{fancy}
+	\input{1_introduction}
+	\input{2_conception}
+	\input{3_environnement}
+	\input{4_robots}
+	\input{5_resultats}
+	\input{6_projet}
+	\input{7_conclusion}
+	
+	\appendix
+	\cleardoublepage
+	\pagenumbering{roman}
+	\input{8_annexes}
+
+	\clearpage
+	\phantomsection
+	\label{chapter:lof}
+	\addcontentsline{toc}{chapter}{Liste des figures}
+	\listoffigures
+
+	\clearpage
+	\phantomsection
+	\label{chapter:lot}
+	\addcontentsline{toc}{chapter}{Liste des tables}
+	\listoftables
+
+	\clearpage
+	\phantomsection
+	\label{sec:glossaire}
+	\printglossaries
+
+	\clearpage
+	\phantomsection
+	\addcontentsline{toc}{chapter}{Bibliographie}
+
+	\bibliography{bib/sea,bib/intro,bib/software.bib,bib/tether.bib}
+	\bibliographystyle{ieeetr}
+\end{document}
