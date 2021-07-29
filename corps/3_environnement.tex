@@ -8,33 +8,6 @@
 
 		Pour ce faire, nous allons donc d'établir les différents éléments de l'environnement qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Ce qui va principalement influencer le comportement des robots est le milieu marin qui va ajouter la flottabilité, les vagues, des courants marins et du vent. Ensuite, il y a l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations. \color{red}Enfin la présence de structures sous-marines jouent aussi un rôle importante dans les missions des \gls{ROV}s, que ce soit par exemple des piles d'éolienne à inspecter pour le robot \argos{}, son garage, ou bien des structures sous-marines à déplacer pour \atoll{}. Nous allons donc nous intéresser à la manière de simuler ces différents éléments d'environnement pour le simulateur.\color{black}
 
-		% La \textsc{Table}~\ref{table:elements} présente les différents éléments cités précédemment qui peuvent être simulés dans un environnement marin. Nous allons choisir les principaux car tous n'auront pas un impact significatif sur le comportement des \gls{ROV}s, comme le vent ou les vagues. 
-
-		% \begin{table}[ht]
-		% 	\centering
-		% 	\begin{tabular}{|c|c|}
-		% 		\hline
-		% 		\textbf{Elément} & \textbf{Simulation} \\
-		% 		\hline
-		% 		Vent & \xmark\\
-		% 		\hline
-		% 		Vagues & \xmark\\
-		% 		\hline
-		% 		Courant marins & \cmark \\
-		% 		\hline
-		% 		Ombilical & \cmark \\
-		% 		\hline
-		% 		Garage d'\argos{} & \cmark \\
-		% 		\hline
-		% 		\gls{frameLBL} & \cmark \\
-		% 		\hline
-		% 		Pile d'éolienne & \cmark \\
-		% 		\hline
-		% 	\end{tabular}
-		% 	\caption{Eléments pris en compte dans l'environnement de simulation}
-		% 	\label{table:elements}
-		% \end{table}
-
 	\section{Environnement marin}
 
 		\subsection{Introduction}
@@ -101,7 +74,7 @@
 				\end{figure}
 
 
-				Cette modélisation de houle trochoïdale utilise une approche lagrangienne pour définir l'équation paramétrique de la surface libre~\cite{Gerstner, Constantin_2001, Gerstner-Like_Henry, dean1991water}. On s'intéresse donc à une particule de fluide positionnée au repos en $p_0=(\alpha, \beta, 0)$, au-dessus d'une colonne d'eau de hauteur $H$. Chaque vague trochoïdale $m$ est ensuite définie par son amplitude $a_m$, son nombre d'onde $k_m$, sa phase $\phi_m$ et sa pulsation $\omega_m$ et va influencer la position de cette particule au cours du temps comme suit :
+				Cette modélisation de houle trochoïdale utilise une approche lagrangienne pour définir l'équation paramétrique de la surface libre~\cite{Gerstner, Constantin_2001, Gerstner-Like_Henry, dean1991water}. On s'intéresse donc à une particule de fluide positionnée au repos en $p_0=(\alpha, \beta, 0)$, à l'instant $t$, au-dessus d'une colonne d'eau de hauteur $H$. Chaque vague trochoïdale $m$ est ensuite définie par son amplitude $a_m$, son nombre d'onde $k_m$, sa phase $\phi_m$ et sa pulsation $\omega_m$ et va influencer la position de cette particule au cours du temps comme suit :
 
 				\begin{eqnarray}
 					\xi(\alpha, \beta, t) & = & \alpha - \sum_{m=0}^{M} \frac{k_{x, m}}{k_m} \cdot \frac{a_m}{tanh(k_m H)} \cdot sin(\theta_m) \label{eqn:xi}\\ 
@@ -155,7 +128,7 @@
 
 				Après avoir défini la forme de la surface libre de la mer, il faut désormais établir les équations du mouvement des particules de fluides dans l'eau~\cite{dean1991water, MIT_Waves}. Il faut notamment définir leur position notée $(x, y, z)$, leur vitesse notée $(u, v, w)$, et établir l'équation de pression notée $p$. La hauteur $z$ étant prise par rapport au repère présenté en \textsc{Figure}~\ref{fig:repere}, cette valeur est souvent négative, sauf quand une vague élève localement le niveau de l'eau au-dessus du niveau nul.
 
-				En continuant à utiliser le formalisme précédemment introduit, on est en mesure d'étendre les \textsc{Equations}~\ref{eqn:xi} à \ref{eqn:eta} à tous points de l'espace immergés en s'aidant des références bibliographiques~\cite{dean1991water, MIT_Waves} :
+				En continuant à utiliser le formalisme précédemment introduit, on est en mesure d'étendre les \textsc{Equations}~\ref{eqn:xi} à \ref{eqn:eta} à tous les points de l'espace immergés en s'aidant des références bibliographiques~\cite{dean1991water, MIT_Waves} :
 
 				\begin{eqnarray}
 					\xi(\alpha, \beta, z, t) & = & \alpha - cos(h_m) \sum_{m=0}^{M} a_m \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m) \\
@@ -189,7 +162,7 @@
 			\subsubsection{Simplification en eaux profondes}
 			\label{sec:simplification_eaux_profondes}
 			
-				Finalement, on peut simplifier le modèle précédent, en remarquant que la hauteur de la colonne d'eau dans notre cas est très grande devant la longueur d'onde caractéristique de nos vagues. Une explication plus détaillée de la simplification est disponible en \textsc{Annexe}~\ref{annexe:deep_water}. On tire de cette simplification pour une hauteur de colonne d'eau très grande devant la longueur d'onde des vagues :
+				Finalement, on peut simplifier le modèle précédent, en remarquant que la hauteur de la colonne d'eau dans notre cas est très grande devant la longueur d'onde caractéristique de nos vagues. Une explication plus détaillée de la simplification est disponible en \textsc{Annexe}~\ref{annexe:deep_water}. On déduit de cette simplification, que pour une hauteur de colonne d'eau très grande devant la longueur d'onde des vagues :
 
 				\begin{equation}\frac{cosh(k_m(z+H))}{sinh(k_mH)} \approx e^{k_mz} \label{eqn:simplification_eaux_profondes}\end{equation}
 
@@ -236,6 +209,7 @@
 						\label{fig:Gerstner}
 					\end{minipage} \hfill
 					\begin{minipage}[c]{0.54\textwidth}
+						\centering
 						\begin{adjustbox}{max width=\textwidth}
 							\begin{tabular}{c c c c c c}
 								\toprule
@@ -268,7 +242,7 @@
 
 			\subsubsection{Poussée d'Archimède}
 
-				La poussée d'Archimède est une force générée par le volume fluide déplacé par un corps immergé dans ce fluide. Elle s'applique donc à tout solide qui sera immergé. En notant $V$ le volume du solide, $\rho$ la masse volumique du fluide considéré et $g$ l'accélération de pesanteur, on a :
+				La poussée d'Archimède est une force générée par le volume fluide déplacé par un corps immergé dans ce fluide. Elle s'applique donc à tout solide qui sera immergé. En notant $V_i$ le volume immergé du solide, $\rho$ la masse volumique du fluide considéré et $g$ l'accélération de pesanteur, on a :
 
 				\begin{equation}
 					\overrightarrow{\Pi_A} = - \rho \cdot V_i \cdot \overrightarrow{g}
@@ -276,29 +250,29 @@
 
 			\subsubsection{Force de Froude-Krylov}
 
-				La force de \textit{Froude-Krylov} est la force générée par le champ de pression des vagues sur la surface mouillée du solide.
+				La force de \textit{Froude-Krylov} est la force générée par le champ de pression des vagues sur la surface mouillée du solide. En notant $\overrightarrow{u}$ la vitesse du fluide, alors $\overrightarrow{\dot{u}}$ est l'accélération du fluide, et on a :
 
 				\begin{equation}
 					\overrightarrow{F_{fk}} = \rho \cdot V_i \cdot \overrightarrow{\dot{u}}
 				\end{equation}
 
-			\subsubsection{Force de masse hydrodynamique}
+			\subsubsection{Force de masse ajoutée hydrodynamique}
 
-				La force de masse hydrodynamique est la force qui va faire converger l'accélération du solide vers l'accélération du fluide en prenant en compte la masse ajoutée de fluide, qui est la masse de fluide qui va être mise en mouvement par le solide et qui va donc le ralentir.
-
+				La force de masse ajoutée hydrodynamique est la force qui va prendre en compte la masse de fluide déplacée par le robot lors de ses mouvements. Elle vient du fait que lors de l'application du principe fondamental de la dynamique, la masse ajoutée de fluide $m_A$ s'ajoute à la masse du robot. En notant $\overrightarrow{a}$ l'accélération du robot, on a donc on a l'apparition d'une force d'expression :
+				
 				\begin{equation}
-					\overrightarrow{F_{hm}} = \rho \cdot V_i \cdot C_a \cdot (\overrightarrow{\dot{u}} - \overrightarrow{\dot{v}})
+					\overrightarrow{F_{am}} = - m_A \cdot \overrightarrow{a}
 				\end{equation}
 
 			\subsubsection{Force de traînée hydrodynamique}
 
-				La force de traînée hydrodynamique est la force qui va s'opposer au déplacement du solide dans le fluide. Cette force est une force non-conservative qui est indispensable à la stabilité de la simulation, car elle va supprimer les éventuelles oscillations induites par les méthodes d'intégration numériques utilisées par le simulateur. Cette force est en outre très importante dans le cas d'une simulation dans un fluide ayant une grande masse volumique, comme l'eau dans notre cas.
+				La force de traînée hydrodynamique est la force qui va s'opposer au déplacement du solide dans le fluide. Cette force est une force non-conservative qui est indispensable à la stabilité de la simulation, car elle va supprimer les éventuelles oscillations induites par les méthodes d'intégration numériques utilisées par le simulateur. Cette force est en outre très importante dans le cas d'une simulation dans un fluide ayant une grande masse volumique, comme l'eau dans notre cas. En notant $\rho$ la masse volumique du fluide, $Cd$ la coefficient de traînée hydrodynamique, $u$ la vitesse du fluide, $v$ la vitesse du robot, $A$ la surface mouillée du robot, c'est-à-dire la section qui s'oppose au déplacement du robot dans le fluide, on a :
 
 				\begin{equation}
 					\overrightarrow{F_{hm}} = \frac{1}{2} \cdot \rho \cdot C_d \cdot A \cdot |u - v| \cdot (\overrightarrow{u} - \overrightarrow{v})
 				\end{equation}
 
-				Puis, en supposant que la sphère est immergée jusqu'à une hauteur $h$, on est en mesure d'exprimer le volume immergé 
+				Puis, en supposant que la sphère est immergée jusqu'à une , on est en mesure d'exprimer le volume immergé 
 
 			\subsubsection{Estimation du volume immergé}
 
@@ -308,12 +282,11 @@
 					r = \sqrt[3]{\frac{3 V}{4 \pi}}
 				\end{equation}
 
-				Le volume immergé et donc le volume de la calotte sphérique est calculable par intégration et le calcul est détaillé en \textsc{Annexe}~\ref{annexe:calotte_spherique} :
+				Le volume immergé et donc le volume de la calotte sphérique de hauteur $h \in [0; 2r]$ est calculable par intégration et le calcul est détaillé en \textsc{Annexe}~\ref{annexe:calotte_spherique} :
 
 				\begin{equation}
 					V_i = \pi h^2\frac{3r-h}{3} \label{eqn:v_immerge}
 				\end{equation}
-
 
 
 			\subsubsection{Ajout des forces aux solides}
@@ -328,7 +301,7 @@
 
 			\subsubsection{Modèle constant}
 
-				Pour simuler ces courants, il est possible d'utiliser en première approximation une idée assez triviale : localement le courant est constant. Par constant on entend uniforme, donc qui ne dépend pas de l'espace et stationnaire, donc qui ne dépend pas du temps. C’est-à-dire qu'il est possible de considérer le courant marin  comme un champ de vecteurs ayant un certain cap et une certaine magnitude représentant la vitesse de l'écoulement. Ce modèle simple permet de rapidement ajouter du courant dans notre simulateur, mais ce courant est peu réaliste dans la mesure ou il ne prend pas du tout en compte la présence de structures sous-marine qui pourraient modifier la vitesse et l'orientation de ce courant, comme les piles d'éoliennes ou bien les structures sous-marines à déplacer.
+				Pour simuler ces courants, il est possible d'utiliser en première approximation une idée assez triviale : localement le courant est constant. Par constant on entend uniforme et stationnaire, donc qui ne dépend ni de l'espace ni du temps. C’est-à-dire qu'il est possible de considérer le courant marin comme un champ de vecteurs ayant un certain cap et une certaine magnitude représentant la vitesse de l'écoulement, comme présenté sur la \textsc{Figure}~\ref{fig:constant}. Ce modèle simple permet de rapidement ajouter du courant dans notre simulateur, mais ce courant est peu réaliste dans la mesure où il ne prend pas du tout en compte la présence de structures sous-marine qui pourraient modifier la vitesse et l'orientation de ce courant, comme des reliefs sous-marins ou bien des piles d'éoliennes à inspecter dans le cas de \forssea{}.
 
 				\begin{figure}[!htb]
 					\centering
@@ -339,9 +312,9 @@
 
 			\subsubsection{Modèle procédural}
 
-				Une autre idée serait de générer un courant pseudo-aléatoire par génération procédurale. Cette méthode de génération est largement utilisée dans le domaine des jeux-vidéos et du cinéma, et par extension, il est aussi utilisé dans le domaine de la simulation~\cite{generation_procedurale_monde, volumetric_terrain_generation}. Elle permet de générer à l'aide d'algorithme des mondes et des textures pseudo-aléatoires. Dans notre cas, il est possible d'utiliser le \textit{Bruit de Perlin}~\cite{PerlinNoise} qui est une texture procédurale afin de générer des courants. L'avantage du \textit{Bruit de Perlin} est qu'il est très peu coûteux en espace mémoire et qu'il peut générer des textures dans n'importe quelle dimensions. 
+				Une autre idée serait de générer un courant pseudo-aléatoire par génération procédurale. Cette méthode de génération est largement utilisée dans le domaine des jeux-vidéos et du cinéma, et par extension, il est aussi utilisé dans le domaine de la simulation~\cite{generation_procedurale_monde, volumetric_terrain_generation}. Elle permet de générer à l'aide d'algorithme des mondes et des textures pseudo-aléatoires. Dans notre cas, il est possible d'utiliser le \textit{Bruit de Perlin}~\cite{PerlinNoise} qui est une texture procédurale afin de générer des courants. L'avantage du \textit{Bruit de Perlin} est qu'il est très peu coûteux en espace mémoire et qu'il peut générer des textures dans n'importe quelle dimension. 
 				
-				Pour notre application, nous pouvons générer une texture en deux dimensions. Cette texture forme un potentiel artificiel et un champ de vecteur représentant le courant peut être simplement généré en prenant le gradient de ce potentiel. On obtient le résultat présenté en \textsc{Figure}~\ref{fig:perlin_noise}. Comme avec cette méthode, chaque pixel tient compte de ses pixels voisins, on ne se retrouve pas avec des valeurs très éloignées entre deux pixels adjacents comme avec de la génération de textures purement aléatoire, et on obtient des courants réalistes.
+				Pour notre application, nous pouvons générer une texture en deux dimensions. Cette texture forme un potentiel artificiel et un champ de vecteurs représentant le courant peut être simplement généré en prenant le gradient de ce potentiel. On obtient le résultat présenté en \textsc{Figure}~\ref{fig:perlin_noise}. Comme avec cette méthode, chaque pixel tient compte de ses pixels voisins, on ne se retrouve pas avec des valeurs très éloignées entre deux pixels adjacents comme avec de la génération de textures purement aléatoire, et on obtient des courants réalistes.
 
 				\begin{figure}[!htb]
 					\centering
@@ -372,7 +345,7 @@
 
 			\subsubsection{Modèle de Navier-Stokes}
 
-				Une simulation des courants marins basée sur les équations de Navier-Stokes permet de proposer une approche intéressante à la simulation de courants marins~\cite{Garau2006current}. Ils permettent notamment de générer des courants prenant en compte la présence de solides dans le milieu à explorer, comme des rochers ou des piles d'éoliennes offshores qui peuvent être intéressante pour notre application. C'est la méthode qui fournirait les résultats les plus vraisemblables et les plus proches de ce qu'on pourrait trouver en milieu naturel.
+				Une simulation des courants marins basée sur les équations de Navier-Stokes permet de proposer une approche intéressante à la simulation de courants marins~\cite{Garau2006current}. Ils permettent notamment de générer des courants prenant en compte la présence de solides dans le milieu à explorer, comme des rochers ou des piles d'éoliennes \textit{offshores} qui peuvent être intéressantes pour notre application. C'est la méthode qui fournirait les résultats les plus vraisemblables et les plus proches de ce qu'on pourrait trouver en milieu naturel.
 
 				En revanche les équations de Navier-Stokes sont des équations aux dérivées partielles non-linéaires~\cite{hinch2012hydrodynamique} qui sont lourdes à résoudre numériquement. Elles alourdiraient grandement la simulation afin de calculer le courant en chaque point de l'espace afin d'impacter tous les solides constituants les robots, mais aussi les éléments de l'environnement comme les structures sous-marines et les ombilicaux par exemple.
 
@@ -399,7 +372,7 @@
 					\label{table:courants}
 				\end{table}
 
-				Nous pouvons aisément écarter le modèle procédural car on remarque au vu des éléments présentés sur la \textsc{Table}~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en termes de ressources pour une simulation temps réel. Notre choix se porte donc l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle locale de nos essais qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
+				Nous pouvons aisément écarter le modèle procédural car on remarque au vu des éléments présentés sur la \textsc{Table}~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en termes de ressources pour une simulation temps réel. Notre choix se porte donc sur l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle locale de nos essais qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
 
 		\section{Simulation d'ombilicaux}
 
