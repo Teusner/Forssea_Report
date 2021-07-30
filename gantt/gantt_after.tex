@@ -56,17 +56,18 @@
             \ganttlink[link mid=.98]{Relecture}{PFE}
             \ganttlink[link mid=.8]{Soutenance}{PFE}
 
-        \ganttgroup{\textbf{Simulation environnement}}{2021-03-01}{2021-07-14} \\
+        \ganttgroup{\textbf{Simulation environnement}}{2021-03-01}{2021-08-02} \\
             \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation ombilical}{2021-03-01}{2021-04-31} \\
                 \ganttbar[]{Etude bibliographique}{2021-03-01}{2021-03-07} \\
                 \ganttbar[name=TPython]{Simulation Python}{2021-03-01}{2021-03-31} \\
                 \ganttlinkedbar[name=TPlugin]{Implémentation plugin Gazebo}{2021-04-01}{2021-04-31} \\
 
-            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation milieu marin}{2021-06-15}{2021-07-14} \\
+            \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation milieu marin}{2021-06-15}{2021-08-02} \\
                 \ganttbar[name=TBiblio]{Etude bibliographique}{2021-06-15}{2021-06-21} \\
-                \ganttbar[name=Waves]{Modèle de Vagues}{2021-06-22}{2021-06-31} \\
-                \ganttbar[name=Hydrodynamics]{Modèle Hydrodynamique}{2021-06-22}{2021-07-07} \\
-                \ganttbar[name=Current]{Modèle de Courant}{2021-07-07}{2021-07-14} \\
+                \ganttbar[name=Waves]{Modèle de Vagues}{2021-06-22}{2021-06-31}
+                \ganttbar[name=Waves]{}{2021-07-08}{2021-07-21} \\
+                \ganttbar[name=Hydrodynamics]{Modèle Hydrodynamique}{2021-07-01}{2021-08-02} \\
+                \ganttbar[name=Current]{Modèle de Courant}{2021-07-15}{2021-08-02} \\
 
         \ganttgroup{\textbf{Simulation robots}}{2021-05-01}{2021-08-02} \\
             \ganttgroup[group/.append style={Dandelion!80!Orange}]{Simulation Composants}{2021-05-01}{2021-05-31} \\

@@ -69,7 +69,7 @@
 
 			\subsubsection{Latch}
 
-				Le \textit{Latch} est un composant propre au robot \textit{Atoll}. Ce crochet de levage permettant de transporter des structures sous-marines pouvant peser jusqu'à $1,5\ T$ est fabriqué par Forssea Robotics, et permet de d'installer et de déplacer des balises de positionnement acoustique sur les fonds marins. La \textsc{Figure}~\ref{fig:latch_photo} présente ce composant monté sur \atoll{} qui porte une structure sous-marine avec une balise de positionnement acoustique.
+				Le \textit{Latch} est un composant propre au robot \textit{Atoll}. Ce crochet de levage permettant de transporter des structures sous-marines pouvant peser jusqu'à $1,5$ tonnes est fabriqué par Forssea Robotics, et permet de d'installer et de déplacer des balises de positionnement acoustique sur les fonds marins. La \textsc{Figure}~\ref{fig:latch_photo} présente ce composant monté sur \atoll{} qui porte une structure sous-marine avec une balise de positionnement acoustique.
 
 				\begin{figure}[!htb]
 					\centering
@@ -87,7 +87,7 @@
 					\label{fig:latch_photo}
 				\end{figure}
 
-				L'architecture logicielle du \textit{Latch} est présentée en \textsc{Figure}~\ref{fig:sa_latch}. Le composant reçoit deux informations de la part de l'implémentation logicielle : s'il est alimenté via le canal de communication \textit{power} et le signal de relâchement du crochet sur le canal \textit{release}. En retour, le crochet de levage renvoie son état à l'aide d'une sonde à effet hall qui indique si le crochet est fermé ou ouvert sur le canal \textit{sensor}.
+				L'architecture logicielle du \textit{Latch} est présentée en \textsc{Figure}~\ref{fig:sa_latch}. Le composant reçoit deux informations de la part de l'implémentation logicielle : s'il est alimenté via le canal de communication \textit{power} et le signal de relâchement du crochet sur le canal \textit{release}. En retour, le crochet de levage renvoie son état à l'aide d'une sonde à effet Hall qui indique si le crochet est fermé ou ouvert sur le canal \textit{sensor}.
 
 				\begin{figure}[!htb]
 					\centering
@@ -96,7 +96,7 @@
 					\label{fig:sa_latch}
 				\end{figure}
 							
-				Le \plugin{} \gazebo{} développé afin de décrire le comportement du \textit{Latch} est basé sur la machine à états finis présenté en \textsc{Figure}~\ref{fig:latch_fsm}. L'idée est de créer une liaison encastrement dynamique entre le \textit{Latch} et la structure sous-marine à transporter. La logique implémentée dans la machine à état finis permet de simuler le fait que mécaniquement le crochet s'accroche automatiquement à un point d'attache de structure sous-marine qui rentrerait dans le composant, et que l'on ne commande que le relâchement de cette structure par l'ouverture du crochet.
+				Le \plugin{} \gazebo{} développé afin de décrire le comportement du \textit{Latch} est basé sur la machine à états finis présentée en \textsc{Figure}~\ref{fig:latch_fsm}. L'idée est de créer une liaison encastrement dynamique entre le \textit{Latch} et la structure sous-marine à transporter. La logique implémentée dans la machine à états finis permet de simuler le fait que mécaniquement le crochet s'accroche automatiquement à un point d'attache de structure sous-marine qui rentrerait dans le composant, et que l'on ne commande que le relâchement de cette structure par l'ouverture du crochet.
 
 				\begin{figure}[!htb]
 					\centering
@@ -107,7 +107,7 @@
 		
 			\subsubsection{SS309 Tilt}
 
-				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position et l'axe se déplace avec une vitesse de rotation spécifiée. La \textsc{Figure}~\ref{fig:ss309_tilt} présente le composant monté sur \argos{} avec la nacelle peremttant de d'orienter la caméra d'observation.
+				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position et l'axe se déplace avec une vitesse de rotation spécifiée. La \textsc{Figure}~\ref{fig:ss309_tilt} présente le composant monté sur \argos{} avec la nacelle permettant de d'orienter la caméra d'observation.
 
 				\begin{figure}[!htb]
 					\centering
@@ -118,7 +118,7 @@
 			
 				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées successivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Ainsi, il est possible de connaître précisément la position du moteur en comptant le nombre d'incréments commandés, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles et la vitesse avec laquelle le moteur se rend à cette position est commandée en allumant les phases à la vitesse désirée.
 
-				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle s'il est alimenté via le canal de communication \textit{power}, ainsi que la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}. Il renvoie sa position et sa vitesse réelle récupérée dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
+				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}. Il est possible d'étendre le composant afin qu'il n'applique plus les consignes en envoyant un message sur le canal de communication \textit{power}. Enfin, il renvoie sa position et sa vitesse réelle récupérées dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
 
 				\begin{figure}[!htb]
 					\centering
@@ -127,7 +127,7 @@
 					\label{fig:sa_tilt}
 				\end{figure}
 
-				Nous allons à présent distinguer la position réelle de l'arbre moteur, la position cible et la position commandée. La position réelle est la position de l'arbre moteur dans le simulateur. La position cible est un multiple de l'incrément d'angle à laquelle doit se rendre le moteur à l'instant actuel. La position commandée la position finale dans laquelle doit se retrouver l'arbre moteur et peut être une position réelle quelconque. Le moteur ne sera capable que de se rendre à la position multiple de la valeur de l'incrément d'angle la plus proche de la position commandée. La \textsc{Figure}~\ref{fig:tilt_position} reprends ces différentes notions. En commandant la vitesse à laquelle on incrémente la position cible, on contrôle l'axe en vitesse.
+				Nous allons à présent distinguer la position réelle de l'arbre moteur, la position cible et la position commandée. La position réelle est la position de l'arbre moteur dans le simulateur. La position cible est un multiple de l'incrément d'angle à laquelle doit se rendre le moteur à l'instant actuel. La position commandée est la position finale dans laquelle doit se retrouver l'arbre moteur et peut être une position réelle quelconque. Le moteur ne sera capable que de se rendre à la position multiple de la valeur de l'incrément d'angle la plus proche de la position commandée. La \textsc{Figure}~\ref{fig:tilt_position} reprends ces différentes notions. En commandant la vitesse à laquelle on incrémente la position cible, on contrôle l'axe en vitesse.
 
 				\begin{figure}[!htb]
 					\centering
@@ -136,7 +136,7 @@
 					\label{fig:tilt_position}
 				\end{figure}
 				
-				Pour ce qui est de l'implémentation de ce comportement dans \gazebo{}, on crée un \textit{Thread} qui va s'exécuter en boucle avec une vitesse variable. Cette vitesse sera fonction de la vitesse de commande du \textit{Tilt} notée $\omega_c$. A chaque tour de boucle, on incrémente donc la position cible de la valeur de l'incrément $d\theta$ si la différence entre la position réelle et la position commandée est plus grande que ce même incrément, et on attends le temps $h$ tel que $d\theta = h \omega_c$.
+				Pour ce qui est de l'implémentation de ce comportement dans \gazebo{}, on crée un \textit{Thread} qui va s'exécuter en boucle avec une vitesse variable. Cette vitesse sera fonction de la vitesse de commande du \textit{Tilt} notée $\omega_c$. A chaque tour de boucle, on incrémente donc la position cible de la valeur de l'incrément $d\theta$ si la différence entre la position réelle et la position commandée est plus grande que ce même incrément, et on attend le temps $h$ tel que $d\theta = h \omega_c$.
 
 				\begin{algorithm}[!htb]
 					\caption{Algorithme de simulation d'un moteur pas-à-pas}
@@ -171,7 +171,7 @@
 					\label{fig:sa_thruster}
 				\end{figure}
 				
-				L'\textit{Hardware Interface} propose une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur au robot. Elle calcule ensuite la vitesse de rotation des pâles nécessaire à la création de cette force. \gazebo{} étant un simulateur dont la physique des solides est implémentée, le simple fait de faire tourner les pâles va générer des forces et des couples résistant sur le robot. Il ne reste donc qu'à appliquer les forces de poussée commandées qui ne sont pas implémentées dans le moteur physique.
+				L'\textit{Hardware Interface} propose une interface aux contrôleurs permettant d'appliquer une force suivant l'axe du propulseur au robot. Elle calcule ensuite la vitesse de rotation des pâles nécessaire à la création de cette force. \gazebo{} étant un simulateur dont la physique des solides est implémentée, le simple fait de faire tourner les pâles va générer des forces et des couples résistants sur le robot. Il ne reste donc qu'à appliquer les forces de poussée commandées qui ne sont pas implémentées dans le moteur physique.
 				
 				Le calcul de la vitesse de rotation des pâles en fonction de la force demandée est réalisé grâce à une interpolation de points de mesures faits sur un banc d'essai. L'idée est de faire tourner en eau le propulseur fixé sur un capteur de force à différentes vitesses constantes, et de mesurer les forces générées. Ensuite, en interpolant les points expérimentaux à l'aide de la librairie \textit{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} et de la fonctionnalité \textit{spline}, on peut calculer une vitesse de rotation à appliquer en fonction de la force demandée.
 	
@@ -181,11 +181,11 @@
 
 		\subsection{Description du robot}
 
-			Pour décrire les robots, il ne reste plus qu'à créer un fichier de description \textit{URDF} qui inclue autant de composants que nécessaires et les place correctement les uns par rapport aux autres.
+			Pour décrire les robots, il ne reste qu'à créer un fichier de description \textit{URDF} qui inclue autant de composants que nécessaires et les place correctement les uns par rapport aux autres.
 
 		\subsection{Tests unitaires}
 				
-			Il est nécessaire de vérifier si tous les composants fonctionnent correctement et ont été convenablement ajoutés dans le robot. Pour cela il est courant d'implémenter des tests unitaires., qui vont permettre de tester unitairement les différentes fonctionnalités implémentées. Il est aussi nécessaire d'ajouter des tests liés au choix de conception que nous avons fait, c’est-à-dire le fait d'avoir séparé les robots en composants simulés indépendamment les uns des autres.
+			Il est nécessaire de vérifier si tous les composants fonctionnent correctement et ont été convenablement ajoutés dans le robot. Pour cela il est courant d'implémenter des tests unitaires., qui vont permettre de tester unitairement les différentes fonctionnalités implémentées. Il est aussi nécessaire d'ajouter des tests liés aux choix de conception que nous avons fait, c’est-à-dire le fait d'avoir séparé les robots en composants simulés indépendamment les uns des autres.
 
 			En effet, nous avons créé une description des \gls{ROV}s en incluant la description des sous-composants nécessaires. Il faut maintenant vérifier que la masse du robot, la position de son centre de gravité, sa matrice d'inertie, son volume et son centre de volume correspondent bien aux paramètres des robots. Pour ce faire, nous allons interpréter le fichier de description \textit{URDF} des robots en utilisant le module python \textit{urdfpy}\footnote{\url{https://github.com/mmatl/urdfpy}} afin de vérifier ces informations.
 
@@ -207,7 +207,7 @@
 
 			\subsubsection{Vérification de la matrice d'inertie}
 
-				Pour calculer la matrice d'inertie du robot, il faut sommer les inerties du robot. Définissons le repère $R_0$ associé au châssis du robot et le repère $R_i$ associé au composant \textit{i}. Partons de la matrice d'inertie disponible dans la description \textit{URDF} du robot exprimées dans le repère de chaque composant et en leur centre de gravité. Notons cette matrice $I_{i, R_i}(G_i)$. 
+				Pour calculer la matrice d'inertie du robot, il faut sommer les inerties du robot. Définissons le repère $R_0$ associé au châssis du robot et le repère $R_i$ associé au composant \textit{i}. Partons de la matrice d'inertie disponible dans la description \textit{URDF} du robot exprimée dans le repère de chaque composant et en leur centre de gravité. Notons cette matrice $I_{i, R_i}(G_i)$. 
 				
 				Par cinématique directe, on peut obtenir la matrice de la transformation homogène $H_0^i$ entre les repères $R_0$ et $R_i$, qui exprime la rotation et la translation entre ces deux repères. Cette matrice est composée d'une matrice de rotation $R_{3, 3}$ et d'une matrice traduisant la translation $T_{3, 1}$ entre les deux solides.
 
@@ -273,9 +273,9 @@
 						\hline
 						Matrice d'Inertie (en $m^2.kg$) & $\begin{bmatrix}0.2 & 0.03 & 0.11 \\ 0.03 & 0.23 & 0.08 \\ 0.11 & 0.08 & 0\end{bmatrix}$ & $\pm \begin{bmatrix}0.3 & 0.15 & 0.15 \\ 0.15 & 0.3 & 0.15 \\ 0.15 & 0.15 & 0.3\end{bmatrix}$ & \cmark \\
 						\hline
-						Volume (en $m^3$) & $0.1656$ & $\pm 0.005$ & \cmark \\
+						Volume (en $m^3$) & $0.002$ & $\pm 0.005$ & \cmark \\
 						\hline
-						Position du Centre de Volume (en $mm$) & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad \pm 0.05 \quad \pm 0.05$ & \cmark \\
+						Position du Centre de Volume (en $mm$) & $0.1 \quad 0.3 \quad -0.1$ & $\pm 5 \quad \pm 5 \quad \pm 5$ & \cmark \\
 						\hline
 					\end{tabular}
 				\end{adjustbox}
@@ -287,33 +287,8 @@
 
 		\subsection{Tests unitaires d'\atoll{}}
 
-			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\atoll{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques. La \textsc{Table}~\ref{table:atoll_unittest} présente les écarts entre le robot réel et la description réalisée à l'aide des composants. On y retrouve ainsi les résultats des tests unitaires pour \atoll{}.
+			\atoll{} étant encore en cours de conception mécanique, les différents composants n'ont pas encore leur position finale et certains composants évoluent encore comme le châssis de ce robot. C'est pourquoi la description \textit{URDF} d'\atoll{} n'est pas finie et donc les tests unitaires ne passent pas encore. On utilisera le même principe pour tester la description de ce robot dès que sa conception sera figée.
 			
-			\begin{table}[!htb]
-				\centering
-				\begin{adjustbox}{max width=\textwidth}
-					\begin{tabular}{|c|c|c|c|c|}
-						\hline
-						\textbf{Grandeurs} & \textbf{Ecart avec la réalité} & \textbf{Marge d'erreur acceptée} & \textbf{Validation} \\
-						\hline
-						Masse (en $kg$) & $0.66$ & $\pm 1$ & \cmark \\
-						\hline
-						Position du Centre de Gravité (en $mm$) & $0.3 \quad 0.1 \quad 0.2$ & $\pm 1 \quad \pm 1 \quad \pm 1$ & \cmark \\
-						\hline
-						Matrice d'Inertie (en $m^2.kg$) & $\begin{bmatrix}0.2 & 0.03 & 0.11 \\ 0.03 & 0.23 & 0.08 \\ 0.11 & 0.08 & 0\end{bmatrix}$ & $\pm \begin{bmatrix}0.3 & 0.15 & 0.15 \\ 0.15 & 0.3 & 0.15 \\ 0.15 & 0.15 & 0.3\end{bmatrix}$ & \cmark \\
-						\hline
-						Volume (en $m^3$) & $0.1656$ & $\pm 0.005$ & \cmark \\
-						\hline
-						Position du Centre de Volume (en $mm$) & $1 \quad 1 \quad 1$ & $\pm 0.05 \quad \pm 0.05 \quad \pm 0.05$ & \cmark \\
-						\hline
-					\end{tabular}
-				\end{adjustbox}
-				\caption{Tests unitaires d'\atoll{}}
-				\label{table:atoll_unittest}
-			\end{table}
-
-			On voit que tous les valeurs des écarts entre le robot réel et la description \textit{URDF} sont inférieures aux marges d'erreurs acceptables pour \argos{}, ce qui signifie que les tests unitaires sont bien validés pour ce robot.
-
 	\section{Conclusion}
 	
 		En conclusion, nous avons divisé le travail de simulation des robots en simulant les composants uns à uns, afin de simplifier les développements et de mettre en commun un maximum de code entre les \gls{ROV}s. Pour la plupart des composants, un \plugin{} \gazebo{} a été nécessaire afin de décrire leur comportement dans l'environnement de simulation, et de pouvoir contrôler les robots avec le reste de l'implémentation logicielle. Enfin, nous nous sommes assurés que la simulation en composants donnait bien des paramètres mécaniques corrects pour les robots simulés par rapport au robot réel, afin d'avoir une simulation des robots ayant un comportement proche des \gls{ROV}s en conditions réelles.

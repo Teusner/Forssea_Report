@@ -21,16 +21,32 @@
 
 		Nous allons justifier l'\textsc{Equation}~\ref{eqn:v_immerge} qui donne le volume d'une calotte sphérique afin de déterminer le volume immergé d'une sphère. L'idée est d'obtenir le volume par intégration en remarquant que le volume est engendré par la rotation du triangle curviligne O $(0, 0)$ H $(h, 0)$ M $(h, f(h))$, comme le montre la \textsc{Figure}~\ref{fig:calotte_spherique}, on a :
 
-		\begin{figure}[!htb]
+		\begin{equation}
+			V_i = \pi \int_0^h f^2(x).dx = \pi \int_0^h (2rx - x^2).dx = \pi \left[(rx^2 - \frac{x^3}{3})\right]_0^h = \pi h^2 \frac{3r - h}{3}
+		\end{equation}
+
+		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.4\textwidth]{imgs/calotte_spherique.png}
 			\caption{Périmètre d'une calotte sphérique, Ag2gaeh, 2015, \url{https://fr.wikipedia.org/wiki/Calotte_sphérique}}
 			\label{fig:calotte_spherique}
 		\end{figure}
 
-		\begin{equation}
-			V_i = \pi \int_0^h f^2(x).dx = \pi \int_0^h (2rx - x^2).dx = \pi \left[(rx^2 - \frac{x^3}{3})\right]_0^h = \pi h^2 \frac{3r - h}{3}
-		\end{equation}
+	\section{Listings \textit{ignition}}
+
+		Voici les listings de sortie obtenus quand le simulateur est en marche. Cela permet à l'utilisateur de récupérer, visualiser et éventuellement développer des codes qui utilisent l'état du simulateur, c'est-à-dire l'état des robots ou de l'environnement.
+
+		\begin{listing}[!htb]
+			\inputminted{shell}{./listings/ign_services.log}
+			\caption{Services \textit{ignition} publiés}
+			\label{listing:ign_services}
+		\end{listing}
+
+		\begin{listing}[!htb]
+			\inputminted{shell}{./listings/ign_topics.log}
+			\caption{Topics \textit{ignition} publiés}
+			\label{listing:ign_topics}
+		\end{listing}
 
 	\clearpage
 

@@ -127,6 +127,7 @@
 
 \RequirePackage[ruled,vlined, french]{algorithm2e}
 \RequirePackage{algorithmic}
+\RequirePackage[outputdir=build]{minted}
 
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.15}

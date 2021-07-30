@@ -6,8 +6,8 @@
 
 		Dans ce chapitre, nous allons nous intéresser à la simulation de l'environnement. Elle constitue une partie importante du simulateur car elle va influencer le comportement des \gls{ROV}s dans leur milieu.  A la fin de ce chapitre, nous devrions avoir à notre disposition un environnement de simulation complet proche de l'environnement rencontré lors de missions avec les robots.
 
-		Pour ce faire, nous allons donc d'établir les différents éléments de l'environnement qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Ce qui va principalement influencer le comportement des robots est le milieu marin qui va ajouter la flottabilité, les vagues, des courants marins et du vent. Ensuite, il y a l'ombilical qui relie les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations. \color{red}Enfin la présence de structures sous-marines jouent aussi un rôle importante dans les missions des \gls{ROV}s, que ce soit par exemple des piles d'éolienne à inspecter pour le robot \argos{}, son garage, ou bien des structures sous-marines à déplacer pour \atoll{}. Nous allons donc nous intéresser à la manière de simuler ces différents éléments d'environnement pour le simulateur.\color{black}
-
+		Pour ce faire, nous allons donc d'établir les différents éléments de l'environnement qui vont interagir avec les \gls{ROV}s afin de les intégrer dans le simulateur. Ce qui va principalement influencer le comportement des robots est le milieu marin qui va ajouter la flottabilité, les vagues et des courants marins. Nous allons aussi nous intéresser aux ombilicaux qui relient les \gls{ROV}s au bateau afin de l'alimenter en énergie mais aussi d'avoir un retour d'informations.
+		
 	\section{Environnement marin}
 
 		\subsection{Introduction}
@@ -269,7 +269,7 @@
 				La force de traînée hydrodynamique est la force qui va s'opposer au déplacement du solide dans le fluide. Cette force est une force non-conservative qui est indispensable à la stabilité de la simulation, car elle va supprimer les éventuelles oscillations induites par les méthodes d'intégration numériques utilisées par le simulateur. Cette force est en outre très importante dans le cas d'une simulation dans un fluide ayant une grande masse volumique, comme l'eau dans notre cas. En notant $\rho$ la masse volumique du fluide, $Cd$ la coefficient de traînée hydrodynamique, $u$ la vitesse du fluide, $v$ la vitesse du robot, $A$ la surface mouillée du robot, c'est-à-dire la section qui s'oppose au déplacement du robot dans le fluide, on a :
 
 				\begin{equation}
-					\overrightarrow{F_{hm}} = \frac{1}{2} \cdot \rho \cdot C_d \cdot A \cdot |u - v| \cdot (\overrightarrow{u} - \overrightarrow{v})
+					\overrightarrow{F_{hm}} = \frac{1}{2} \cdot \rho \cdot C_d \cdot A \cdot |\overrightarrow{u} - \overrightarrow{v}| \cdot (\overrightarrow{u} - \overrightarrow{v})
 				\end{equation}
 
 				Puis, en supposant que la sphère est immergée jusqu'à une , on est en mesure d'exprimer le volume immergé 
@@ -378,7 +378,7 @@
 
 			\subsection{Etat de l'art}
 
-				La simulation de câble en temps réel est un domaine qui présente des encore des lacunes. En effet, formaliser le mouvement de tels objets implique l'utilisation d'équation différentielle aux dérivées partielles non-linéaires et le mouvement des solides attachés aux extrémités du câble sont dynamiquement dépendants~\cite{blintsov_development_2017}.
+				La simulation de câble en temps réel est un domaine qui présente encore des lacunes. En effet, formaliser le mouvement de tels objets implique l'utilisation d'équations différentielles aux dérivées partielles non-linéaires et le mouvement des solides attachés aux extrémités du câble sont dynamiquement dépendants~\cite{blintsov_development_2017}.
 
 				Les solutions proposées dans la littérature pour simuler la physique d'un câble est de procéder par éléments finis~\cite{bender_simulation_methods} pour calculer la position de chaque élément au cours du temps. L'idée est de discrétiser le câble en $n$ éléments reliés les uns aux autres et de faire le bilan des forces qui s'appliquent à chaque élément pour simuler correctement le comportement du câble~\cite{ellis_modeling, blintsov_development_2017,marshall,ganoni_unreal, koenemann_modeling_2017, prabhakar_dynamics_2005}. Nous allons utiliser cette méthode afin de simuler l'ombilical qui relie les \gls{ROV}s au bateau ou à d'autres structures sous-marines.
 
@@ -739,7 +739,7 @@
 				\begin{subfigure}[t]{0.45\textwidth}
 					\scalebox{0.8}{\input{imgs/length.pgf}}
 					\caption{Longueur des liens entre les n\oe uds au cours du temps}
-					\label{fig:length_link}
+					\label{fig:length}
 				\end{subfigure}
 				\hfill
 				\begin{subfigure}[t]{0.45\textwidth}
