@@ -720,7 +720,7 @@
 			
 		\subsection{Résultats}
 			
-			Le résultat de l'implémentation de l'ombilical est visible sur la \textsc{Figure}~\ref{fig:tether} dans l'environnement de simulation \gazebo{}. 
+			Le résultat de l'implémentation de l'ombilical est visible sur la \textsc{Figure}~\ref{fig:tether} dans l'environnement de simulation \gazebo{}.
 			
 			\begin{figure}[!htb]
 				\centering
@@ -730,6 +730,8 @@
 			\end{figure}
 			
 			L'ombilical est attaché à ses extrémités à deux cubes flottants et il prend bien une forme de chaînette afin de minimiser son énergie potentielle. Si l'on cherche à éloigner les cubes l'un de l'autre, l'ombilical va avoir tendence à les ramener du fait du poids qui s'applique sur lui, et une rotation d'un cube va avoir tendance à faire tourner l'autre sur lui-même du fait du couple transmissible le long de l'ombilical. Enfin, il est possible de dérouler l'ombilical en ajoutant des \textit{TetherElement} entre le premier et le deuxième n\oe ud, et de l'enrouler en supprimant le deuxième n\oe ud (car le premier est celui qui est fixé au cube). L'ombilical va réguler sa longueur avec les n\oe uds supplémentaires ou manquants et cela aura pour effet de pouvoir contôler la longueur de l'ombilical dans l'environnement de simulation.
+
+			Les coefficients du modèle comportemental sont réglés afin d'avoir un comportement réaliste. Pour cet exemple nous avons utilisé un coefficient proportionnel $K_p = 200$, un coefficient dérivé $K_d = 35$ et un coefficient intégral $K_i = 100$.
 
 			En traçant la distance entre chaque n\oe uds au cours du temps, on obtient la \textsc{Figure}~\ref{fig:length}. On se rend compte que le comportement de l'ombilical est consistant et que la longueur de chaque lien converge très vite vers la longueur consigne. Ainsi l'ombilical prends très vite la longueur consigne. 
 			

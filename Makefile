@@ -2,6 +2,7 @@
 BUILD_DIR = build
 ENSTA_DIR = ensta
 ANGERS_DIR = angers
+PRINTABLE_DIR = printable
 GANTT_DIR = gantt
 IMAGES_DIR = imgs
 DIAGRAMS_DIR = diagrams
@@ -11,6 +12,8 @@ SRCS_DIR = corps
 # Directory path combining
 ENSTA_BUILD_DIR = $(BUILD_DIR)/$(ENSTA_DIR)
 ANGERS_BUILD_DIR = $(BUILD_DIR)/$(ANGERS_DIR)
+ENSTA_PRINTABLE_BUILD_DIR = $(BUILD_DIR)/$(PRINTABLE_DIR)/$(ENSTA_DIR)
+ANGERS_PRINTABLE_BUILD_DIR = $(BUILD_DIR)/$(PRINTABLE_DIR)/$(ANGERS_DIR)
 GANTT_BUILD_DIR = $(BUILD_DIR)/$(GANTT_DIR)
 IMAGES_BUILD_DIR = $(BUILD_DIR)/$(IMAGES_DIR)
 DIAGRAMS_BUILD_DIR = $(BUILD_DIR)/$(DIAGRAMS_DIR)
@@ -31,7 +34,7 @@ GANTT_PDF = $(GANTT_BUILD_DIR)/gantt_before.pdf $(GANTT_BUILD_DIR)/gantt_after.p
 dir_guard = @mkdir -p $(@D)
 
 # All recipe
-all: ensta angers
+all: ensta angers printables
 
 # Images recipe
 images : $(IMAGES_PDF)
@@ -54,6 +57,7 @@ $(GANTT_PDF): $(GANTT_BUILD_DIR)/%.pdf : $(GANTT_DIR)/%.tex
 	$(dir_guard)
 	pdflatex --output-directory $(GANTT_BUILD_DIR) $<
 
+### Numeric reports
 # Ensta report recipe
 ensta: $(ENSTA_BUILD_DIR)/report_ensta.pdf
 
@@ -67,6 +71,21 @@ angers: $(ANGERS_BUILD_DIR)/report_angers.pdf
 $(ANGERS_BUILD_DIR)/report_angers.pdf: report_angers.tex ${TEX_SRCS} gantt images diagrams
 	$(dir_guard)
 	latexmk -pdf -shell-escape -output-directory=$(ANGERS_BUILD_DIR) $<
+
+### Pritables reports
+# Ensta report recipe
+printables: $(ENSTA_PRINTABLE_BUILD_DIR)/report_ensta_printable.pdf $(ANGERS_PRINTABLE_BUILD_DIR)/report_angers_printable.pdf
+
+$(ENSTA_PRINTABLE_BUILD_DIR)/report_ensta_printable.pdf: report_ensta_printable.tex ${TEX_SRCS} gantt images diagrams
+	$(dir_guard)
+	latexmk -pdf -shell-escape -output-directory=$(ENSTA_PRINTABLE_BUILD_DIR) $<
+
+# Angers report recipe
+angers: $(ANGERS_BUILD_DIR)/report_angers.pdf
+
+$(ANGERS_PRINTABLE_BUILD_DIR)/report_angers_printable.pdf: report_angers_printable.tex ${TEX_SRCS} gantt images diagrams
+	$(dir_guard)
+	latexmk -pdf -shell-escape -output-directory=$(ANGERS_PRINTABLE_BUILD_DIR) $<
 
 # Clean recipe
 clean:

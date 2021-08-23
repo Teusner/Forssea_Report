@@ -118,7 +118,7 @@
 			
 				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées successivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Ainsi, il est possible de connaître précisément la position du moteur en comptant le nombre d'incréments commandés, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles et la vitesse avec laquelle le moteur se rend à cette position est commandée en allumant les phases à la vitesse désirée.
 
-				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velociy}. Il est possible d'étendre le composant afin qu'il n'applique plus les consignes en envoyant un message sur le canal de communication \textit{power}. Enfin, il renvoie sa position et sa vitesse réelle récupérées dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
+				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velocity}. Il est possible d'étendre le composant afin qu'il n'applique plus les consignes en envoyant un message sur le canal de communication \textit{power}. Enfin, il renvoie sa position et sa vitesse réelle récupérées dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
 
 				\begin{figure}[!htb]
 					\centering
@@ -287,7 +287,7 @@
 
 		\subsection{Tests unitaires d'\atoll{}}
 
-			\atoll{} étant encore en cours de conception mécanique, les différents composants n'ont pas encore leur position finale et certains composants évoluent encore comme le châssis de ce robot. C'est pourquoi la description \textit{URDF} d'\atoll{} n'est pas finie et donc les tests unitaires ne passent pas encore. On utilisera le même principe pour tester la description de ce robot dès que sa conception sera figée.
+			\atoll{} étant encore en cours de conception mécanique, les différents composants n'ont pas encore leur position finale et certains composants évoluent encore comme le châssis de ce robot. C'est pourquoi la description \textit{URDF} d'\atoll{} n'est pas finie et donc les tests unitaires ne passent pas encore. On utilisera cependant le même principe pour tester la description de ce robot dès que sa conception sera figée.
 			
 	\section{Conclusion}
 	
