@@ -150,7 +150,7 @@
 					p(\alpha, \beta, z, t) = \rho \sum_{m=0}^{M} \frac{a_m\omega_m^2}{k} \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot cos(\theta_m) - \rho g z
 				\end{equation}
 
-				Ces équations prennent en compte l'impact significatif de la hauteur de la colonne d'eau dans le cas où les vagues sont présentes dans un milieu de faible profondeur. De plus, il est intéressant de remarquer que l'impact des vagues sur la dynamique des particules diminue quand la profondeur augmente, comme le montre la \textsc{Figure}~\ref{fig:speed_pressure_depth}. Cet effet se trouve dans les termes en cosinus et sinus hyperboliques qui décroissent très vite vers 0 quand on s'approche du fond, et qui valent 1 en $z=0$. Ainsi on remarque que la vitesse des particules décroit rapidement vers une vitesse nulle à mesure que la profondeur augmente et la pression n'est impactée que proche de la surface où elle est légèrement supérieure à la pression qu'il y aurait eu sans vagues.
+				Ces équations prennent en compte l'impact significatif de la hauteur de la colonne d'eau dans le cas où les vagues sont présentes dans un milieu de faible profondeur. De plus, il est intéressant de remarquer que l'impact des vagues sur la dynamique des particules diminue quand la profondeur augmente, comme le montre la \textsc{Figure}~\ref{fig:speed_pressure_depth}. Cet effet se trouve dans les termes en cosinus et sinus hyperboliques qui décroissent très vite vers 0 quand on s'approche du fond, et qui valent 1 en $z=0$. Ainsi on remarque que la vitesse des particules décroît rapidement vers une vitesse nulle à mesure que la profondeur augmente et la pression n'est impactée que proche de la surface où elle est légèrement supérieure à la pression qu'il y aurait eu sans vagues.
 
 				\begin{figure}[!htb]
 					\centering
@@ -276,7 +276,7 @@
 
 			\subsubsection{Estimation du volume immergé}
 
-				Les forces précédentes nécessitent de connaitre le volume du solide immergé dans le fluide qui ici est l'eau. Une possibilité est d'estimer le volume immergé numériquement~\cite{gilloteaux:tel-00521689}, mais cela s'avère assez coûteux en calculs. Une autre solution est de considérer que le solide se rapproche d'une sphère de même volume $V$ que le solide. On choisit une sphère, car toute section plane va former une calotte sphérique dont le volume est facilement calculable. Cette sphère a donc un rayon $r$ égal à :
+				Les forces précédentes nécessitent de connaître le volume du solide immergé dans le fluide qui ici est l'eau. Une possibilité est d'estimer le volume immergé numériquement~\cite{gilloteaux:tel-00521689}, mais cela s'avère assez coûteux en calculs. Une autre solution est de considérer que le solide se rapproche d'une sphère de même volume $V$ que le solide. On choisit une sphère, car toute section plane va former une calotte sphérique dont le volume est facilement calculable. Cette sphère a donc un rayon $r$ égal à :
 
 				\begin{equation}
 					r = \sqrt[3]{\frac{3 V}{4 \pi}}
@@ -382,7 +382,7 @@
 
 				Les solutions proposées dans la littérature pour simuler la physique d'un câble est de procéder par éléments finis~\cite{bender_simulation_methods} pour calculer la position de chaque élément au cours du temps. L'idée est de discrétiser le câble en $n$ éléments reliés les uns aux autres et de faire le bilan des forces qui s'appliquent à chaque élément pour simuler correctement le comportement du câble~\cite{ellis_modeling, blintsov_development_2017,marshall,ganoni_unreal, koenemann_modeling_2017, prabhakar_dynamics_2005}. Nous allons utiliser cette méthode afin de simuler l'ombilical qui relie les \gls{ROV}s au bateau ou à d'autres structures sous-marines.
 
-				Le problème introduit par cette méthode de simulation est qu'on ne connait pas les forces que va induire un élément à ses voisins. Il est possible de proposer une expression analytique de cette force en utilisant la mécanique des milieux continus~\cite{koenemann_modeling_2017, prabhakar_dynamics_2005}, mais il est aussi possible de proposer un modèle comportemental de cette force basé sur l'utilisation d'un correcteur proportionnel sur l'erreur de distance entre deux éléments adjacents~\cite{ellis_modeling,ganoni_unreal,blintsov_development_2017}.
+				Le problème introduit par cette méthode de simulation est qu'on ne connaît pas les forces que va induire un élément à ses voisins. Il est possible de proposer une expression analytique de cette force en utilisant la mécanique des milieux continus~\cite{koenemann_modeling_2017, prabhakar_dynamics_2005}, mais il est aussi possible de proposer un modèle comportemental de cette force basé sur l'utilisation d'un correcteur proportionnel sur l'erreur de distance entre deux éléments adjacents~\cite{ellis_modeling,ganoni_unreal,blintsov_development_2017}.
 
 				Nous allons proposer ici un modèle comportemental de cette force et nous allons voir dans quelle mesure cette modélisation est physiquement acceptable. Cette solution va aller plus loin que celle proposée par les autres références~\cite{ganoni_unreal,blintsov_development_2017} dans la mesure où l'on va proposer un correcteur proportionnel-intégral-dérivé afin d'obtenir un résultat satisfaisant.
 
@@ -409,7 +409,7 @@
 							\label{eq:archimede}
 						\end{equation}
 				
-						\item[\textbullet] \textbf{Trainée hydrodynamique $\overrightarrow{F_f}$} : En notant $A$ la surface de référence, $C_D$ le coefficient de trainée, $\rho$ la masse volumique du fluide, et $\overrightarrow{v}$ la vitesse du n\oe ud, on a : 
+						\item[\textbullet] \textbf{Traînée hydrodynamique $\overrightarrow{F_f}$} : En notant $A$ la surface de référence, $C_D$ le coefficient de traînée, $\rho$ la masse volumique du fluide, et $\overrightarrow{v}$ la vitesse du n\oe ud, on a : 
 					
 						\begin{equation}
 							\overrightarrow{F_f} = - \frac{1}{2} \cdot \rho \cdot A \cdot C_D \cdot ||\overrightarrow{v}|| \cdot \overrightarrow{v}
@@ -729,7 +729,7 @@
 				\label{fig:tether}
 			\end{figure}
 			
-			L'ombilical est attaché à ses extrémités à deux cubes flottants et il prend bien une forme de chaînette afin de minimiser son énergie potentielle. Si l'on cherche à éloigner les cubes l'un de l'autre, l'ombilical va avoir tendence à les ramener du fait du poids qui s'applique sur lui, et une rotation d'un cube va avoir tendance à faire tourner l'autre sur lui-même du fait du couple transmissible le long de l'ombilical. Enfin, il est possible de dérouler l'ombilical en ajoutant des \textit{TetherElement} entre le premier et le deuxième n\oe ud, et de l'enrouler en supprimant le deuxième n\oe ud (car le premier est celui qui est fixé au cube). L'ombilical va réguler sa longueur avec les n\oe uds supplémentaires ou manquants et cela aura pour effet de pouvoir contôler la longueur de l'ombilical dans l'environnement de simulation.
+			L'ombilical est attaché à ses extrémités à deux cubes flottants et il prend bien une forme de chaînette afin de minimiser son énergie potentielle. Si l'on cherche à éloigner les cubes l'un de l'autre, l'ombilical va avoir tendance à les ramener du fait du poids qui s'applique sur lui, et une rotation d'un cube va avoir tendance à faire tourner l'autre sur lui-même du fait du couple transmissible le long de l'ombilical. Enfin, il est possible de dérouler l'ombilical en ajoutant des \textit{TetherElement} entre le premier et le deuxième n\oe ud, et de l'enrouler en supprimant le deuxième n\oe ud (car le premier est celui qui est fixé au cube). L'ombilical va réguler sa longueur avec les n\oe uds supplémentaires ou manquants et cela aura pour effet de pouvoir contrôler la longueur de l'ombilical dans l'environnement de simulation.
 
 			Les coefficients du modèle comportemental sont réglés afin d'avoir un comportement réaliste. Pour cet exemple nous avons utilisé un coefficient proportionnel $K_p = 200$, un coefficient dérivé $K_d = 35$ et un coefficient intégral $K_i = 100$.
 
