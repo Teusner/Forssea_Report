@@ -131,16 +131,16 @@
 				En continuant à utiliser le formalisme précédemment introduit, on est en mesure d'étendre les \textsc{Equations}~\ref{eqn:xi} à \ref{eqn:eta} à tous les points de l'espace immergés en s'aidant des références bibliographiques~\cite{dean1991water, MIT_Waves} :
 
 				\begin{eqnarray}
-					\xi(\alpha, \beta, z, t) & = & \alpha - cos(h_m) \sum_{m=0}^{M} a_m \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m) \\
-					\zeta(\alpha, \beta, z, t) & = & \beta - sin(h_m) \sum_{m=0}^{M} a_m \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m) \\
+					\xi(\alpha, \beta, z, t) & = & \alpha - \sum_{m=0}^{M} a_m \cdot cos(h_m) \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m) \\
+					\zeta(\alpha, \beta, z, t) & = & \beta - \sum_{m=0}^{M} a_m \cdot sin(h_m) \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m) \\
 					\eta(\alpha, \beta, z, t) & = & z - \sum_{m=0}^{M} \frac{a_m}{k_m} \cdot \frac{sinh(k_m(z+H))}{sinh(k_mh)} \cdot cos(\theta_m)
 				\end{eqnarray}
 
 				Puis, on peut établir les équations de vitesse des particules de la même manière, en dérivant temporellement les équations de positions :
 		
 				\begin{eqnarray}
-					v(\alpha, \beta, z, t) & = & sin(h_m) \sum_{m=0}^{M} a_m \cdot \omega_m \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot cos(\theta_m) \\
-					u(\alpha, \beta, z, t) & = & cos(h_m) \sum_{m=0}^{M} a_m \cdot \omega_m \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot cos(\theta_m) \\
+					v(\alpha, \beta, z, t) & = & \sum_{m=0}^{M} a_m \cdot sin(h_m) \cdot \omega_m \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot cos(\theta_m) \\
+					u(\alpha, \beta, z, t) & = & \sum_{m=0}^{M} a_m \cdot cos(h_m) \cdot \omega_m \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot cos(\theta_m) \\
 					w(\alpha, \beta, z, t) & = & - \sum_{m=0}^{M} \frac{a_m}{k_m} \cdot \omega_m \cdot \frac{sinh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m)
 				\end{eqnarray}
 
@@ -169,16 +169,16 @@
 				Comme $z$ est négatif sous la surface de l'eau, ce terme est une exponentielle décroissante qui va atténuer fortement l'effet des vagues au fond et avoir un effet plus conséquent sur les premiers mètres d'eau. On peut montrer que la distance caractéristique d'atténuation est de l'ordre d'une demi-longueur d'onde. En effet, en notant $\lambda_m$ la longueur d'onde de la vague, on a $k_m = \tfrac{2\pi}{\lambda_m}$, et en évaluant l'expression en $z = - \tfrac{\lambda_m}{2}$, $e^{-\tfrac{k_m\lambda_m}{2}} = e^{-\pi} \approx 0,05$. Cela signifie que $95 \%$ de l'effet des vagues est dissipé sur une demi-longueur d'onde de profondeur. Avec cette simplification, les équations de position se simplifient comme suit :
 			
 				\begin{eqnarray}
-					\xi(\alpha, \beta, z, t) & = & \alpha - cos(h_m) \sum_{m=0}^M a_m \cdot e^{k_mz} \cdot sin(\theta_m) \\
-					\zeta(\alpha, \beta, z, t) & = & \beta - sin(h_m) \sum_{m=0}^M a_m \cdot e^{k_mz} \cdot sin(\theta_m) \\
+					\xi(\alpha, \beta, z, t) & = & \alpha - \sum_{m=0}^M a_m \cdot cos(h_m) \cdot e^{k_mz} \cdot sin(\theta_m) \\
+					\zeta(\alpha, \beta, z, t) & = & \beta - \sum_{m=0}^M a_m \cdot sin(h_m) \cdot e^{k_mz} \cdot sin(\theta_m) \\
 					\eta(\alpha, \beta, z, t) & = & z - \sum_{m=0}^M a_m \cdot e^{k_mz} \cdot cos(\theta_m) \\
 				\end{eqnarray}
 
 				Les équations de vitesse des particules de fluides se simplifient comme suit :
 
 				\begin{eqnarray}
-					u(\alpha, \beta, z, t) & = & cos(h_m) \sum_{m=0}^M a_m \cdot \omega_m \cdot e^{k_mz} \cdot cos(\theta_m) \\
-					u(\alpha, \beta, z, t) & = & sin(h_m) \sum_{m=0}^M a_m \cdot \omega_m \cdot e^{k_mz} \cdot cos(\theta_m) \\
+					u(\alpha, \beta, z, t) & = & \sum_{m=0}^M a_m \cdot cos(h_m) \cdot \omega_m \cdot e^{k_mz} \cdot cos(\theta_m) \\
+					u(\alpha, \beta, z, t) & = & \sum_{m=0}^M a_m \cdot sin(h_m) \cdot \omega_m \cdot e^{k_mz} \cdot cos(\theta_m) \\
 					w(\alpha, \beta, z, t) & = & - \sum_{m=0}^M a_m \cdot \omega_m \cdot e^{k_mz} \cdot sin(\theta_m) \\
 				\end{eqnarray}
 
@@ -186,7 +186,7 @@
 
 				\begin{eqnarray}
 					p(\alpha, \beta, z, t) & = & \rho g \sum_{m=0}^M a_m \cdot e^{k_mz} \cdot cos(\theta_m) - \rho g z\\
-					\omega_m^2 & = & k_m g \label{equation:deep_dispersion}
+					\omega_m^2 & = & k_m \cdot g \label{equation:deep_dispersion}
 				\end{eqnarray}
 
 			\subsubsection{Choix du spectre de vagues}
@@ -423,7 +423,7 @@
 							\label{eq:pid}
 						\end{equation}
 						
-						Dans cette expression, $\overrightarrow{u}$ est le vecteur unitaire orienté du n\oe ud courant vers le n\oe ud voisin, $e$ est l'erreur de positionnement du n\oe ud, $\dot e$ est la dérivée de cette erreur et $\int_{0}^te(\tau) \cdot d\tau$ est l'intégrale de cette erreur. La dérivée et l'intégrale de cette erreur sont estimées numériquement en utilisant respectivement la méthode d'Euler et la méthode des rectangles. On trouve les expressions de $\overrightarrow{u}$ et $e(t)$ pour deux éléments en position $\mathbf{p_c}$ et $\mathbf{p_p}$ tel que $||\mathbf{p_c} - \mathbf{p_p}|| \neq 0$ :
+						Dans cette expression, $\overrightarrow{u}$ est le vecteur unitaire orienté du n\oe ud courant vers le n\oe ud voisin, $e$ est l'erreur de positionnement du n\oe ud, $\dot e$ est la dérivée de cette erreur et $\int_{0}^te(\tau) \cdot d\tau$ est l'intégrale de cette erreur. La dérivée et l'intégrale de cette erreur sont estimées numériquement en utilisant respectivement la méthode d'Euler et la méthode des rectangles. On trouve les expressions de $\overrightarrow{u}$ et $e(t)$ pour deux éléments en position $\overrightarrow{p_c}$ et $\overrightarrow{p_p}$ tel que $||\overrightarrow{p_c} - \overrightarrow{p_p}|| \neq 0$ :
 
 						\begin{equation}
 							\overrightarrow{u} = \frac{\overrightarrow{p_c} - \overrightarrow{p_p}}{||\overrightarrow{p_c} - \overrightarrow{p_p}||} \qquad e(t) = \frac{||\overrightarrow{p_c} - \overrightarrow{p_p}|| - l}{||\overrightarrow{p_c} - \overrightarrow{p_p}||}
