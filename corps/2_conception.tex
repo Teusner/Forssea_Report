@@ -8,7 +8,7 @@
 
     \section{Etude de l'existant}
 
-        La simulation de milieux marins est un domaine relativement récent, qui se développe de plus en plus aujourd'hui grâce à l'essor de l'informatique et à l'augmentation des performances des ordinateurs. On retrouve aujourd'hui de plus en plus de simulateurs robotiques présentants des milieux marins~\cite{Manhaes_2016, bingham19toward, MARS, Rock}. Ces simulateurs proposent tous un modèle de flottabilité pour les objets à simuler, ce qui permet de pouvoir définir à la fois des bateaux et des robots sous-marins.Ils proposent ensuite tous leur lot de spécificités qui permettent d'avoir des éléments supplémentaires dans notre simulation.
+        La simulation de milieux marins est un domaine relativement récent, qui se développe de plus en plus aujourd'hui grâce à l'essor de l'informatique et à l'augmentation des performances des ordinateurs. On retrouve aujourd'hui de plus en plus de simulateurs robotiques présentant des milieux marins~\cite{Manhaes_2016, bingham19toward, MARS, Rock}. Ces simulateurs proposent tous un modèle de flottabilité pour les objets à simuler, ce qui permet de pouvoir définir à la fois des bateaux et des robots sous-marins. Ils proposent ensuite tous leur lot de spécificités qui permettent d'avoir des éléments supplémentaires dans notre simulation.
         
         \textit{UUV Simulator}~\cite{Manhaes_2016} est probablement le plus connu d'entre eux. C'est un simulateur de \gls{ROV} comportant un certain nombre d'éléments d'environnements simulés, comme des mondes marins, du courant ou des ombilicaux par exemple. Il propose aussi la description d'un bon nombre de robots sous-marins commercialisés et la communauté active partage de nouveaux modèles régulièrement.
         
@@ -148,7 +148,7 @@
 
             En rassemblant ce qui a pu être présenté dans ce chapitre, on peut proposer l'architecture logicielle présentée sur la \textsc{Figure}~\ref{fig:architecture_logicielle} pour ce simulateur.
             
-            Ce système nécessite donc dans un premier la description pour \gazebo{} d'un monde de simulation sous-marin ainsi que la description des \gls{ROV}s dans un premier temps afin de pouvoir simuler les robots. Puis vient l'implémentation de \textit{plugins} \gazebo{} et d'\textit{Hardware Interface} pour interagir et contrôler ces robots, qui communique ensemble par via les librairies \textit{ignition}.
+            Ce système nécessite donc dans un premier temps la description pour \gazebo{} d'un monde de simulation sous-marin ainsi que la description des \gls{ROV}s afin de pouvoir simuler les robots. Puis vient l'implémentation de \textit{plugins} \gazebo{} et d'\textit{Hardware Interface} pour interagir et contrôler ces robots, qui communique ensemble par via les librairies \textit{ignition}.
             
             \begin{figure}[!htb]
                 \centering
