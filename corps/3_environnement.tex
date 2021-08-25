@@ -372,6 +372,8 @@
 
 				Nous pouvons aisément écarter le modèle procédural car on remarque au vu des éléments présentés sur la Table~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en termes de ressources pour une simulation temps réel. Notre choix se porte donc sur l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle locale de nos essais qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
 
+				Pour aller plus loin, on pourrait diviser l'espace marin en blocs et appliquer les équations de Navier-Stokes dans les blocs au voisinage des reliefs sous-marins et des structures, et le modèle constant dans les blocs ne contenants aucuns objets. Cette idée pourra être poursuivie et constituerait un parfait compromis entre puissance de calcul et précision de la simulation.
+
 		\section{Simulation d'ombilicaux}
 
 			\subsection{Etat de l'art}
