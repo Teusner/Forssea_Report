@@ -106,13 +106,14 @@
 \RequirePackage[hyphens]{url}
 \urlstyle{same}
 \RequirePackage[pdftex,backref=page]{hyperref}
-\hypersetup{
-  colorlinks=false,
-  linkbordercolor = black,
-  filebordercolor = black,
-  citebordercolor = YellowOrange,
-  urlbordercolor = RoyalBlue,
-}
+\hypersetup{hidelinks}
+% \hypersetup{
+%   colorlinks=false,
+%   linkbordercolor = black,
+%   filebordercolor = black,
+%   citebordercolor = YellowOrange,
+%   urlbordercolor = RoyalBlue,
+% }
 
 \RequirePackage[acronymlists={glo},toc]{glossaries} % glossaires
 \newglossary{glo}{acr1}{acn1}{Glossaire}
@@ -237,3 +238,6 @@
     \pgfpathmoveto{\pgfpointorigin}
   }
 }
+
+% TOC depth
+\setcounter{tocdepth}{1}

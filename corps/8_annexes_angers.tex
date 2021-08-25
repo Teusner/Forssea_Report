@@ -4,13 +4,13 @@
 	\section{Simplification en eaux profondes}
 	\label{annexe:deep_water}
 
-		Nous allons ici justifier la simplification faite en eaux profondes dans la \textsc{Section}~\ref{sec:simplification_eaux_profondes}. Nous avons en effet pu proposer une approximation en \textsc{Equation}~\ref{eqn:simplification_eaux_profondes} qui permet de simplifier les équations décrivant la dynamique du milieu marin.
+		Nous allons ici justifier la simplification faite en eaux profondes dans la Section~\ref{sec:simplification_eaux_profondes}. Nous avons en effet pu proposer une approximation en Equation~(\ref{eqn:simplification_eaux_profondes}) qui permet de simplifier les équations décrivant la dynamique du milieu marin.
 
 		\begin{eqnarray}
 			\frac{cosh(k_m(z+H))}{sinh(k_mH)} = \left( \frac{e^{z+H} + e^{-(z+H)}}{e^{H}-e^{-H}} \right)^{k_m}  \xrightarrow[H \rightarrow + \infty]{}   \left( \frac{e^{z+H}}{e^{H}} \right)^{k_m} = e^{k_m z}
 		\end{eqnarray}
 
-		Pour la simplification de l'\textsc{Equation}~\ref{equation:dispersion} en l'\textsc{Equation}~\ref{equation:deep_dispersion} de dispersion des vagues, cela se justifie par le fait que :
+		Pour la simplification de l'Equation~(\ref{equation:dispersion}) en l'Equation~(\ref{equation:deep_dispersion}) de dispersion des vagues, cela se justifie par le fait que :
 
 		\begin{eqnarray}
 			tanh(k_m H) \xrightarrow[H \rightarrow + \infty]{} 1
@@ -19,7 +19,7 @@
 	\section{Volume d'une calotte sphérique}
 	\label{annexe:calotte_spherique}
 
-		Nous allons justifier l'\textsc{Equation}~\ref{eqn:v_immerge} qui donne le volume d'une calotte sphérique afin de déterminer le volume immergé d'une sphère. L'idée est d'obtenir le volume par intégration en remarquant que le volume est engendré par la rotation du triangle curviligne O $(0, 0)$ H $(h, 0)$ M $(h, f(h))$, comme le montre la \textsc{Figure}~\ref{fig:calotte_spherique}, on a :
+		Nous allons justifier l'Equation~(\ref{eqn:v_immerge}) qui donne le volume d'une calotte sphérique afin de déterminer le volume immergé d'une sphère. L'idée est d'obtenir le volume par intégration en remarquant que le volume est engendré par la rotation du triangle curviligne O $(0, 0)$ H $(h, 0)$ M $(h, f(h))$, comme le montre la Figure~\ref{fig:calotte_spherique}, on a :
 
 		\begin{equation}
 			V_i = \pi \int_0^h f^2(x).dx = \pi \int_0^h (2rx - x^2).dx = \pi \left[(rx^2 - \frac{x^3}{3})\right]_0^h = \pi h^2 \frac{3r - h}{3}

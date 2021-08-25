@@ -23,7 +23,7 @@
     \section{Spécifications fonctionnelles}
         \label{sec:spec_fonc}
 
-        Le système à concevoir doit permettre de simuler \gls{ROV}s de la société \forssea{} dans un environnement sous-marin. Le simulateur doit respecter un certain nombre de spécifications fonctionnelles qui délimitent les exigences requises par le système. La \textsc{Figure}~\ref{figure:pieuvre} complétée par la \textsc{Table}~\ref{table:specs} présentent les exigences du système.
+        Le système à concevoir doit permettre de simuler \gls{ROV}s de la société \forssea{} dans un environnement sous-marin. Le simulateur doit respecter un certain nombre de spécifications fonctionnelles qui délimitent les exigences requises par le système. La Figure~\ref{figure:pieuvre} complétée par la Table~\ref{table:specs} présentent les exigences du système.
 
         \begin{figure}[!htb]
             \centering
@@ -109,7 +109,7 @@
 
     \section{Spécifications techniques}
 
-        Pour remplir les différentes spécifications fonctionnelles présentées dans la \textsc{Section}~\ref{sec:spec_fonc}, nous allons définir un certain nombre de spécifications techniques. Ces dernières vont proposer les outils et les différents critères permettant de remplir les exigences attendues.
+        Pour remplir les différentes spécifications fonctionnelles présentées dans la Section~\ref{sec:spec_fonc}, nous allons définir un certain nombre de spécifications techniques. Ces dernières vont proposer les outils et les différents critères permettant de remplir les exigences attendues.
 
         \subsection{Logiciel de simulation}
 
@@ -138,7 +138,7 @@
                 \label{fig:ros2_control}
             \end{figure}
 
-            La \textsc{Figure}~\ref{fig:ros2_control} nous montre l'architecture logicielle de \textit{ROS2 Control}. Ce framework va instancier un \textit{Controller Manager} qui va s'occuper de charger les contrôleurs qui seront utilisés dans le robot, des \textit{Hardware Interface} qui sont les interfaces qui vont communiquer avec les composants et un \textit{Ressource Manager} qui va faire transiter les données entre les contrôleurs et les composants. L'\textit{Hardware Interface} peut avoir pour rôle de communiquer avec les composants réels, où avec les composants simulés. L'idée est de créer une \textit{Hardware Interface} pour la simulation proposant les mêmes interfaces que celle implémentée pour les composants réels. Ainsi on peut utiliser les mêmes algorithmes de contrôle de manière totalement transparente pour commander le robot réel ou le simulateur et la fonction contrainte \textbf{FC2} est remplie.
+            La Figure~\ref{fig:ros2_control} nous montre l'architecture logicielle de \textit{ROS2 Control}. Ce framework va instancier un \textit{Controller Manager} qui va s'occuper de charger les contrôleurs qui seront utilisés dans le robot, des \textit{Hardware Interface} qui sont les interfaces qui vont communiquer avec les composants et un \textit{Ressource Manager} qui va faire transiter les données entre les contrôleurs et les composants. L'\textit{Hardware Interface} peut avoir pour rôle de communiquer avec les composants réels, où avec les composants simulés. L'idée est de créer une \textit{Hardware Interface} pour la simulation proposant les mêmes interfaces que celle implémentée pour les composants réels. Ainsi on peut utiliser les mêmes algorithmes de contrôle de manière totalement transparente pour commander le robot réel ou le simulateur et la fonction contrainte \textbf{FC2} est remplie.
         
         \subsection{RViz2}
 
@@ -146,7 +146,7 @@
 
         \subsection{Architecture Logicielle}
 
-            En rassemblant ce qui a pu être présenté dans ce chapitre, on peut proposer l'architecture logicielle présentée sur la \textsc{Figure}~\ref{fig:architecture_logicielle} pour ce simulateur.
+            En rassemblant ce qui a pu être présenté dans ce chapitre, on peut proposer l'architecture logicielle présentée sur la Figure~\ref{fig:architecture_logicielle} pour ce simulateur.
             
             Ce système nécessite donc dans un premier temps la description pour \gazebo{} d'un monde de simulation sous-marin ainsi que la description des \gls{ROV}s afin de pouvoir simuler les robots. Puis vient l'implémentation de \textit{plugins} \gazebo{} et d'\textit{Hardware Interface} pour interagir et contrôler ces robots, qui communique ensemble par via les librairies \textit{ignition}.
             

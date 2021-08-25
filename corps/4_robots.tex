@@ -4,12 +4,12 @@
 	
 	\section{Introduction}
 
-		L'environnement dans lequel doivent évoluer les robots à été défini dans le \textsc{Chapitre}~\ref{chapitre:environnement}. Il est maintenant temps de simuler les \gls{ROV}s. Pour ce faire, nous allons devoir décrire les paramètres mécaniques des robots \argos{} et \atoll{}, et décrire le comportement de leurs capteurs et actionneurs à simuler. A la fin de cette partie nous devrions être en mesure de pleinement simuler les robots dans leur environnement et le simulateur complet devrait ainsi respecter toutes les exigences présentées dans le \textsc{Chapitre}~\ref{chapitre:systeme}.
+		L'environnement dans lequel doivent évoluer les robots à été défini dans le Chapitre~\ref{chapitre:environnement}. Il est maintenant temps de simuler les \gls{ROV}s. Pour ce faire, nous allons devoir décrire les paramètres mécaniques des robots \argos{} et \atoll{}, et décrire le comportement de leurs capteurs et actionneurs à simuler. A la fin de cette partie nous devrions être en mesure de pleinement simuler les robots dans leur environnement et le simulateur complet devrait ainsi respecter toutes les exigences présentées dans le Chapitre~\ref{chapitre:systeme}.
 
 	\section{Simulation des composants}
 
 		\subsection{Composition des robots}
-			En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de définir et de simuler ces différents composants dans \gazebo, afin d'être par la suite chargés dans la simulation des deux robots. La \textsc{table}~\ref{table:components} présente les différents composants à simuler et les dépendances entre les robots et les composants. On y retrouve aussi s'ils nécessitent l'utilisation d'un \plugin{} \gazebo{} pour décrire leur comportement et d'une \textit{HardwareInterface} pour s'interfacer avec le reste de l'implémentation logicielle.
+			En remarquant que les deux robots embarquent un certain nombre d'éléments communs, il est possible de définir et de simuler ces différents composants dans \gazebo, afin d'être par la suite chargés dans la simulation des deux robots. La Table~\ref{table:components} présente les différents composants à simuler et les dépendances entre les robots et les composants. On y retrouve aussi s'ils nécessitent l'utilisation d'un \plugin{} \gazebo{} pour décrire leur comportement et d'une \textit{HardwareInterface} pour s'interfacer avec le reste de l'implémentation logicielle.
 
 		\begin{table}[!htb]
 			\centering
@@ -69,7 +69,7 @@
 
 			\subsubsection{Latch}
 
-				Le \textit{Latch} est un composant propre au robot \textit{Atoll}. Ce crochet de levage permettant de transporter des structures sous-marines pouvant peser jusqu'à $1,5$ tonnes est fabriqué par Forssea Robotics, et permet de d'installer et de déplacer des balises de positionnement acoustique sur les fonds marins. La \textsc{Figure}~\ref{fig:latch_photo} présente ce composant monté sur \atoll{} qui porte une structure sous-marine avec une balise de positionnement acoustique.
+				Le \textit{Latch} est un composant propre au robot \textit{Atoll}. Ce crochet de levage permettant de transporter des structures sous-marines pouvant peser jusqu'à $1,5$ tonnes est fabriqué par Forssea Robotics, et permet de d'installer et de déplacer des balises de positionnement acoustique sur les fonds marins. La Figure~\ref{fig:latch_photo} présente ce composant monté sur \atoll{} qui porte une structure sous-marine avec une balise de positionnement acoustique.
 
 				\begin{figure}[!htb]
 					\centering
@@ -87,7 +87,7 @@
 					\label{fig:latch_photo}
 				\end{figure}
 
-				L'architecture logicielle du \textit{Latch} est présentée en \textsc{Figure}~\ref{fig:sa_latch}. Le composant reçoit deux informations de la part de l'implémentation logicielle : s'il est alimenté via le canal de communication \textit{power} et le signal de relâchement du crochet sur le canal \textit{release}. En retour, le crochet de levage renvoie son état à l'aide d'une sonde à effet Hall qui indique si le crochet est fermé ou ouvert sur le canal \textit{sensor}.
+				L'architecture logicielle du \textit{Latch} est présentée en Figure~\ref{fig:sa_latch}. Le composant reçoit deux informations de la part de l'implémentation logicielle : s'il est alimenté via le canal de communication \textit{power} et le signal de relâchement du crochet sur le canal \textit{release}. En retour, le crochet de levage renvoie son état à l'aide d'une sonde à effet Hall qui indique si le crochet est fermé ou ouvert sur le canal \textit{sensor}.
 
 				\begin{figure}[!htb]
 					\centering
@@ -96,7 +96,7 @@
 					\label{fig:sa_latch}
 				\end{figure}
 							
-				Le \plugin{} \gazebo{} développé afin de décrire le comportement du \textit{Latch} est basé sur la machine à états finis présentée en \textsc{Figure}~\ref{fig:latch_fsm}. L'idée est de créer une liaison encastrement dynamique entre le \textit{Latch} et la structure sous-marine à transporter. La logique implémentée dans la machine à états finis permet de simuler le fait que mécaniquement le crochet s'accroche automatiquement à un point d'attache de structure sous-marine qui rentrerait dans le composant, et que l'on ne commande que le relâchement de cette structure par l'ouverture du crochet.
+				Le \plugin{} \gazebo{} développé afin de décrire le comportement du \textit{Latch} est basé sur la machine à états finis présentée en Figure~\ref{fig:latch_fsm}. L'idée est de créer une liaison encastrement dynamique entre le \textit{Latch} et la structure sous-marine à transporter. La logique implémentée dans la machine à états finis permet de simuler le fait que mécaniquement le crochet s'accroche automatiquement à un point d'attache de structure sous-marine qui rentrerait dans le composant, et que l'on ne commande que le relâchement de cette structure par l'ouverture du crochet.
 
 				\begin{figure}[!htb]
 					\centering
@@ -107,7 +107,7 @@
 		
 			\subsubsection{SS309 Tilt}
 
-				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position et l'axe se déplace avec une vitesse de rotation spécifiée. La \textsc{Figure}~\ref{fig:ss309_tilt} présente le composant monté sur \argos{} avec la nacelle permettant de d'orienter la caméra d'observation.
+				Le \textit{SS309 Tilt} est un composant commercialisé par l'entreprise \textit{Sidus Solutions} et qui permet dans les \gls{ROV}s d'orienter la caméra d'observation. Il est parfaitement étanche et comporte un jeu d'engrenages reliés à un moteur pas-à-pas pilotable en vitesse et en position. On demande ainsi au moteur de mettre l'axe à une certaine position et l'axe se déplace avec une vitesse de rotation spécifiée. La Figure~\ref{fig:ss309_tilt} présente le composant monté sur \argos{} avec la nacelle permettant de d'orienter la caméra d'observation.
 
 				\begin{figure}[!htb]
 					\centering
@@ -118,7 +118,7 @@
 			
 				Pour simuler cet aspect pilotable en vitesse de rotation et position, il faut passer par la simulation d'un moteur pas-à-pas. C'est un moteur composé de plusieurs bobinages créant ainsi plusieurs phases qui sont allumées successivement afin de réaliser une rotation de l'arbre moteur d'un certain incrément d'angle. Cet angle est défini par les caractéristiques du bobinage et n'est donc pas réglable. Ainsi, il est possible de connaître précisément la position du moteur en comptant le nombre d'incréments commandés, car l'arbre moteur ne peut prendre qu'un nombre fini d'angles et la vitesse avec laquelle le moteur se rend à cette position est commandée en allumant les phases à la vitesse désirée.
 
-				L'architecture logicielle du \textit{SS309 Tilt} est présentée en \textsc{Figure}~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velocity}. Il est possible d'étendre le composant afin qu'il n'applique plus les consignes en envoyant un message sur le canal de communication \textit{power}. Enfin, il renvoie sa position et sa vitesse réelle récupérées dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
+				L'architecture logicielle du \textit{SS309 Tilt} est présentée en Figure~\ref{fig:sa_tilt}. Le composant reçoit de la part de l'implémentation logicielle la position et la vitesse consigne sur les canaux \textit{command/position} et \textit{command/velocity}. Il est possible d'étendre le composant afin qu'il n'applique plus les consignes en envoyant un message sur le canal de communication \textit{power}. Enfin, il renvoie sa position et sa vitesse réelle récupérées dans l'environnement de simulation sur les canaux \textit{state/position} et \textit{state/velocity}.
 
 				\begin{figure}[!htb]
 					\centering
@@ -127,7 +127,7 @@
 					\label{fig:sa_tilt}
 				\end{figure}
 
-				Nous allons à présent distinguer la position réelle de l'arbre moteur, la position cible et la position commandée. La position réelle est la position de l'arbre moteur dans le simulateur. La position cible est un multiple de l'incrément d'angle à laquelle doit se rendre le moteur à l'instant actuel. La position commandée est la position finale dans laquelle doit se retrouver l'arbre moteur et peut être une position réelle quelconque. Le moteur ne sera capable que de se rendre à la position multiple de la valeur de l'incrément d'angle la plus proche de la position commandée. La \textsc{Figure}~\ref{fig:tilt_position} reprends ces différentes notions. En commandant la vitesse à laquelle on incrémente la position cible, on contrôle l'axe en vitesse.
+				Nous allons à présent distinguer la position réelle de l'arbre moteur, la position cible et la position commandée. La position réelle est la position de l'arbre moteur dans le simulateur. La position cible est un multiple de l'incrément d'angle à laquelle doit se rendre le moteur à l'instant actuel. La position commandée est la position finale dans laquelle doit se retrouver l'arbre moteur et peut être une position réelle quelconque. Le moteur ne sera capable que de se rendre à la position multiple de la valeur de l'incrément d'angle la plus proche de la position commandée. La Figure~\ref{fig:tilt_position} reprends ces différentes notions. En commandant la vitesse à laquelle on incrémente la position cible, on contrôle l'axe en vitesse.
 
 				\begin{figure}[!htb]
 					\centering
@@ -155,7 +155,7 @@
 
 			\subsubsection{SPE75 Thrusters}
 		
-				Les \textit{SPE75 Thrusters} sont les propulseurs commercialisés par \textit{Sub-Atlantic} qui permettent aux robots de se déplacer et de s'orienter dans leur environnement. Ils sont composés d'un moteur permettant de mettre en mouvement des pâles qui vont générer une force dans la direction du propulseur. La \textsc{Figure}~\ref{fig:thrusters} représente trois propulseurs montés avec des orientations différentes sur \atoll{}, ce qui lui permet de se déplacer dans toutes les directions.
+				Les \textit{SPE75 Thrusters} sont les propulseurs commercialisés par \textit{Sub-Atlantic} qui permettent aux robots de se déplacer et de s'orienter dans leur environnement. Ils sont composés d'un moteur permettant de mettre en mouvement des pâles qui vont générer une force dans la direction du propulseur. La Figure~\ref{fig:thrusters} représente trois propulseurs montés avec des orientations différentes sur \atoll{}, ce qui lui permet de se déplacer dans toutes les directions.
 
 				\begin{figure}[!htb]
 					\centering
@@ -258,7 +258,7 @@
 
 		\subsection{Tests unitaires d'\argos{}}
 
-			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\argos{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques. La \textsc{Table}~\ref{table:argos_unittest} présente les écarts entre le robot réel et la description réalisée à l'aide des composants. On y retrouve ainsi les résultats des tests unitaires pour \argos{}.
+			Les différents tests unitaires ont été lancés sur les fichiers de descriptions \textit{URDF} d'\argos{} afin de vérifier que la composition du robot à base des différents composants définis ait bien les bonnes propriétés mécaniques. La Table~\ref{table:argos_unittest} présente les écarts entre le robot réel et la description réalisée à l'aide des composants. On y retrouve ainsi les résultats des tests unitaires pour \argos{}.
 			
 			\begin{table}[!htb]
 				\centering

@@ -20,7 +20,7 @@
 
 				Dans un premier temps, nous allons nous intéresser à la modélisation de la surface libre de la mer, c’est-à-dire qu'il nous faut trouver un formalisme permettant de simuler la surface de l'environnement marin, à l'interface entre l'air et l'eau.
 
-				Les premières modélisations de la mer étaient des champs de hauteur, c’est-à-dire que pour chaque $(x, y)$ dans le plan de la mer, on y associait au maximum un $z$. Cette modélisation peut aux premiers abords suffire, et elle a d'ailleurs été utilisée pour réaliser les premiers rendus informatiques de mer~\cite{scha80, max81}, comme celui présenté sur la \textsc{Figure}~\ref{fig:carlas_island}. Mais on se rend compte qu'en réalité un champ de hauteur ne suffit pas. En effet, pour décrire une mer comme celle présentée en \textsc{Figure}~\ref{fig:hokusai}, il faut établir l'équation paramétrique de la surface libre, car pour un même couple $(x, y)$ il est possible d'avoir plusieurs $z$ associés si les vagues roulent les unes sur les autres.
+				Les premières modélisations de la mer étaient des champs de hauteur, c’est-à-dire que pour chaque $(x, y)$ dans le plan de la mer, on y associait au maximum un $z$. Cette modélisation peut aux premiers abords suffire, et elle a d'ailleurs été utilisée pour réaliser les premiers rendus informatiques de mer~\cite{scha80, max81}, comme celui présenté sur la Figure~\ref{fig:carlas_island}. Mais on se rend compte qu'en réalité un champ de hauteur ne suffit pas. En effet, pour décrire une mer comme celle présentée en Figure~\ref{fig:hokusai}, il faut établir l'équation paramétrique de la surface libre, car pour un même couple $(x, y)$ il est possible d'avoir plusieurs $z$ associés si les vagues roulent les unes sur les autres.
 
 				\begin{figure}[!htb]
 					\centering
@@ -38,11 +38,11 @@
 					\label{fig:representation_mer}
 				\end{figure}
 
-				Un modèle établi il y a plus de deux cents par \textit{Gerstner}~\cite{Gerstner} propose une modélisation trochoïdale de la houle. Cette modélisation permet de décrire la forme de la surface libre de l'eau. Cependant elle n'est vraie qu'en eaux profondes, et cette description se concentre sur des vagues dans un plan en deux dimensions $(0, \overrightarrow{x}, \overrightarrow{z})$, avec x orienté dans le sens de propagation de la vague, et z orienté vers le haut. Dans le cas plus général, il est possible d'étendre ce modèle à un environnement en trois dimensions~\cite{Constantin_2001, Gerstner-Like_Henry}, qui est aussi connu sous le nom d'\textit{Airy Wave}, et même à un modèle en eaux peu profondes ou semi-profondes~\cite{dean1991water}. Cette modélisation présente l'avantage d'être linéaire. Il faut cependant s'assurer que les vagues ne déferlent pas afin de ne pas entrer dans le domaine non-linéaire, comme présenté sur la \textsc{Figure}~\ref{fig:hokusai} représentant un tsunami avec des vagues déferlantes. D'après l'échelle de \textit{Beaufort}~\cite{beaufort}, le modèle de vagues linéaire semble acceptable jusqu'à \textit{mer 3}, car au-delà des moutons blancs apparaissent à la surface de la mer et les vagues commencent à déferler. Nous nous limiterons donc à ce domaine pour la simulation de l'environnement, d'autant plus que les robots ne sortent pas en milieu naturel par \textit{mer 4} et au-delà.
+				Un modèle établi il y a plus de deux cents par \textit{Gerstner}~\cite{Gerstner} propose une modélisation trochoïdale de la houle. Cette modélisation permet de décrire la forme de la surface libre de l'eau. Cependant elle n'est vraie qu'en eaux profondes, et cette description se concentre sur des vagues dans un plan en deux dimensions $(0, \overrightarrow{x}, \overrightarrow{z})$, avec x orienté dans le sens de propagation de la vague, et z orienté vers le haut. Dans le cas plus général, il est possible d'étendre ce modèle à un environnement en trois dimensions~\cite{Constantin_2001, Gerstner-Like_Henry}, qui est aussi connu sous le nom d'\textit{Airy Wave}, et même à un modèle en eaux peu profondes ou semi-profondes~\cite{dean1991water}. Cette modélisation présente l'avantage d'être linéaire. Il faut cependant s'assurer que les vagues ne déferlent pas afin de ne pas entrer dans le domaine non-linéaire, comme présenté sur la Figure~\ref{fig:hokusai} représentant un tsunami avec des vagues déferlantes. D'après l'échelle de \textit{Beaufort}~\cite{beaufort}, le modèle de vagues linéaire semble acceptable jusqu'à \textit{mer 3}, car au-delà des moutons blancs apparaissent à la surface de la mer et les vagues commencent à déferler. Nous nous limiterons donc à ce domaine pour la simulation de l'environnement, d'autant plus que les robots ne sortent pas en milieu naturel par \textit{mer 4} et au-delà.
 
 			\subsubsection{Formalisme}
 
-				Plaçons-nous dans un repère $(0, \overrightarrow{x}, \overrightarrow{y}, \overrightarrow{z})$ tel que $0$ soit au niveau de la mer au repos, $\overrightarrow{x}$ soit orienté dans le sens de déplacement de la vague, $\overrightarrow{z}$ orienté vers le haut, et $\overrightarrow{y}$ tel que la base formée soit un repère direct. La \textsc{Figure}~\ref{fig:repere} représente une vague dans le repère de l'étude.
+				Plaçons-nous dans un repère $(0, \overrightarrow{x}, \overrightarrow{y}, \overrightarrow{z})$ tel que $0$ soit au niveau de la mer au repos, $\overrightarrow{x}$ soit orienté dans le sens de déplacement de la vague, $\overrightarrow{z}$ orienté vers le haut, et $\overrightarrow{y}$ tel que la base formée soit un repère direct. La Figure~\ref{fig:repere} représente une vague dans le repère de l'étude.
 
 				\begin{figure}[!htb]
 					\centering
@@ -90,16 +90,16 @@
 					k_m & = & \sqrt{k_{x, m}^2 + k_{y, m}^2} \label{equation:nombre_onde}
 				\end{eqnarray}
 
-				Dès lors, il est possible de définir $k_{x, m}$ et $k_{y, m}$ en introduisant le cap de la vague $h_m$ par rapport au repère présenté en \textsc{Figure}~\ref{fig:repere} :
+				Dès lors, il est possible de définir $k_{x, m}$ et $k_{y, m}$ en introduisant le cap de la vague $h_m$ par rapport au repère présenté en Figure~\ref{fig:repere} :
 
 				\begin{eqnarray}
 					k_{x, m} & = & cos(h_m) \cdot k_m \\
 					k_{y, m} & = & sin(h_m) \cdot k_m \\
 				\end{eqnarray}
 
-				Ainsi les expressions de $k_{x, m}$ et $k_{y, m}$ vérifient l'\textsc{Equation}~\ref{equation:nombre_onde} et sont calculées uniquement à partir des valeurs de $k_m$ et de $h_m$.
+				Ainsi les expressions de $k_{x, m}$ et $k_{y, m}$ vérifient l'Equation~(\ref{equation:nombre_onde}) et sont calculées uniquement à partir des valeurs de $k_m$ et de $h_m$.
 				
-				La forme de la vague est définie par les différents paramètres de la vague. On peut par exemple s'intéresser au produit adimensionné $a_m\cdot k_m$. La \textsc{Figure}~\ref{fig:amkm} présente le profil d'une vague pour un produit valant $0.1$ un autre égal à $1$, et un dernier valant $1.2$. On se rend compte que jusqu'à une valeur de $1$ les vagues sont réalistes, mais qu'au-delà, une boucle se forme. C'est à cet endroit que le modèle linéaire des vagues s'arrête, car la crête va en réalité s'effondrer au lieu de former une boucle, la vague va déferler et de l'écume va s'y former~\cite{Gerstner-Like_Henry, Gerstner_Pixar}. On veillera donc à ne pas dépasser cette valeur charnière afin de rester dans le domaine linéaire, mais aussi afin d'avoir une simulation réaliste.
+				La forme de la vague est définie par les différents paramètres de la vague. On peut par exemple s'intéresser au produit adimensionné $a_m\cdot k_m$. La Figure~\ref{fig:amkm} présente le profil d'une vague pour un produit valant $0.1$ un autre égal à $1$, et un dernier valant $1.2$. On se rend compte que jusqu'à une valeur de $1$ les vagues sont réalistes, mais qu'au-delà, une boucle se forme. C'est à cet endroit que le modèle linéaire des vagues s'arrête, car la crête va en réalité s'effondrer au lieu de former une boucle, la vague va déferler et de l'écume va s'y former~\cite{Gerstner-Like_Henry, Gerstner_Pixar}. On veillera donc à ne pas dépasser cette valeur charnière afin de rester dans le domaine linéaire, mais aussi afin d'avoir une simulation réaliste.
 
 				\begin{figure}[!htb]
 					\centering
@@ -108,7 +108,7 @@
 					\label{fig:amkm}
 				\end{figure}
 
-				Enfin, une amélioration proposée par A. \textsc{Fournier}~\cite{Gerstner_Pixar} est d'ajouter un terme sur la phase permettant de faire accélérer les crêtes de vagues, et de faire ralentir les creux. C'est quelque chose que l'on retrouve réellement sur les vagues, et cela permet d'orienter les vagues suivant la direction de leur déplacement. L'\textsc{Equation}~\ref{equation:pixar_phase} donne la nouvelle expression de la phase. Le terme ajouté introduit un paramètre $\gamma_m$ permettant de gérer l'intensité de l'effet ajouté, et $z$ qui est la hauteur de la particule considérée. L'effet est réparti linéairement suivant la hauteur de la vague, et en $z=0$ aucun changement de phase n'a lieu car le terme s'annule. La \textsc{Figure}~\ref{fig:gerstner_pixar} montre comment l'ajout de ce paramètre de phase agit sur la forme de la vague.
+				Enfin, une amélioration proposée par A. \textsc{Fournier}~\cite{Gerstner_Pixar} est d'ajouter un terme sur la phase permettant de faire accélérer les crêtes de vagues, et de faire ralentir les creux. C'est quelque chose que l'on retrouve réellement sur les vagues, et cela permet d'orienter les vagues suivant la direction de leur déplacement. L'Equation~(\ref{equation:pixar_phase}) donne la nouvelle expression de la phase. Le terme ajouté introduit un paramètre $\gamma_m$ permettant de gérer l'intensité de l'effet ajouté, et $z$ qui est la hauteur de la particule considérée. L'effet est réparti linéairement suivant la hauteur de la vague, et en $z=0$ aucun changement de phase n'a lieu car le terme s'annule. La Figure~\ref{fig:gerstner_pixar} montre comment l'ajout de ce paramètre de phase agit sur la forme de la vague.
 
 				\begin{equation}
 					\theta_m(\alpha, \beta, t) = k_{x, m} \alpha + k_{z, m} \beta - \omega_m t - \phi_m - \gamma_m z
@@ -126,9 +126,9 @@
 				
 			\subsubsection{Dynamique du milieu}
 
-				Après avoir défini la forme de la surface libre de la mer, il faut désormais établir les équations du mouvement des particules de fluides dans l'eau~\cite{dean1991water, MIT_Waves}. Il faut notamment définir leur position notée $(x, y, z)$, leur vitesse notée $(u, v, w)$, et établir l'équation de pression notée $p$. La hauteur $z$ étant prise par rapport au repère présenté en \textsc{Figure}~\ref{fig:repere}, cette valeur est souvent négative, sauf quand une vague élève localement le niveau de l'eau au-dessus du niveau nul.
+				Après avoir défini la forme de la surface libre de la mer, il faut désormais établir les équations du mouvement des particules de fluides dans l'eau~\cite{dean1991water, MIT_Waves}. Il faut notamment définir leur position notée $(x, y, z)$, leur vitesse notée $(u, v, w)$, et établir l'équation de pression notée $p$. La hauteur $z$ étant prise par rapport au repère présenté en Figure~\ref{fig:repere}, cette valeur est souvent négative, sauf quand une vague élève localement le niveau de l'eau au-dessus du niveau nul.
 
-				En continuant à utiliser le formalisme précédemment introduit, on est en mesure d'étendre les \textsc{Equations}~\ref{eqn:xi} à \ref{eqn:eta} à tous les points de l'espace immergés en s'aidant des références bibliographiques~\cite{dean1991water, MIT_Waves} :
+				En continuant à utiliser le formalisme précédemment introduit, on est en mesure d'étendre les Equations~(\ref{eqn:xi}) à (\ref{eqn:eta}) à tous les points de l'espace immergés en s'aidant des références bibliographiques~\cite{dean1991water, MIT_Waves} :
 
 				\begin{eqnarray}
 					\xi(\alpha, \beta, z, t) & = & \alpha - \sum_{m=0}^{M} a_m \cdot cos(h_m) \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot sin(\theta_m) \\
@@ -150,7 +150,7 @@
 					p(\alpha, \beta, z, t) = \rho \sum_{m=0}^{M} \frac{a_m\omega_m^2}{k} \cdot \frac{cosh(k_m(z+H))}{sinh(k_m H)} \cdot cos(\theta_m) - \rho g z
 				\end{equation}
 
-				Ces équations prennent en compte l'impact significatif de la hauteur de la colonne d'eau dans le cas où les vagues sont présentes dans un milieu de faible profondeur. De plus, il est intéressant de remarquer que l'impact des vagues sur la dynamique des particules diminue quand la profondeur augmente, comme le montre la \textsc{Figure}~\ref{fig:speed_pressure_depth}. Cet effet se trouve dans les termes en cosinus et sinus hyperboliques qui décroissent très vite vers 0 quand on s'approche du fond, et qui valent 1 en $z=0$. Ainsi on remarque que la vitesse des particules décroît rapidement vers une vitesse nulle à mesure que la profondeur augmente et la pression n'est impactée que proche de la surface où elle est légèrement supérieure à la pression qu'il y aurait eu sans vagues.
+				Ces équations prennent en compte l'impact significatif de la hauteur de la colonne d'eau dans le cas où les vagues sont présentes dans un milieu de faible profondeur. De plus, il est intéressant de remarquer que l'impact des vagues sur la dynamique des particules diminue quand la profondeur augmente, comme le montre la Figure~\ref{fig:speed_pressure_depth}. Cet effet se trouve dans les termes en cosinus et sinus hyperboliques qui décroissent très vite vers 0 quand on s'approche du fond, et qui valent 1 en $z=0$. Ainsi on remarque que la vitesse des particules décroît rapidement vers une vitesse nulle à mesure que la profondeur augmente et la pression n'est impactée que proche de la surface où elle est légèrement supérieure à la pression qu'il y aurait eu sans vagues.
 
 				\begin{figure}[!htb]
 					\centering
@@ -162,7 +162,7 @@
 			\subsubsection{Simplification en eaux profondes}
 			\label{sec:simplification_eaux_profondes}
 			
-				Finalement, on peut simplifier le modèle précédent, en remarquant que la hauteur de la colonne d'eau dans notre cas est très grande devant la longueur d'onde caractéristique de nos vagues. Une explication plus détaillée de la simplification est disponible en \textsc{Annexe}~\ref{annexe:deep_water}. On déduit de cette simplification, que pour une hauteur de colonne d'eau très grande devant la longueur d'onde des vagues :
+				Finalement, on peut simplifier le modèle précédent, en remarquant que la hauteur de la colonne d'eau dans notre cas est très grande devant la longueur d'onde caractéristique de nos vagues. Une explication plus détaillée de la simplification est disponible en Annexe~\ref{annexe:deep_water}. On déduit de cette simplification, que pour une hauteur de colonne d'eau très grande devant la longueur d'onde des vagues :
 
 				\begin{equation}\frac{cosh(k_m(z+H))}{sinh(k_mH)} \approx e^{k_mz} \label{eqn:simplification_eaux_profondes}\end{equation}
 
@@ -199,7 +199,7 @@
 
 				Cette modélisation a menée à l'implémentation d'une classe contenant tous les paramètres des vagues de l'environnement. Elle permet de réaliser tous les calculs nécessaires à la simulation visuelle et dynamique du milieu marin modélisé. Cette classe est ensuite instanciée par un \textit{plugin} \gazebo{} de type \textit{WorldPlugin} qui s'applique donc sur le monde simulé, et qui a pour rôle de publier les paramètres du monde marin sur le réseau de communication \textit{ignition transport}, mais aussi de répondre aux requêtes envoyées par d'autres plugins sur la dynamique de l'eau à une certaine position passée en paramètre. 
 				
-				Pour réaliser le rendu visuel de la mer, on peut créer une grille de particules de fluides pour laquelle on va pouvoir réaliser le rendu de la position au cours du temps. A chaque instant, on actualise la position de chaque particule de fluide et on trace à nouveau la grille. On est alors en mesure d'obtenir le résultat visualisable en \textsc{Figure}~\ref{fig:Gerstner} dans \gazebo{}, obtenu à l'aide de trois vagues dont les caractéristiques sont présentées dans la \textsc{Table}~\ref{table:wave} et tracé sur une grille de 40 mètres par 40 mètres avec un pas de 1 mètre. Les paramètres des vagues ainsi que de la grille de rendu sont passées en paramètre au \plugin{} implémenté afin de pouvoir rapidement plonger les \gls{ROV}s dans des milieux ayant des dynamiques différentes.
+				Pour réaliser le rendu visuel de la mer, on peut créer une grille de particules de fluides pour laquelle on va pouvoir réaliser le rendu de la position au cours du temps. A chaque instant, on actualise la position de chaque particule de fluide et on trace à nouveau la grille. On est alors en mesure d'obtenir le résultat visualisable en Figure~\ref{fig:Gerstner} dans \gazebo{}, obtenu à l'aide de trois vagues dont les caractéristiques sont présentées dans la Table~\ref{table:wave} et tracé sur une grille de 40 mètres par 40 mètres avec un pas de 1 mètre. Les paramètres des vagues ainsi que de la grille de rendu sont passées en paramètre au \plugin{} implémenté afin de pouvoir rapidement plonger les \gls{ROV}s dans des milieux ayant des dynamiques différentes.
 
 				\begin{figure}[!htb]
 					\begin{minipage}[c]{0.45\textwidth}
@@ -272,17 +272,15 @@
 					\overrightarrow{F_{hm}} = \frac{1}{2} \cdot \rho \cdot C_d \cdot A \cdot |\overrightarrow{u} - \overrightarrow{v}| \cdot (\overrightarrow{u} - \overrightarrow{v})
 				\end{equation}
 
-				Puis, en supposant que la sphère est immergée jusqu'à une , on est en mesure d'exprimer le volume immergé 
-
 			\subsubsection{Estimation du volume immergé}
 
-				Les forces précédentes nécessitent de connaître le volume du solide immergé dans le fluide qui ici est l'eau. Une possibilité est d'estimer le volume immergé numériquement~\cite{gilloteaux:tel-00521689}, mais cela s'avère assez coûteux en calculs. Une autre solution est de considérer que le solide se rapproche d'une sphère de même volume $V$ que le solide. On choisit une sphère, car toute section plane va former une calotte sphérique dont le volume est facilement calculable. Cette sphère a donc un rayon $r$ égal à :
+				Les forces précédentes nécessitent de connaître le volume du solide immergé dans le fluide qui ici est l'eau. Une possibilité est d'estimer le volume immergé numériquement~\cite{gilloteaux:tel-00521689}, mais cela s'avère assez coûteux en calculs. Une autre solution est de considérer que le solide se rapproche d'une sphère de même volume $V$ que le solide. On choisit une sphère, car toute section plane va former une calotte sphérique dont le volume est facilement calculable, en considérant que la dimension caractéristique des objets  est petite devant la courbure des vagues. Pour des objets plus grands, la surface libre de la mer n'est plus localement plane et il faudrait certainement mieux estimer le volume immergé. Cette sphère a donc un rayon $r$ égal à :
 
 				\begin{equation}
 					r = \sqrt[3]{\frac{3 V}{4 \pi}}
 				\end{equation}
 
-				Le volume immergé et donc le volume de la calotte sphérique de hauteur $h \in [0; 2r]$ est calculable par intégration et le calcul est détaillé en \textsc{Annexe}~\ref{annexe:calotte_spherique} :
+				Le volume immergé et donc le volume de la calotte sphérique de hauteur $h \in [0; 2r]$ est calculable par intégration et le calcul est détaillé en Annexe~\ref{annexe:calotte_spherique} :
 
 				\begin{equation}
 					V_i = \pi h^2\frac{3r-h}{3} \label{eqn:v_immerge}
@@ -301,7 +299,7 @@
 
 			\subsubsection{Modèle constant}
 
-				Pour simuler ces courants, il est possible d'utiliser en première approximation une idée assez triviale : localement le courant est constant. Par constant on entend uniforme et stationnaire, donc qui ne dépend ni de l'espace ni du temps. C’est-à-dire qu'il est possible de considérer le courant marin comme un champ de vecteurs ayant un certain cap et une certaine magnitude représentant la vitesse de l'écoulement, comme présenté sur la \textsc{Figure}~\ref{fig:constant}. Ce modèle simple permet de rapidement ajouter du courant dans notre simulateur, mais ce courant est peu réaliste dans la mesure où il ne prend pas du tout en compte la présence de structures sous-marine qui pourraient modifier la vitesse et l'orientation de ce courant, comme des reliefs sous-marins ou bien des piles d'éoliennes à inspecter dans le cas de \forssea{}.
+				Pour simuler ces courants, il est possible d'utiliser en première approximation une idée assez triviale : localement le courant est constant. Par constant on entend uniforme et stationnaire, donc qui ne dépend ni de l'espace ni du temps. C’est-à-dire qu'il est possible de considérer le courant marin comme un champ de vecteurs ayant un certain cap et une certaine magnitude représentant la vitesse de l'écoulement, comme présenté sur la Figure~\ref{fig:constant}. Ce modèle simple permet de rapidement ajouter du courant dans notre simulateur, mais ce courant est peu réaliste dans la mesure où il ne prend pas du tout en compte la présence de structures sous-marine qui pourraient modifier la vitesse et l'orientation de ce courant, comme des reliefs sous-marins ou bien des piles d'éoliennes à inspecter dans le cas de \forssea{}.
 
 				\begin{figure}[!htb]
 					\centering
@@ -314,7 +312,7 @@
 
 				Une autre idée serait de générer un courant pseudo-aléatoire par génération procédurale. Cette méthode de génération est largement utilisée dans le domaine des jeux-vidéos et du cinéma, et par extension, il est aussi utilisé dans le domaine de la simulation~\cite{generation_procedurale_monde, volumetric_terrain_generation}. Elle permet de générer à l'aide d'algorithme des mondes et des textures pseudo-aléatoires. Dans notre cas, il est possible d'utiliser le \textit{Bruit de Perlin}~\cite{PerlinNoise} qui est une texture procédurale afin de générer des courants. L'avantage du \textit{Bruit de Perlin} est qu'il est très peu coûteux en espace mémoire et qu'il peut générer des textures dans n'importe quelle dimension. 
 				
-				Pour notre application, nous pouvons générer une texture en deux dimensions. Cette texture forme un potentiel artificiel et un champ de vecteurs représentant le courant peut être simplement généré en prenant le gradient de ce potentiel. On obtient le résultat présenté en \textsc{Figure}~\ref{fig:perlin_noise}. Comme avec cette méthode, chaque pixel tient compte de ses pixels voisins, on ne se retrouve pas avec des valeurs très éloignées entre deux pixels adjacents comme avec de la génération de textures purement aléatoire, et on obtient des courants réalistes.
+				Pour notre application, nous pouvons générer une texture en deux dimensions. Cette texture forme un potentiel artificiel et un champ de vecteurs représentant le courant peut être simplement généré en prenant le gradient de ce potentiel. On obtient le résultat présenté en Figure~\ref{fig:perlin_noise}. Comme avec cette méthode, chaque pixel tient compte de ses pixels voisins, on ne se retrouve pas avec des valeurs très éloignées entre deux pixels adjacents comme avec de la génération de textures purement aléatoire, et on obtient des courants réalistes.
 
 				\begin{figure}[!htb]
 					\centering
@@ -351,7 +349,7 @@
 
 			\subsubsection{Choix du modèle}
 
-				Il faut maintenant choisir un modèle qui va être implémenté dans le simulateur. Pour nous aider dans ce choix, la \textsc{Table}~\ref{table:courants} reprends les principales caractéristiques des différents modèles, à savoir le caractère non-aléatoire des courants générés et la prise en compte des structures sous-marines. Le réalisme des courants générés ainsi que la complexité d'implémentation est aussi présentée. Cette dernière représente à la fois le temps d'implémentation de la solution ainsi que la complexité d'exécution de celle-ci en termes de ressources nécessaires. Elle est représentée par le symbole \pmark (\pmark : \textit{simple}, \pmark \pmark : \textit{intermédiaire}, \pmark \pmark \pmark : \textit{complexe}).
+				Il faut maintenant choisir un modèle qui va être implémenté dans le simulateur. Pour nous aider dans ce choix, la Table~\ref{table:courants} reprends les principales caractéristiques des différents modèles, à savoir le caractère non-aléatoire des courants générés et la prise en compte des structures sous-marines. Le réalisme des courants générés ainsi que la complexité d'implémentation est aussi présentée. Cette dernière représente à la fois le temps d'implémentation de la solution ainsi que la complexité d'exécution de celle-ci en termes de ressources nécessaires. Elle est représentée par le symbole \pmark (\pmark : \textit{simple}, \pmark \pmark : \textit{intermédiaire}, \pmark \pmark \pmark : \textit{complexe}).
 
 				\begin{table}[ht]
 					\centering
@@ -372,7 +370,7 @@
 					\label{table:courants}
 				\end{table}
 
-				Nous pouvons aisément écarter le modèle procédural car on remarque au vu des éléments présentés sur la \textsc{Table}~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en termes de ressources pour une simulation temps réel. Notre choix se porte donc sur l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle locale de nos essais qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
+				Nous pouvons aisément écarter le modèle procédural car on remarque au vu des éléments présentés sur la Table~\ref{table:courants} qu'il n'est pas adapté à notre simulateur. Quant au modèle de Navier-Stokes, il est bien trop lourd à mettre en place, et les calculs sont très coûteux en termes de ressources pour une simulation temps réel. Notre choix se porte donc sur l'utilisation du modèle constant dans la mesure où il fournit un niveau de réalisme suffisant à l'échelle locale de nos essais qui est intéressante dans notre application, pour un niveau de complexité très faible. Il faudra tout de même garder à l'esprit que le modèle ne prends pas en compte les courants, ce qui constitue une limite pour notre simulateur.
 
 		\section{Simulation d'ombilicaux}
 
@@ -434,7 +432,7 @@
 					\end{itemize}
 				\end{description}
 			
-				Ainsi on a exprimé les forces nécessaires à la simulation de l'ombilical par éléments finis. La \textsc{Figure}~\ref{fig:modelization} montre la modélisation du problème. Les différents n\oe uds sont représentés en bleu. Pour des raisons de clarté, les différentes forces ne sont représentées que sur un seul n\oe ud mais sont bien évidemment appliquées sur tous les n\oe uds, et la représentation de l'ombilical est volontairement tronquée.
+				Ainsi on a exprimé les forces nécessaires à la simulation de l'ombilical par éléments finis. La Figure~\ref{fig:modelization} montre la modélisation du problème. Les différents n\oe uds sont représentés en bleu. Pour des raisons de clarté, les différentes forces ne sont représentées que sur un seul n\oe ud mais sont bien évidemment appliquées sur tous les n\oe uds, et la représentation de l'ombilical est volontairement tronquée.
 			
 				\begin{figure}[!htb]
 					\centering
@@ -458,7 +456,7 @@
 						\draw[vector] (T3) -- (fp) node[yshift=1em]{$\overrightarrow{F_p}$};
 			
 						\node (fn) at ($(T3)!.7!(T4)$) {};
-						\draw[vector] (T3) -- (fn) node[yshift=1em]{$\overrightarrow{F_n}$};
+						\draw[vector] (T3) -- (fn) node[yshift=1em]{$\overrightarrow{F_s}$};
 						\draw[vector] (T3) -- +(270:1cm) node[yshift=-.6em]{$\overrightarrow{P}$};
 						\draw[vector] (T3) -- +(90:1cm) node[yshift=.6em]{$\overrightarrow{\Pi}$};
 						\draw[vector] (T3) -- +(225:0.8cm) node[xshift=-.5em]{$\overrightarrow{F_f}$};
@@ -474,18 +472,18 @@
 			
 			
 			\subsection{Initialisation}
-				L'initialisation des différents n\oe uds de l'ombilical est une étape importante, car les coefficients du modèle comportemental sont réglés pour avoir un comportement cohérent lorsque la position du câble a convergée. Si l'initialisation est aléatoire, le temps du régime transitoire peut être long et la simulation peut ne pas être consistante. De plus il faut impérativement que deux n\oe uds adjacents n'aient pas la même position, sinon l'expression de $\overrightarrow{u}$ dans l'\textsc{Equation}~\ref{eq:behavioral} n'est plus valable, car le dénominateur n'annule.
+				L'initialisation des différents n\oe uds de l'ombilical est une étape importante, car les coefficients du modèle comportemental sont réglés pour avoir un comportement cohérent lorsque la position du câble a convergée. Si l'initialisation est aléatoire, le temps du régime transitoire peut être long et la simulation peut ne pas être consistante. De plus il faut impérativement que deux n\oe uds adjacents n'aient pas la même position, sinon l'expression de $\overrightarrow{u}$ dans l'Equation~\ref{eq:behavioral} n'est plus valable, car le dénominateur n'annule.
 			
 				Pour initialiser l'ombilical, nous allons nous appuyer sur l'équation de la chaînette. Cette équation représente la forme que prend une corde attachée à ses deux extrémités, sachant qu'elle va chercher à minimiser son énergie potentielle. L'équation de la chaînette est valable pour une corde attachée à ses extrémités en $(-x_0, y_0, z_0)$ et $(x_0, y_0, z_0)$.
 				
-				Dans notre cas, notre ombilical va pouvoir être attaché à deux extrémités aux positions $p_1 = (x_1, y_1, z_1)$ et $p_n = (x_n, y_n, z_n)$ qui peuvent être quelconque, nous allons devoir ajouter deux coefficients $c_2$ et $c_3$ à la solution de l'équation de la chaînette permettant de translater sa représentation graphique dans le plan. Ainsi la forme que va prendre notre ombilical lors de l'initialisation va être régie par l'\textsc{Equation}~\ref{eq:tether}.
+				Dans notre cas, notre ombilical va pouvoir être attaché à deux extrémités aux positions $p_1 = (x_1, y_1, z_1)$ et $p_n = (x_n, y_n, z_n)$ qui peuvent être quelconque, nous allons devoir ajouter deux coefficients $c_2$ et $c_3$ à la solution de l'équation de la chaînette permettant de translater sa représentation graphique dans le plan. Ainsi la forme que va prendre notre ombilical lors de l'initialisation va être régie par l'Equation~(\ref{eq:tether}).
 			
 				\begin{equation}
 					z = c_1\cdot cosh\left(\frac{x + c_2}{c_1}\right) + c_3
 					\label{eq:tether}
 				\end{equation}
 			
-				Il nous reste à estimer les trois paramètres $c_1$, $c_2$ et $c_3$ introduits à partir des conditions aux limites. Les contraintes sont telles que les deux extrémités de l'ombilical doivent se trouver en $p_1$ et en $p_n$, et le câble doit avoir une longueur $L$. Ces trois contraintes se traduisent par le système non-linéaire de trois équations à trois inconnues présenté en \textsc{Equation}~\ref{eq:systeme} à résoudre.
+				Il nous reste à estimer les trois paramètres $c_1$, $c_2$ et $c_3$ introduits à partir des conditions aux limites. Les contraintes sont telles que les deux extrémités de l'ombilical doivent se trouver en $p_1$ et en $p_n$, et le câble doit avoir une longueur $L$. Ces trois contraintes se traduisent par le système non-linéaire de trois équations à trois inconnues présenté en Equation~(\ref{eq:systeme}) à résoudre.
 				
 				\begin{align}
 					S_1 = 
@@ -585,7 +583,7 @@
 					\label{fig:tether_plot}
 				\end{figure}
 				
-				Pour résoudre ce système et trouver une approximation numérique pour $c_1$, $c_2$ et $c_3$, on utilise un solveur numérique. Lors de l'implémentation pour le simulateur de cette étape d'initialisation, la librairie \textit{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} est utilisée. Une fois les paramètres déterminés, on est en mesure de déterminer la position initiale de chaque n\oe ud dans le repère de l'ombilical. Il faut enfin projeter ces positions dans le repère du monde afin de pouvoir correctement initialiser chaque n\oe uds, comme présenté sur la \textsc{Figure}~\ref{fig:tether_plot}
+				Pour résoudre ce système et trouver une approximation numérique pour $c_1$, $c_2$ et $c_3$, on utilise un solveur numérique. Lors de l'implémentation pour le simulateur de cette étape d'initialisation, la librairie \textit{GSL}\footnote{\url{https://www.gnu.org/software/gsl/}} est utilisée. Une fois les paramètres déterminés, on est en mesure de déterminer la position initiale de chaque n\oe ud dans le repère de l'ombilical. Il faut enfin projeter ces positions dans le repère du monde afin de pouvoir correctement initialiser chaque n\oe uds, comme présenté sur la Figure~\ref{fig:tether_plot}
 			
 			\subsection{Couple transmissible}
 
@@ -601,7 +599,7 @@
 				
 				Cependant, un problème survient avec la représentation numérique de l'orientation des solides. Celle-ci est souvent normalisée et les valeurs sont ainsi ramenées dans l'intervalle $[-\pi; \pi]$. On ne peut donc pas avoir l'orientation absolue, c’est-à-dire l'orientation d'un solide en prenant en compte les éventuels tours qu'il aurait pu faire sur lui-même et c'est le cas dans \gazebo{}.
 			
-				Pour résoudre ce problème, l'\textsc{Algorithme}~\ref{algo:suivi_angle} de suivi d'angles normalisés a été implémenté. Il prend en paramètres l'angle normalisé ainsi que l'angle précédemment calculé, et il retourne la valeur de l'angle absolu. En fournissant l'angle précédent on peut retourner le nouvel angle qui se trouve dans le même quadrant et ainsi de pouvoir suivre les sauts d'angles. On peut donc suivre l'orientation absolue de solides en rotation dans l'espace, en ne fournissant que des orientations relatives ramenées dans l'intervalle $[-\pi; \pi]$, et en gardant en mémoire la précédente orientation calculée.
+				Pour résoudre ce problème, l'Algorithme~\ref{algo:suivi_angle} de suivi d'angles normalisés a été implémenté. Il prend en paramètres l'angle normalisé ainsi que l'angle précédemment calculé, et il retourne la valeur de l'angle absolu. En fournissant l'angle précédent on peut retourner le nouvel angle qui se trouve dans le même quadrant et ainsi de pouvoir suivre les sauts d'angles. On peut donc suivre l'orientation absolue de solides en rotation dans l'espace, en ne fournissant que des orientations relatives ramenées dans l'intervalle $[-\pi; \pi]$, et en gardant en mémoire la précédente orientation calculée.
 				
 				\begin{algorithm}[!htb]
 					\SetKwInOut{Input}{Entrées}
@@ -618,7 +616,7 @@
 					\label{algo:suivi_angle}
 				\end{algorithm}
 			
-				La \textsc{Figure}~\ref{fig:suivi_angle} présente les résultats de l'\textsc{Algorithme}~\ref{algo:suivi_angle} avec un angle variant dans l'intervalle $[-3\pi; 3\pi]$. On voit sur la première sous-figure l'angle réel et l'angle ramené dans l'intervalle $[-\pi; \pi]$ avec la présence de saut d'angles. Avec cette méthode, on est capable de suivre l'évolution de l'angle et de supprimer ces sauts afin de retrouver l'angle absolu visible dans la deuxième sous-figure et calculé uniquement à partir de la connaissance de l'angle normalisé. Cet algorithme ne marche en revanche que pour une variation d'angle continue, car en cas de saut brusque d'angle les tours ajoutés ne seront pas pris en compte.
+				La Figure~\ref{fig:suivi_angle} présente les résultats de l'Algorithme~\ref{algo:suivi_angle} avec un angle variant dans l'intervalle $[-3\pi; 3\pi]$. On voit sur la première sous-figure l'angle réel et l'angle ramené dans l'intervalle $[-\pi; \pi]$ avec la présence de saut d'angles. Avec cette méthode, on est capable de suivre l'évolution de l'angle et de supprimer ces sauts afin de retrouver l'angle absolu visible dans la deuxième sous-figure et calculé uniquement à partir de la connaissance de l'angle normalisé. Cet algorithme ne marche en revanche que pour une variation d'angle continue, car en cas de saut brusque d'angle les tours ajoutés ne seront pas pris en compte.
 			
 				\begin{figure}[!htb]
 					\centering
@@ -629,7 +627,7 @@
 
 			\subsection{Implémentation}
 
-				L'implémentation d'un \plugin{} \gazebo{} permet de simuler le comportement de l'ombilical dans l'environnement de simulation. Ce \plugin{} est basé sur l'instanciation d'objets de type \textit{Tether} et \textit{TetherElement}. L'objet \textit{Tether} possède les paramètres de simulation de l'ombilical, tandis que l'objet \textit{TetherElement} représente un tronçon de cet ombilical. Un diagramme de classe est présenté en \textsc{Figure}~\ref{fig:uml_class} et montre les différents attributs et méthodes associées à chaque classe.
+				L'implémentation d'un \plugin{} \gazebo{} permet de simuler le comportement de l'ombilical dans l'environnement de simulation. Ce \plugin{} est basé sur l'instanciation d'objets de type \textit{Tether} et \textit{TetherElement}. L'objet \textit{Tether} possède les paramètres de simulation de l'ombilical, tandis que l'objet \textit{TetherElement} représente un tronçon de cet ombilical. Un diagramme de classe est présenté en Figure~\ref{fig:uml_class} et montre les différents attributs et méthodes associées à chaque classe.
 				
 				\begin{figure}[!htb]
 					\centering
@@ -670,7 +668,7 @@
 					\label{fig:uml_class}
 				\end{figure}
 				
-				La \textit{Tether} utilise une structure de \textit{liste doublement chaînée}\footnote{structure de données liée qui consiste en un ensemble n\oe uds liés les uns aux autres par des références au n\oe uds voisins.} de \textit{TetherElement}. Chaque \textit{TetherElement} possède alors une référence vers l'élément le précédant et l'élément le suivant, comme le montre la \textsc{Figure}~\ref{fig:doubly_linked_list}. La \textit{Tether} ne possède ainsi qu'une référence vers le premier et le dernier n\oe ud de la chaîne, nommés respectivement \textit{head} et \textit{tail}. Il est ensuite possible de parcourir la chaîne de \textit{TetherElement} dans les deux sens en utilisant les références gardées par les \textit{TetherElement} eux-mêmes. 
+				La \textit{Tether} utilise une structure de \textit{liste doublement chaînée}\footnote{structure de données liée qui consiste en un ensemble n\oe uds liés les uns aux autres par des références au n\oe uds voisins.} de \textit{TetherElement}. Chaque \textit{TetherElement} possède alors une référence vers l'élément le précédant et l'élément le suivant, comme le montre la Figure~\ref{fig:doubly_linked_list}. La \textit{Tether} ne possède ainsi qu'une référence vers le premier et le dernier n\oe ud de la chaîne, nommés respectivement \textit{head} et \textit{tail}. Il est ensuite possible de parcourir la chaîne de \textit{TetherElement} dans les deux sens en utilisant les références gardées par les \textit{TetherElement} eux-mêmes. 
 			
 				\begin{figure}[!htb]
 					\centering
@@ -720,7 +718,7 @@
 			
 		\subsection{Résultats}
 			
-			Le résultat de l'implémentation de l'ombilical est visible sur la \textsc{Figure}~\ref{fig:tether} dans l'environnement de simulation \gazebo{}.
+			Le résultat de l'implémentation de l'ombilical est visible sur la Figure~\ref{fig:tether} dans l'environnement de simulation \gazebo{}.
 			
 			\begin{figure}[!htb]
 				\centering
@@ -733,9 +731,9 @@
 
 			Les coefficients du modèle comportemental sont réglés afin d'avoir un comportement réaliste. Pour cet exemple nous avons utilisé un coefficient proportionnel $K_p = 200$, un coefficient dérivé $K_d = 35$ et un coefficient intégral $K_i = 100$.
 
-			En traçant la distance entre chaque n\oe uds au cours du temps, on obtient la \textsc{Figure}~\ref{fig:length}. On se rend compte que le comportement de l'ombilical est consistant et que la longueur de chaque lien converge très vite vers la longueur consigne. Ainsi l'ombilical prends très vite la longueur consigne. 
+			En traçant la distance entre chaque n\oe uds au cours du temps, on obtient la Figure~\ref{fig:length}. On se rend compte que le comportement de l'ombilical est consistant et que la longueur de chaque lien converge très vite vers la longueur consigne. Ainsi l'ombilical prends très vite la longueur consigne. 
 			
-			En traçant l'erreur relative de longueur de l'ombilical par rapport à la longueur consigne au cours du temps, on obtient la \textsc{Figure}~\ref{fig:error_length}. On voit sur cette figure que lors de l'initialisation, l'ombilical va s'étendre un peu avant de converger vers sa longueur consigne avec des légères oscillations. On remarque que l'initialisation à l'aide de l'équation de la chaînette a bien marché dans la mesure où l'erreur relative initiale de longueur est de $0 \%$. On peut expliquer le pic d'erreur relative par le fait que les n\oe uds sont soumis à une forte perturbation liée au poids, alors que la partie intégrale et dérivée du modèle comportemental des forces n'entre pas encore en jeu du fait de l'initialisation récente, mais qu'ils finissent bien par faire converger le système.
+			En traçant l'erreur relative de longueur de l'ombilical par rapport à la longueur consigne au cours du temps, on obtient la Figure~\ref{fig:error_length}. On voit sur cette figure que lors de l'initialisation, l'ombilical va s'étendre un peu avant de converger vers sa longueur consigne avec des légères oscillations. On remarque que l'initialisation à l'aide de l'équation de la chaînette a bien marché dans la mesure où l'erreur relative initiale de longueur est de $0 \%$. On peut expliquer le pic d'erreur relative par le fait que les n\oe uds sont soumis à une forte perturbation liée au poids, alors que la partie intégrale et dérivée du modèle comportemental des forces n'entre pas encore en jeu du fait de l'initialisation récente, mais qu'ils finissent bien par faire converger le système.
 
 			\begin{figure}[!htb]
 				\begin{subfigure}[t]{0.45\textwidth}

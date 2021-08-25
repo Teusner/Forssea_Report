@@ -34,13 +34,13 @@ def plot_waves():
     axs[0].set_xlim(0, H)
     axs[0].legend(loc="lower right")
 
-    axs[1].plot(-z, - rho * g * z / 1e5, color="crimson", label="Pression sans vagues")
-    axs[1].plot(-z, p(alpha, beta, z, t, a_m, k_m, omega_m, phi_m, H, rho, g) / 1e5, color="teal", label="Pression avec vagues")
+    axs[1].plot(-z, - rho * g * z, color="crimson", label="Pression sans vagues")
+    axs[1].plot(-z, p(alpha, beta, z, t, a_m, k_m, omega_m, phi_m, H, rho, g), color="teal", label="Pression avec vagues")
     axs[1].grid(True)
     axs[1].set_xlim(0, H)
-    axs[1].set_ylabel(r"pression (en $bar$)")
+    axs[1].set_ylabel(r"pression (en $Pa$)")
     axs[1].legend(loc="lower right")
-
+    axs[1].ticklabel_format(axis="y", style="sci", scilimits=(0, 0))
 
     fig.set_size_inches(w=width, h=height)
     plt.xlabel(r"profondeur (en $m$)")
